@@ -1,5 +1,6 @@
 package math.entity;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -88,7 +89,7 @@ public class StackSegmentsTest {
         Segment segmentInsideAfter = new Segment(4,6,1);
         stack = new StackSegments(0);
         stack.add(mainSegment);
-        stack.addWithoutLineEquals(segmentInsideAfter);
+        stack.addWithCheck(segmentInsideAfter);
         int size = 2;
         int realSize = stack.getSize();
         assertEquals(size,realSize);
@@ -96,6 +97,21 @@ public class StackSegmentsTest {
 
     @Test
     public void addZeroSegments() {
+    }
+    @Test
+    public void addAll() {
+        stack = new StackSegments(0);
+        StackSegments stackSegments = new StackSegments(-1);
+        StackSegments stackSegments2 = new StackSegments(-1);
+        stackSegments.add(new Segment(0,1,-1));
+        stackSegments.add( new Segment(4,5,-1));
+        stackSegments2.add(new Segment(0,1,-1));
+        stackSegments2.add(new Segment(0,1,-1));
+
+        stack.addAll(stackSegments);
+        stack.addAll(stackSegments2);
+        System.out.println(stack.toString());
+        assertEquals(stackSegments.getSize() + stackSegments2.getSize(),stack.getSize());
     }
 
     @Test
@@ -112,5 +128,17 @@ public class StackSegmentsTest {
 
     @Test
     public void sortLineSegments() {
+    }
+
+    @Test
+    public void getMax() {
+        stack = new StackSegments(-1);
+        Segment segment = new Segment(4,8,-1);
+        stack.add(segment);
+        stack.add( new Segment(0,1,-1));
+        stack.add( new Segment(20,21,-1));
+        Segment s = stack.getMaxSegment();
+
+        assertEquals(segment.getLength(), s.getLength() );
     }
 }

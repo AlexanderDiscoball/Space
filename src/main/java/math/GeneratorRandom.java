@@ -1,14 +1,76 @@
 package math;
 
+import math.entity.Matrix;
 import math.entity.Segment;
 import math.entity.StackSegments;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GeneratorRandom {
 
+    private static final int MAXSTEP = 10;
+    private static int buf = 0;
+    private static int seed = 15;
+    private static Random gen = new Random(seed);
+
+    public static Matrix generateMatrix(){
+        Matrix matrix = new Matrix();
+
+        for (int line = 0; line < InputData.getChannelAmount(); line++) {
+            StackSegments stackSegments = generateStackSegments(line);
+            matrix.add(stackSegments);
+        }
+        return matrix;
+    }
+
+    private static StackSegments generateStackSegments(int line){
+        StackSegments stackSegments = new StackSegments(line);
+
+        for (int i = 0; i <  getRandomAmount(); i++) {
+          stackSegments.add(generateSegment(line));
+        }
+        buf = getRandomStep();
+        return stackSegments;
+    }
+
+    private static Segment generateSegment(int line){
+        int first = buf;
+        int second = buf + getRandomStep();
+        buf = second + getRandomStep();
+
+        return new Segment(first,second,line);
+    }
+
+    private static int getRandomStep(){
+
+        return gen.nextInt(MAXSTEP);
+    }
+
+    private static int getRandomNumber(){
+        return ((int) (Math.random() * InputData.getTimeAmount()));
+    }
+
+    private static int getRandomAmount(){
+        gen.setSeed(seed);
+        seed+=4;
+        return gen.nextInt(MAXSTEP);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    //DELIMITER
     public static Segment generateRandomSegment(int min,int max, int lineNumber){
         int firstDot = ThreadLocalRandom.current().nextInt(min, max + 1);
         if(min==0) min = 1;

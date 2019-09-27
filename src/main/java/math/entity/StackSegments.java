@@ -1,13 +1,10 @@
 package math.entity;
 
-import com.sun.istack.internal.NotNull;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
+public class StackSegments implements Iterable<Segment> {
 
-public class StackSegments {
-
-    private ArrayList<Segment> segmentsList;
+    private List<Segment> segmentsList;
     private final int LineNumber;
 
     public StackSegments(int LineNumber){
@@ -15,26 +12,39 @@ public class StackSegments {
         segmentsList = new ArrayList<>();
     }
 
-    public void add(Segment segment){
-        if(isLineEquals(segment)) {
-            if (segmentsList.isEmpty()) {
+    public void addWithCheckLineEquals(Segment segment){
+            if (isLineEquals(segment) && isSegmentCanBeInList(segment)) {
                 segmentsList.add(segment);
-            } else {
-                if (isSegmentCanBeInList(segment)) {
-                    segmentsList.add(segment);
-                }
-            }
         }
     }
 
-    public void addWithoutLineEquals(Segment segment){
-        if(segmentsList.isEmpty()){
-            segmentsList.add(segment);
+    public List<Segment> getSegmentsList() {
+        return segmentsList;
+    }
+
+    public int getFullLength(){
+        int sum = 0;
+        for (Segment segment :segmentsList) {
+            sum = segment.getLength();
         }
-        else{
-            if(isSegmentCanBeInList(segment)){
-                segmentsList.add(segment);
-            }
+
+        return sum;
+    }
+
+    public Segment getLastSegment(){
+        if(segmentsList.size() == 0){
+            return ZeroSegment.getInstance();
+        }
+       return Collections.max(segmentsList,Comparator.comparing(Segment::getSecondDot));
+    }
+
+    public void add(Segment segment){
+            segmentsList.add(segment);
+    }
+
+    public void addWithCheck(Segment segment){
+        if(isSegmentCanBeInList(segment)){
+            segmentsList.add(segment);
         }
     }
 
@@ -67,6 +77,9 @@ public class StackSegments {
     }
 
     public boolean isSegmentCanBeInList(Segment segment){
+        if(segmentsList.isEmpty()){
+            return true;
+        }
         for (Segment segmentInList : segmentsList) {
             if((segment.getFirstDot()<segmentInList.getSecondDot()
                     && segment.getSecondDot()>segmentInList.getFirstDot())){
@@ -74,6 +87,10 @@ public class StackSegments {
             }
         }
         return true;
+    }
+
+    public void set(Segment segment,int index){
+        segmentsList.set(index,segment);
     }
 
     public void removeAll(){
@@ -87,6 +104,10 @@ public class StackSegments {
                 + segmentsList.toString() ;
     }
 
+    public void addAll(StackSegments stackSegments){
+        segmentsList.addAll(stackSegments.segmentsList);
+    }
+
     public int getSize(){
         return segmentsList.size();
     }
@@ -94,4 +115,25 @@ public class StackSegments {
     public boolean isEmpty(){
         return this.segmentsList.isEmpty();
     }
+
+
+    public Segment getMaxSegment(){
+       return Collections.max(segmentsList, Comparator.comparing(Segment::getLength));
+    }
+
+    public Iterator<Segment> iterator() {
+        return segmentsList.iterator();
+    }
+
+    public void sortByLength(){
+        segmentsList.sort(Comparator.comparing(Segment::getLength));
+    }
+
+    public void remove(int index){
+        segmentsList.remove(index);
+    }
+    public void remove(Segment segment){
+        segmentsList.remove(segment);
+    }
+
 }

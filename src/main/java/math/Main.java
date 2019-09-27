@@ -1,9 +1,6 @@
 package math;
 
-import math.entity.BetterGeneratorRandom;
-import math.entity.Segment;
-import math.entity.StackSegments;
-import math.entity.ZeroSegment;
+import math.entity.*;
 
 import java.util.*;
 
@@ -17,20 +14,25 @@ public class Main {
         long startTime = System.currentTimeMillis();
 
 
-        Segment[][] matrix = BetterGeneratorRandom.generateSegmentMatrix();
+        Matrix matrix = GeneratorRandom.generateMatrix();
+        long random1 = System.currentTimeMillis();
 
 
         //getLengthMatrix(matrix);
         System.out.println();
         //getFirstSecondDotMatrix(matrix);
 
-        betterAlgorithm(matrix);
+
 
         long random = System.currentTimeMillis();
         System.out.println("Время на создание матрицы" + " " + (random - startTime) + " миллисекунд");
+
+        StackSegments ways = new StackSegments(-1);
+        ways = Algorithms.dynamicAlgorithm(matrix);
+
         System.out.println(way);
-        //System.out.println("Колличество путей: " + allWays.size());
-       // System.out.println("Лучший путь: " + allWays.get(0));
+        System.out.println("Колличество путей: " + allWays.size());
+        System.out.println("Лучший путь: " + allWays.get(0));
 
         long stopTime = System.currentTimeMillis();
         System.out.println("Время выполнения программы: " + ((stopTime - random)) + " миллисекунд");
@@ -48,13 +50,13 @@ public class Main {
 
                     if ((j + 1) == InputData.getChannelAmount()) {
 
-                        sortSegmentByPriority(list);
+                        sortSegmentByLength(list);
 
                         for (Segment segment : list) {
 
                             int lessThanTimeAmount = sum + segment.getLength();
                             if (lessThanTimeAmount <= InputData.getTimeAmount() && bestWay.isSegmentCanBeInList(segment)) {
-                                bestWay.addWithoutLineEquals(segment);
+                                bestWay.add(segment);
                                 sum += segment.getLength();
                                 if(segment != ZeroSegment.getInstance()) {
                                     matrix[segment.getLine()][i] = ZeroSegment.getInstance();
@@ -84,7 +86,7 @@ public class Main {
         List<Segment> zeroPriorityList = new ArrayList<>(Arrays.asList(matrix[getBestChannel(matrix)]));
         zeroPriorityList.remove(ZeroSegment.getInstance());
 
-        way.addWithoutLineEquals(zeroPriorityList.get(0));
+        way.addWithCheck(zeroPriorityList.get(0));
 
         for (int segmentIndex = 0; segmentIndex < zeroPriorityList.size() - 1; ) {
             if (way.get(way.getSize() - 1).getSecondDot() !=
@@ -94,16 +96,16 @@ public class Main {
 
                         if(zeroPriorityList.get(segmentIndex).getSecondDot() < matrix[lineNumber][segmentNumber].getFirstDot() &&
                         zeroPriorityList.get(segmentIndex + 1).getFirstDot() > matrix[lineNumber][segmentNumber].getSecondDot()){
-                            way.addWithoutLineEquals(matrix[lineNumber][segmentNumber]);
+                            way.addWithCheck(matrix[lineNumber][segmentNumber]);
                             break SEARCHING_SEGMENTS;
                         }
                     }
                 }
-                way.addWithoutLineEquals(zeroPriorityList.get(segmentIndex + 1));
+                way.addWithCheck(zeroPriorityList.get(segmentIndex + 1));
                 segmentIndex++;
             }
             else {
-                way.addWithoutLineEquals(zeroPriorityList.get(segmentIndex + 1));
+                way.addWithCheck(zeroPriorityList.get(segmentIndex + 1));
                 segmentIndex++;
             }
         }
