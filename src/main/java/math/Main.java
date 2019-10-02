@@ -5,16 +5,16 @@ import math.entity.*;
 import java.util.*;
 
 public class Main {
-    private static StackSegments bestWay = new StackSegments(-1);
-    private static StackSegments way = new StackSegments(-1);
-    private static ArrayList<StackSegments> allWays = new ArrayList<>();
+    private static StackSegmentsList bestWay = new StackSegmentsList(-1);
+    private static StackSegmentsList way = new StackSegmentsList(-1);
+    private static ArrayList<StackSegmentsList> allWays = new ArrayList<>();
 
     public static void main(String[] args) {
 
         long startTime = System.currentTimeMillis();
 
 
-        Matrix matrix = GeneratorRandom.generateMatrix();
+        MatrixList matrixList = GeneratorRandom.generateMatrix();
         long random1 = System.currentTimeMillis();
 
 
@@ -27,8 +27,8 @@ public class Main {
         long random = System.currentTimeMillis();
         System.out.println("Время на создание матрицы" + " " + (random - startTime) + " миллисекунд");
 
-        StackSegments ways = new StackSegments(-1);
-        ways = Algorithms.dynamicAlgorithm(matrix);
+        StackSegmentsList ways = new StackSegmentsList(-1);
+        ways = Algorithms.dynamicAlgorithm(matrixList);
 
         System.out.println(way);
         System.out.println("Колличество путей: " + allWays.size());
@@ -75,7 +75,7 @@ public class Main {
             else {
                 sum=0;
                 allWays.add(bestWay);
-                bestWay = new StackSegments(-1);
+                bestWay = new StackSegmentsList(-1);
             }
 
         }
@@ -89,7 +89,7 @@ public class Main {
         way.addWithCheck(zeroPriorityList.get(0));
 
         for (int segmentIndex = 0; segmentIndex < zeroPriorityList.size() - 1; ) {
-            if (way.get(way.getSize() - 1).getSecondDot() !=
+            if (way.get(way.size() - 1).getSecondDot() !=
                     zeroPriorityList.get(segmentIndex + 1).getFirstDot()){
                SEARCHING_SEGMENTS: for (lineNumber = 1; lineNumber < matrix.length; lineNumber++) {
                     for (int segmentNumber = 0; segmentNumber < matrix[lineNumber].length; segmentNumber++) {
@@ -123,10 +123,10 @@ public class Main {
     }
 
     private static int getIndex(){
-        if(way.getSize() == 1){
+        if(way.size() == 1){
             return 0;
         }
-        else return way.getSize() - 1;
+        else return way.size() - 1;
     }
 
     private static void sortSegmentByLength(ArrayList<Segment> list) {

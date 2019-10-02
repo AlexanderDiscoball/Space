@@ -3,7 +3,6 @@ package math.entity;
 import math.InputData;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class BetterGeneratorRandom {
     public static Segment generateRandomSegment(int min,int max, int lineNumber){
@@ -16,28 +15,28 @@ public class BetterGeneratorRandom {
         return (start + (int) (Math.random() * end));
     }
 
-    private static ArrayList<StackSegments> generateStacksNumberOfChannels() {
-       ArrayList<StackSegments> matrixList = new ArrayList<>();
+    private static ArrayList<StackSegmentsList> generateStacksNumberOfChannels() {
+       ArrayList<StackSegmentsList> matrixList = new ArrayList<>();
         for (int channel = 0; channel < InputData.getChannelAmount(); channel++) {
             matrixList.add(generateRandomStack(channel));
         }
         return matrixList;
     }
 
-    private static StackSegments generateRandomStack(int channel){
-        StackSegments stackSegments = new StackSegments(channel);
+    private static StackSegmentsList generateRandomStack(int channel){
+        StackSegmentsList stackSegmentsList = new StackSegmentsList(channel);
         int min = 0;
         int max = InputData.getSegmentsAmount();
-        while (stackSegments.getSize() != InputData.getSegmentsAmount()){
-            stackSegments.add(generateRandomSegment(min, max,channel));
-            min = stackSegments.get(stackSegments.getSize()-1).getSecondDot();
+        while (stackSegmentsList.size() != InputData.getSegmentsAmount()){
+            stackSegmentsList.add(generateRandomSegment(min, max,channel));
+            min = stackSegmentsList.get(stackSegmentsList.size()-1).getSecondDot();
         }
-        return stackSegments;
+        return stackSegmentsList;
     }
 
     public static Segment[][] generateSegmentMatrix(){
         Segment[][] matrix = new Segment[InputData.getChannelAmount()][InputData.getSegmentsAmount()];
-        ArrayList<StackSegments> matrixList = generateStacksNumberOfChannels();
+        ArrayList<StackSegmentsList> matrixList = generateStacksNumberOfChannels();
         for (int i = 0; i < InputData.getChannelAmount(); i++) {
             for (int j = 0; j < InputData.getSegmentsAmount(); j++) {
                 matrix[i][j] = matrixList.get(i).get(j);

@@ -1,7 +1,7 @@
 package math;
 
 import math.entity.Segment;
-import math.entity.StackSegments;
+import math.entity.StackSegmentsList;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,9 +43,9 @@ public class GeneratorRandomTest {
 
     @Test
     public void generateRandomSegmentsWithIntervals() {
-       ArrayList<StackSegments> list  = GeneratorRandom.generateManyStacks();
-        for (StackSegments stackSegments : list) {
-            if(stackSegments.getSize() < InputData.getSegmentsAmount()){
+       ArrayList<StackSegmentsList> list  = GeneratorRandom.generateManyStacks();
+        for (StackSegmentsList stackSegmentsList : list) {
+            if(stackSegmentsList.size() < InputData.getSegmentsAmount()){
                 Assert.fail("будет содержать null в  матрице");
             }
         }

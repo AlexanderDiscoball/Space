@@ -1,13 +1,12 @@
 package math.entity;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class StackSegmentsTest {
+public class StackSegmentsListTest {
 
-    private StackSegments stack;
+    private StackSegmentsList stack;
 
     @Test
     public void addBefore() {
@@ -15,7 +14,7 @@ public class StackSegmentsTest {
         Segment segmentBefore = new Segment(0,1,0);
         int size = 2;
         addSements(mainSegment,segmentBefore);
-        int realSize = stack.getSize();
+        int realSize = stack.size();
         assertEquals(size,realSize);
     }
     @Test
@@ -24,7 +23,7 @@ public class StackSegmentsTest {
         Segment segmentOnBefore = new Segment(0,2,0);
         int size = 2;
         addSements(mainSegment,segmentOnBefore);
-        int realSize = stack.getSize();
+        int realSize = stack.size();
         assertEquals(size,realSize);
     }
     @Test
@@ -33,7 +32,7 @@ public class StackSegmentsTest {
         Segment segmentAfter = new Segment(5,6,0);
         int size = 2;
         addSements(mainSegment,segmentAfter);
-        int realSize = stack.getSize();
+        int realSize = stack.size();
         assertEquals(size,realSize);
 
     }
@@ -43,7 +42,7 @@ public class StackSegmentsTest {
         Segment segmentOnAfter = new Segment(4,6,0);
         int size = 2;
         addSements(mainSegment,segmentOnAfter);
-        int realSize = stack.getSize();
+        int realSize = stack.size();
         assertEquals(size,realSize);
 
     }
@@ -53,7 +52,7 @@ public class StackSegmentsTest {
         Segment equalsSegment = new Segment(2,4,0);
         int size = 1;
         addSements(mainSegment,equalsSegment);
-        int realSize = stack.getSize();
+        int realSize = stack.size();
         assertEquals(size,realSize);
     }
 
@@ -64,7 +63,7 @@ public class StackSegmentsTest {
         Segment segmentInsideBefore = new Segment(1,3,0);
         addSements(mainSegment,segmentInsideBefore);
         System.out.println(stack.get(0));
-        int realSize = stack.getSize();
+        int realSize = stack.size();
         assertEquals(size,realSize);
     }
     @Test
@@ -73,12 +72,12 @@ public class StackSegmentsTest {
         Segment mainSegment = new Segment(2,4,0);
         Segment segmentInsideAfter = new Segment(3,5,0);
         addSements(mainSegment,segmentInsideAfter);
-        int realSize = stack.getSize();
+        int realSize = stack.size();
         assertEquals(size,realSize);
     }
 
     private void addSements(Segment segment1, Segment segment2){
-        stack = new StackSegments(0);
+        stack = new StackSegmentsList(0);
         stack.add(segment1);
         stack.add(segment2);
     }
@@ -87,11 +86,11 @@ public class StackSegmentsTest {
     public void addWithoutLineEquals() {
         Segment mainSegment = new Segment(2,4,0);
         Segment segmentInsideAfter = new Segment(4,6,1);
-        stack = new StackSegments(0);
+        stack = new StackSegmentsList(0);
         stack.add(mainSegment);
         stack.addWithCheck(segmentInsideAfter);
         int size = 2;
-        int realSize = stack.getSize();
+        int realSize = stack.size();
         assertEquals(size,realSize);
     }
 
@@ -100,18 +99,18 @@ public class StackSegmentsTest {
     }
     @Test
     public void addAll() {
-        stack = new StackSegments(0);
-        StackSegments stackSegments = new StackSegments(-1);
-        StackSegments stackSegments2 = new StackSegments(-1);
-        stackSegments.add(new Segment(0,1,-1));
-        stackSegments.add( new Segment(4,5,-1));
-        stackSegments2.add(new Segment(0,1,-1));
-        stackSegments2.add(new Segment(0,1,-1));
+        stack = new StackSegmentsList(0);
+        StackSegmentsList stackSegmentsList = new StackSegmentsList(-1);
+        StackSegmentsList stackSegmentsList2 = new StackSegmentsList(-1);
+        stackSegmentsList.add(new Segment(0,1,-1));
+        stackSegmentsList.add( new Segment(4,5,-1));
+        stackSegmentsList2.add(new Segment(0,1,-1));
+        stackSegmentsList2.add(new Segment(0,1,-1));
 
-        stack.addAll(stackSegments);
-        stack.addAll(stackSegments2);
+        stack.addAll(stackSegmentsList);
+        stack.addAll(stackSegmentsList2);
         System.out.println(stack.toString());
-        assertEquals(stackSegments.getSize() + stackSegments2.getSize(),stack.getSize());
+        assertEquals(stackSegmentsList.size() + stackSegmentsList2.size(),stack.size());
     }
 
     @Test
@@ -132,7 +131,7 @@ public class StackSegmentsTest {
 
     @Test
     public void getMax() {
-        stack = new StackSegments(-1);
+        stack = new StackSegmentsList(-1);
         Segment segment = new Segment(4,8,-1);
         stack.add(segment);
         stack.add( new Segment(0,1,-1));

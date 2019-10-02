@@ -1,9 +1,9 @@
 package math;
 
 public class InputData {
-    private static final int channelAmount = 10;
-    private static final int segmentsAmount = 10;
-    private static final int timeAmount = 1000;
+    private static final int channelAmount = 50;
+    private static final int segmentsAmount = 50;
+    private static final int timeAmount = 10000;
 
     public static int getChannelAmount() {
         return channelAmount;

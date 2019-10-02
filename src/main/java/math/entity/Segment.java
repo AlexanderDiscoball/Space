@@ -12,7 +12,6 @@ public class Segment implements Comparable<Segment>{
 
     private ArrayList<Integer> indexes = new ArrayList<>();
 
-
     public Segment(int firstDot, int secondDot,int line) throws IllegalArgumentException{
         if(firstDot <= secondDot) {
             this.firstDot = firstDot;
@@ -33,26 +32,6 @@ public class Segment implements Comparable<Segment>{
         }
         else throw new IllegalArgumentException("Первое число должно быть меньше второго");
     }
-
-//    public Segment(Segment segment1, Segment segment2) throws IllegalArgumentException{
-//        if(segment1.getFirstDot() > segment2.getSecondDot()){
-//            Segment buf;
-//            buf = segment1;
-//            segment1 = segment2;
-//            segment2= buf;
-//        }
-//        if(segment1.getSecondDot() != segment2.getFirstDot()){
-//            new Segment(segment1.getFirstDot(), segment2.getSecondDot(),-2);
-//        }
-//        else {
-//            this.firstDot = segment1.getFirstDot();
-//            this.secondDot = segment2.getSecondDot();
-//            this.line = -2;
-//            this.length = secondDot - firstDot - (segment2.getFirstDot() - segment1.getSecondDot());
-//            this.priority = setPriority(line);
-//        }
-//    }
-
 
     private int setPriority(int line) {
         if(line<0){
@@ -92,6 +71,7 @@ public class Segment implements Comparable<Segment>{
                 +length;
     }
 
+
     public void setIndex(int index){
         this.index = index;
     }
@@ -103,11 +83,6 @@ public class Segment implements Comparable<Segment>{
         return "Segment: " + getLine() + getFirstDot() + getSecondDot();
     }
 
-
-    @Override
-    public int compareTo(Segment segment) {
-        return this.secondDot.compareTo(segment.secondDot);
-    }
 
     public void setIndexes(int index){
         indexes.add(index);
@@ -124,5 +99,26 @@ public class Segment implements Comparable<Segment>{
         return indexes;
     }
 
+    @Override
+    public int compareTo(Segment o) {
+        Integer x1 = this.secondDot;
+        Integer x2 = o.secondDot;
+        int sComp = x1.compareTo(x2);
 
+        if (sComp != 0) {
+            return sComp;
+        } else {
+            x1 = this.firstDot;
+            x2 = o.firstDot;
+            sComp = x1.compareTo(x2);
+            if (sComp != 0) {
+                return sComp;
+            } else {
+                x1 = this.line;
+                x2 = o.line;
+                sComp = x1.compareTo(x2);
+            }
+        }
+        return sComp;
+    }
 }
