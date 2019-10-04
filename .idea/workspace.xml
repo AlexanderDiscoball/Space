@@ -2,23 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ccdce174-b321-4e39-86f9-225d4488689b" name="Default Changelist" comment="Доделка динамического алгоритма">
+      <change beforePath="$PROJECT_DIR$/../PlannerJava/src/planner/test/TestAuto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PlannerJava/src/planner/test/TestAuto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PlannerJava/src/planner/test/TestKA.java" beforeDir="false" afterPath="$PROJECT_DIR$/../PlannerJava/src/planner/test/TestKA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Space.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Space.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Algorithms.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Algorithms.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/InputData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/InputData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/BetterGeneratorRandom.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/BetterGeneratorRandom.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Segment.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/Segment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/StackSegments.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/StackSegments.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Refactor$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Refactor$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Refactor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Refactor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/TestTreeSet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/MatrixList.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/MatrixList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/MatrixSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/MatrixSet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/AlgorithmsTest.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/StackSegmentsTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/RefTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/Algorithms.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Algorithms.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/GeneratorRandom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/GeneratorRandom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/InputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/InputData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/Refactor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Refactor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/TestTreeSet.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/BetterGeneratorRandom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/BetterGeneratorRandom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/Segment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/StackSegments.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/StackSegmentsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Matrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/SimulationSegments/Matrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/MatrixList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/SimulationSegments/MatrixList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/MatrixSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/SimulationSegments/MatrixSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Segment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/SimulationSegments/Segment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/StackSegments.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/SimulationSegments/StackSegments.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/StackSegmentsList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/SimulationSegments/StackSegmentsList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/StackSegmentsSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/SimulationSegments/StackSegmentsSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/ZeroSegment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/SimulationSegments/ZeroSegment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/AlgorithmsTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/StackSegmentsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/StackSegmentsListTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/BetterGeneratorRandomTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/BetterGeneratorRandomTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/RefTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/AlgorithmTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/SegmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/SegmentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/StackSegmentsListTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/StackSegmentsListTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -35,8 +56,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit4 Test Class" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -48,13 +69,17 @@
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/build.gradle" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PlannerJava" />
     <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.proportion" value="0.15187088" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="show.inlinked.gradle.project.popup" value="true" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
@@ -64,8 +89,14 @@
       <recent name="math" />
       <recent name="math.entity" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\job\Space2\src\main\java\math" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\job\Space2\src\main\java\math\entity" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -80,8 +111,72 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.RefTest.both">
-    <configuration name="AlgorithmsTest.dynamicAlgorithm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.GeneratorRandomTest.createRandomDropPoints">
+    <configuration name="AlgorithmTest.RandomTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="math.entity.SimulationSegments.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="math.entity" />
+      <option name="MAIN_CLASS_NAME" value="math.entity.AlgorithmTest" />
+      <option name="METHOD_NAME" value="RandomTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AlgorithmTest.both" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="math.entity.SimulationSegments.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="math.entity" />
+      <option name="MAIN_CLASS_NAME" value="math.entity.AlgorithmTest" />
+      <option name="METHOD_NAME" value="both" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AlgorithmTest.ref" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="math.entity.SimulationSegments.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="math.entity" />
+      <option name="MAIN_CLASS_NAME" value="math.entity.AlgorithmTest" />
+      <option name="METHOD_NAME" value="ref" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AlgorithmTest.refSet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="untitled.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="math.entity.SimulationSegments.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="math.entity" />
+      <option name="MAIN_CLASS_NAME" value="math.entity.AlgorithmTest" />
+      <option name="METHOD_NAME" value="refSet" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GeneratorRandomTest.createRandomDropPoints" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled.test" />
       <extension name="coverage">
         <pattern>
@@ -90,72 +185,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="math" />
-      <option name="MAIN_CLASS_NAME" value="math.AlgorithmsTest" />
-      <option name="METHOD_NAME" value="dynamicAlgorithm" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RefTest.RandomTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="math.entity.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="math.entity" />
-      <option name="MAIN_CLASS_NAME" value="math.entity.RefTest" />
-      <option name="METHOD_NAME" value="RandomTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RefTest.both" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="math.entity.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="math.entity" />
-      <option name="MAIN_CLASS_NAME" value="math.entity.RefTest" />
-      <option name="METHOD_NAME" value="both" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RefTest.ref" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="math.entity.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="math.entity" />
-      <option name="MAIN_CLASS_NAME" value="math.entity.RefTest" />
-      <option name="METHOD_NAME" value="ref" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RefTest.refSet" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="math.entity.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="math.entity" />
-      <option name="MAIN_CLASS_NAME" value="math.entity.RefTest" />
-      <option name="METHOD_NAME" value="refSet" />
+      <option name="MAIN_CLASS_NAME" value="math.GeneratorRandomTest" />
+      <option name="METHOD_NAME" value="createRandomDropPoints" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -163,11 +194,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.RefTest.both" />
-        <item itemvalue="JUnit.RefTest.refSet" />
-        <item itemvalue="JUnit.RefTest.ref" />
-        <item itemvalue="JUnit.RefTest.RandomTest" />
-        <item itemvalue="JUnit.AlgorithmsTest.dynamicAlgorithm" />
+        <item itemvalue="JUnit.GeneratorRandomTest.createRandomDropPoints" />
+        <item itemvalue="JUnit.AlgorithmTest.refSet" />
+        <item itemvalue="JUnit.AlgorithmTest.ref" />
+        <item itemvalue="JUnit.AlgorithmTest.both" />
+        <item itemvalue="JUnit.AlgorithmTest.RandomTest" />
       </list>
     </recent_temporary>
   </component>

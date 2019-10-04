@@ -1,4 +1,4 @@
-package math.entity;
+package math.entity.SimulationSegments;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -33,7 +33,7 @@ public class MatrixSet implements Matrix {
         return null;
     }
 
-    public Collection<? extends StackSegments> getCollection(){
+    public TreeSet<StackSegments> getCollection(){
         return matrixSet;
     }
 

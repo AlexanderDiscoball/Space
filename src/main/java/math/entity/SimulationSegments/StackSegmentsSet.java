@@ -1,6 +1,8 @@
-package math.entity;
+package math.entity.SimulationSegments;
 
-import java.util.Collections;
+import math.entity.SimulationSegments.Segment;
+import math.entity.SimulationSegments.StackSegments;
+
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;

@@ -1,17 +1,24 @@
 package math;
 
-import math.entity.MatrixList;
-import math.entity.Segment;
-import math.entity.StackSegments;
-import math.entity.StackSegmentsList;
+import math.entity.SimulationSegments.MatrixList;
+import math.entity.SimulationSegments.Segment;
+import math.entity.SimulationSegments.StackSegments;
+import math.entity.SimulationSegments.StackSegmentsList;
+import math.entity.StackSegmentsSlice;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GeneratorRandom {
 
     private static final int MAXSTEP = 10;
+    private static final int DROPPOINTS = InputData.getDropPoints();
+    private static final int STEPDROPPOINTS = InputData.getTimeAmount()/DROPPOINTS;
+    private static final LocalDateTime TIMENOW = LocalDateTime.now();
     private static int buf = 0;
     private static int seed = 15;
     private static Random gen = new Random(seed);
@@ -45,7 +52,6 @@ public class GeneratorRandom {
     }
 
     private static int getRandomStep(){
-
         return gen.nextInt(MAXSTEP);
     }
 
@@ -57,6 +63,16 @@ public class GeneratorRandom {
         gen.setSeed(seed);
         seed+=4;
         return gen.nextInt(MAXSTEP);
+    }
+
+    public static List<Integer> createRandomDropPoints(){
+        int point = 0;
+        List<Integer> dropPoints = new ArrayList<>();
+        for (int i = 0; i < DROPPOINTS; i++) {
+            point += STEPDROPPOINTS;
+            dropPoints.add(point);
+        }
+        return dropPoints;
     }
 
 

@@ -1,5 +1,7 @@
 package math.entity;
 
+import math.entity.SimulationSegments.Segment;
+import math.entity.SimulationSegments.StackSegmentsList;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

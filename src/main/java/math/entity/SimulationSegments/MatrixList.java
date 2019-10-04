@@ -1,4 +1,4 @@
-package math.entity;
+package math.entity.SimulationSegments;
 
 import java.util.*;
 
@@ -49,6 +49,7 @@ public class MatrixList implements Matrix {
     public void sort(){
         matrix.sort(StackSegments::compareTo);
     }
+
 
     public StackSegments getBestSolution(){
         return Collections.max(matrix, StackSegments::compareTo);

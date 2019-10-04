@@ -1,11 +1,13 @@
 package math.entity;
 
 import math.InputData;
+import math.entity.SimulationSegments.Segment;
+import math.entity.SimulationSegments.StackSegmentsList;
 
 import java.util.ArrayList;
 
 public class BetterGeneratorRandom {
-    public static Segment generateRandomSegment(int min,int max, int lineNumber){
+    public static Segment generateRandomSegment(int min, int max, int lineNumber){
         int firstDot = getRandomNumber(min,max);
         int secondDot  = getRandomNumber(firstDot+1,max);
         return new Segment(firstDot, secondDot, lineNumber);

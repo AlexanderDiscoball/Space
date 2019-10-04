@@ -1,17 +1,17 @@
 package math.entity;
 
 import math.GeneratorRandom;
-import math.InputData;
 import math.Refactor;
-import math.TestTreeSet;
+import math.Algorithms;
+import math.entity.SimulationSegments.Matrix;
+import math.entity.SimulationSegments.MatrixList;
+import math.entity.SimulationSegments.Segment;
+import math.entity.SimulationSegments.StackSegments;
 import org.junit.Test;
-
-import java.util.Random;
-import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 
-public class RefTest {
+public class AlgorithmTest {
     Matrix clon = GeneratorRandom.generateMatrix();
 
     @Test
@@ -30,15 +30,23 @@ public class RefTest {
     public void ref(){
         int sizeBefore = 0;
         int sizeAfter = 0;
+        int sumBefore = 0;
+        int sumAfter = 0;
 
         Matrix matrix = clon.clone();
         System.out.println(matrix.size());
-        for (int i = 0; i < matrix.size(); i++) {
-            sizeBefore += matrix.get(i).size();
+        for (StackSegments stack :matrix) {
+            sizeBefore += stack.size();
+            for (Segment segment :stack) {
+                sizeBefore+=segment.getLength();
+            }
         }
         matrix = Refactor.dynamicAlgorithm(matrix);
-        for (int i = 0; i < matrix.size(); i++) {
-            sizeAfter += matrix.get(i).size();
+        for (StackSegments stack :matrix) {
+            sizeAfter += stack.size();
+            for (Segment segment :stack) {
+                sizeAfter+=segment.getLength();
+            }
         }
         for (int j = 0; j < matrix.size(); j++) {
             System.out.println("Решение "+j+" "+ matrix.get(j).size()+" Сумма "+  matrix.get(j).getFullLength());
@@ -47,19 +55,33 @@ public class RefTest {
         System.out.println("Ref"+matrix.get(0));
         System.out.println("Ref"+matrix.get(0).size());
         assertEquals(sizeBefore, sizeAfter);
+        assertEquals(sumBefore, sumAfter);
     }
 
     @Test
     public void refSet(){
+        int sizeBefore = 0;
+        int sizeAfter = 0;
+        int sumBefore = 0;
+        int sumAfter = 0;
         int count = 0;
         Matrix matrix = clon.clone();
-        for (int i = 0; i < matrix.size(); i++) {
-            count += matrix.get(i).getCollection().size();
+        for (StackSegments stack :matrix) {
+            sizeBefore += stack.size();
+            for (Segment segment :stack) {
+                sizeBefore+=segment.getLength();
+            }
         }
         System.out.println("Размер матрицы до "+count);
-        matrix = TestTreeSet.dynamicAlgorithm(matrix);
-        int counter = 0;
+        matrix = Algorithms.dynamicAlgorithm(matrix);
+        for (StackSegments stack :matrix) {
+            sizeAfter += stack.size();
+            for (Segment segment :stack) {
+                sizeAfter+=segment.getLength();
+            }
+        }
 
+        int counter = 0;
         for (StackSegments set :matrix.getCollection()) {
             System.out.println("Решение "+counter+" Элементов "+set.size()+" Сумма "+  set.getFullLength());
             if(counter==matrix.getCollection().size()-1){
@@ -68,6 +90,8 @@ public class RefTest {
             }
             counter++;
         }
+        assertEquals(sizeBefore, sizeAfter);
+        assertEquals(sumBefore, sumAfter);
     }
 
     @Test
@@ -77,54 +101,4 @@ public class RefTest {
 
         refSet();
     }
-
-    private static final int MAXSTEP = 10;
-    private static int buf = 0;
-    private static int seed = 15;
-    private static Random gen = new Random(seed);
-
-    public static MatrixSet generateMatrix(){
-        MatrixSet matrix = new MatrixSet();
-
-        for (int line = 0; line < InputData.getChannelAmount(); line++) {
-            StackSegmentsSet stackSegments = generateStackSegments(line);
-            matrix.add(stackSegments);
-        }
-        return matrix;
-    }
-
-    private static StackSegmentsSet generateStackSegments(int line){
-        StackSegmentsSet stackSegments = new StackSegmentsSet(line);
-
-        for (int i = 0; i < InputData.getSegmentsAmount(); i++) {
-            stackSegments.add(generateSegment(line));
-        }
-        buf = getRandomStep();
-        return stackSegments;
-    }
-
-    private static Segment generateSegment(int line){
-        int first = buf;
-        int second = buf+ 1 + getRandomStep();
-        buf = second + getRandomStep();
-
-        return new Segment(first,second,line);
-    }
-
-    private static int getRandomStep(){
-
-        return gen.nextInt(MAXSTEP);
-    }
-
-    private static int getRandomNumber(){
-        return ((int) (Math.random() * InputData.getTimeAmount()));
-    }
-
-    private static int getRandomAmount(){
-        gen.setSeed(seed);
-        seed+=4;
-        return gen.nextInt(MAXSTEP);
-    }
-
-
 }

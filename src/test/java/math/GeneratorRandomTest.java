@@ -1,19 +1,22 @@
 package math;
 
-import math.entity.Segment;
-import math.entity.StackSegmentsList;
-import org.junit.After;
+import math.entity.SimulationSegments.Segment;
+import math.entity.SimulationSegments.StackSegmentsList;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class GeneratorRandomTest {
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void createRandomDropPoints(){
+        List<Integer> dropPoints = GeneratorRandom.createRandomDropPoints();
+        assertEquals(dropPoints.size(),InputData.getDropPoints());
+        assertEquals(dropPoints.get(dropPoints.size() - 1).intValue(),InputData.getTimeAmount());
     }
 
     @Test

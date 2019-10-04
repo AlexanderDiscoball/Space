@@ -1,7 +1,8 @@
 package math;
 
-import math.entity.*;
+import math.entity.SimulationSegments.*;
 
+import java.util.Collections;
 import java.util.Comparator;
 
 public class Refactor {
@@ -37,6 +38,9 @@ public class Refactor {
 
     public static StackSegmentsList addMaxWayIfCanBeIn(MatrixList functions, Segment fromAll) {
         functions.sort();
+        if(functions.get(functions.size() - 1) != Collections.max(functions.getCollection(),Comparator.comparing(StackSegments::getFullLength))){
+            System.out.println("Ошибка");
+        }
         StackSegmentsList b = new StackSegmentsList(-1);;
         for (int i = functions.size() - 1; i >= 0; i--) {
             if(functions.get(i).getLastSegment().getSecondDot() <= fromAll.getFirstDot()){

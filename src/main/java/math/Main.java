@@ -1,6 +1,10 @@
 package math;
 
-import math.entity.*;
+import math.entity.SimulationSegments.MatrixList;
+import math.entity.SimulationSegments.Segment;
+import math.entity.SimulationSegments.StackSegmentsList;
+import math.entity.SimulationSegments.ZeroSegment;
+
 
 import java.util.*;
 
@@ -28,7 +32,7 @@ public class Main {
         System.out.println("Время на создание матрицы" + " " + (random - startTime) + " миллисекунд");
 
         StackSegmentsList ways = new StackSegmentsList(-1);
-        ways = Algorithms.dynamicAlgorithm(matrixList);
+
 
         System.out.println(way);
         System.out.println("Колличество путей: " + allWays.size());
@@ -81,81 +85,12 @@ public class Main {
         }
     }
 
-    private static void betterAlgorithm(Segment[][] matrix){
-        int lineNumber = 0;
-        List<Segment> zeroPriorityList = new ArrayList<>(Arrays.asList(matrix[getBestChannel(matrix)]));
-        zeroPriorityList.remove(ZeroSegment.getInstance());
 
-        way.addWithCheck(zeroPriorityList.get(0));
-
-        for (int segmentIndex = 0; segmentIndex < zeroPriorityList.size() - 1; ) {
-            if (way.get(way.size() - 1).getSecondDot() !=
-                    zeroPriorityList.get(segmentIndex + 1).getFirstDot()){
-               SEARCHING_SEGMENTS: for (lineNumber = 1; lineNumber < matrix.length; lineNumber++) {
-                    for (int segmentNumber = 0; segmentNumber < matrix[lineNumber].length; segmentNumber++) {
-
-                        if(zeroPriorityList.get(segmentIndex).getSecondDot() < matrix[lineNumber][segmentNumber].getFirstDot() &&
-                        zeroPriorityList.get(segmentIndex + 1).getFirstDot() > matrix[lineNumber][segmentNumber].getSecondDot()){
-                            way.addWithCheck(matrix[lineNumber][segmentNumber]);
-                            break SEARCHING_SEGMENTS;
-                        }
-                    }
-                }
-                way.addWithCheck(zeroPriorityList.get(segmentIndex + 1));
-                segmentIndex++;
-            }
-            else {
-                way.addWithCheck(zeroPriorityList.get(segmentIndex + 1));
-                segmentIndex++;
-            }
-        }
-
-    }
-
-    private static int getBestChannel(Segment[][] matrix){
-        int bestPriority = InputData.getChannelAmount();
-        for (int i = 0; i < matrix.length; i++) {
-           if( bestPriority > matrix[i][0].getPriority()){
-               bestPriority = matrix[i][0].getPriority();
-           }
-        }
-        return bestPriority;
-    }
-
-    private static int getIndex(){
-        if(way.size() == 1){
-            return 0;
-        }
-        else return way.size() - 1;
-    }
 
     private static void sortSegmentByLength(ArrayList<Segment> list) {
         Comparator<Segment> comparator = Comparator.comparing(Segment::getLength);
         list.sort(comparator);
         Collections.reverse(list);
-    }
-    private static void sortSegmentByPriority(ArrayList<Segment> list) {
-        Comparator<Segment> comparator = Comparator.comparing(Segment::getPriority);
-        list.sort(comparator);
-    }
-
-    private static void getLengthMatrix(Segment[][] matrix) {
-        for (int i = 0; i < InputData.getChannelAmount(); i++) {
-            for (int j = 0; j < InputData.getSegmentsAmount(); j++) {
-                System.out.printf("%3d", matrix[i][j].getLength());
-            }
-            System.out.println();
-        }
-    }
-
-    private static void getFirstSecondDotMatrix(Segment[][] matrix) {
-        for (int i = 0; i < InputData.getChannelAmount(); i++) {
-            for (int j = 0; j < InputData.getSegmentsAmount(); j++) {
-                String b = (matrix[i][j]).getFirstDot() + "," + (matrix[i][j]).getSecondDot() + "  ";
-                System.out.print(b);
-            }
-            System.out.println();
-        }
     }
 
 }

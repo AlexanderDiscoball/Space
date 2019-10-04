@@ -1,4 +1,4 @@
-package math.entity;
+package math.entity.SimulationSegments;
 
 import java.util.ArrayList;
 
@@ -8,11 +8,10 @@ public class Segment implements Comparable<Segment>{
     private int line;
     private Integer length;
     private Integer priority;
-    private int index;
 
     private ArrayList<Integer> indexes = new ArrayList<>();
 
-    public Segment(int firstDot, int secondDot,int line) throws IllegalArgumentException{
+    public Segment(int firstDot,int secondDot, int line) throws IllegalArgumentException{
         if(firstDot <= secondDot) {
             this.firstDot = firstDot;
             this.secondDot = secondDot;
@@ -22,6 +21,7 @@ public class Segment implements Comparable<Segment>{
         }
         else throw new IllegalArgumentException("Первое число должно быть меньше второго");
     }
+
     public Segment(int firstDot, int secondDot,int length,int line) throws IllegalArgumentException{
         if(firstDot <= secondDot) {
             this.firstDot = firstDot;
@@ -60,7 +60,6 @@ public class Segment implements Comparable<Segment>{
         return priority;
     }
 
-
     @Override
     public String toString(){
         return
@@ -71,33 +70,6 @@ public class Segment implements Comparable<Segment>{
                 +length;
     }
 
-
-    public void setIndex(int index){
-        this.index = index;
-    }
-    public int getIndex(){
-        return index;
-    }
-
-    public String getName(){
-        return "Segment: " + getLine() + getFirstDot() + getSecondDot();
-    }
-
-
-    public void setIndexes(int index){
-        indexes.add(index);
-    }
-    public void setIndexes(ArrayList<Integer> indexes1,Integer index){
-            if(indexes1.size() != 0) {
-                indexes.addAll(indexes1);
-            }else{
-                indexes = indexes1;
-            }
-            indexes.add(index);
-    }
-    public ArrayList<Integer> getIndexes(){
-        return indexes;
-    }
 
     @Override
     public int compareTo(Segment o) {

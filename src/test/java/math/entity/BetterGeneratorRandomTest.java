@@ -1,7 +1,6 @@
 package math.entity;
 
-import math.InputData;
-import org.junit.Assert;
+import math.entity.SimulationSegments.Segment;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

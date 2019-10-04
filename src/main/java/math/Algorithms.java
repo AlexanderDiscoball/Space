@@ -1,15 +1,65 @@
 package math;
 
-import math.entity.MatrixList;
-import math.entity.Segment;
-import math.entity.StackSegmentsList;
-import math.entity.ZeroSegment;
+import math.entity.SimulationSegments.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class Algorithms {
+    static long timeToDelete2 = 0;
+
+    public static MatrixSet dynamicAlgorithm(Matrix matrix){
+        MatrixSet ways = new MatrixSet(StackSegments::compareTo);
+        MatrixSet functions;
+
+        StackSegments buff;
+
+        StackSegmentsSet allIntervals = putAllIntervalsInList(matrix);
+        System.out.println("Все интервалы в матрице сет "+allIntervals.getCollection());
+        System.out.println("Размер матрицы сет "+allIntervals.size());
+        System.out.println();
+        int count = 0;
+
+        while (allIntervals.size() > 0) {
+            functions = new MatrixSet(StackSegments::compareTo);
+            for (Segment segment : allIntervals.getCollection()) {
+                functions.add(addMaxWayIfCanBeIn(functions, segment));
+                count++;
+            }
+            //ДОБАВЛЕНИЕ
+            buff = functions.getTreeSet().pollLast();
+            ways.add(buff);
+            //УДАЛЕНИЕ
+            allIntervals.removeAll(buff);
+        }
+        System.out.println("Размер после матрицы сет "+allIntervals.size());
+        System.out.println("счетчик "+count);
+        return ways;
+    }
+
+    public static StackSegmentsSet addMaxWayIfCanBeIn(MatrixSet functions, Segment fromAll) {
+        StackSegmentsSet b = new StackSegmentsSet(-1);
+        b.add(fromAll);
+        Iterator iterator = functions.getTreeSet().descendingIterator();
+        while (iterator.hasNext()){
+            StackSegments s = (StackSegments) iterator.next();
+            if(s.getLastSegment().getSecondDot() <= fromAll.getFirstDot()){
+                b.addAll(s);
+                b.setFullLength();
+                //System.out.println(b.getTreeSet());
+                return b;
+            }
+        }
+        b.setFullLength();
+        return b;
+    }
+
+    public static StackSegmentsSet putAllIntervalsInList(Matrix matrix) {
+        StackSegmentsSet sss = new StackSegmentsSet(-1);
+        for (StackSegments stackSegments : matrix.getCollection()) {
+            sss.addAll(stackSegments);
+        }
+        return sss;
+    }
 
     private static StackSegmentsList bestWay = new StackSegmentsList(-1);
     private static StackSegmentsList way = new StackSegmentsList(-1);
@@ -41,7 +91,7 @@ public class Algorithms {
                                 bestWay.add(segment);
                                 sum += segment.getLength();
                                 if(segment != ZeroSegment.getInstance()) {
-                                     matrixList.set(ZeroSegment.getInstance(), segment.getLine(),i);
+                                    matrixList.set(ZeroSegment.getInstance(), segment.getLine(),i);
                                 }
                                 break;
                             }
@@ -63,92 +113,45 @@ public class Algorithms {
         }
     }
 
-    public static StackSegmentsList dynamicAlgorithm(MatrixList matrixList){
-        StackSegmentsList way = new StackSegmentsList(-1);
-        StackSegmentsList functions = new StackSegmentsList(-2);
-        ArrayList<StackSegmentsList> ways = new ArrayList<>();
-        Segment buff;
 
-        StackSegmentsList allIntervals = putAllIntervalsInList(matrixList);
-        allIntervals.sort();
+    private static void betterAlgorithm(Segment[][] matrix){
+        int lineNumber = 0;
+        List<Segment> zeroPriorityList = new ArrayList<>(Arrays.asList(matrix[getBestChannel(matrix)]));
+        zeroPriorityList.remove(ZeroSegment.getInstance());
 
-        System.out.println("Все интервалы " + allIntervals);
-        System.out.println("ДО удаления " + allIntervals.size());
+        way.addWithCheck(zeroPriorityList.get(0));
 
-        while (allIntervals.size() > 0) {
-            functions = new StackSegmentsList(-2);
-            functions.add(allIntervals.get(0));
+        for (int segmentIndex = 0; segmentIndex < zeroPriorityList.size() - 1; ) {
+            if (way.get(way.size() - 1).getSecondDot() !=
+                    zeroPriorityList.get(segmentIndex + 1).getFirstDot()){
+                SEARCHING_SEGMENTS: for (lineNumber = 1; lineNumber < matrix.length; lineNumber++) {
+                    for (int segmentNumber = 0; segmentNumber < matrix[lineNumber].length; segmentNumber++) {
 
-            for (int i = 1; i < allIntervals.size(); i++) {
-                buff = maxWayIfCanBeIn(functions, allIntervals.get(i), i);
-                if(buff != ZeroSegment.getInstance()) {
-                    functions.add(buff);
+                        if(zeroPriorityList.get(segmentIndex).getSecondDot() < matrix[lineNumber][segmentNumber].getFirstDot() &&
+                                zeroPriorityList.get(segmentIndex + 1).getFirstDot() > matrix[lineNumber][segmentNumber].getSecondDot()){
+                            way.addWithCheck(matrix[lineNumber][segmentNumber]);
+                            break SEARCHING_SEGMENTS;
+                        }
+                    }
                 }
+                way.addWithCheck(zeroPriorityList.get(segmentIndex + 1));
+                segmentIndex++;
             }
-            System.out.println("Все интервалы " + allIntervals);
-            System.out.println("f(x) "+functions);
-
-            //ArrayList<Integer> deleteList = Collections.max(functions.getSegmentsList(),Comparator.comparing(Segment::getLength)).getIndexes();
-            //System.out.println("Делит лист"+deleteList);
-            //deleteList.sort(Integer::compareTo);
-            //Collections.reverse(deleteList);
-            //System.out.println("Сколько удалить " + deleteList.size());
-            bufStack.sort();
-            bufStack.reverse();
-            for (Segment segment : bufStack) {
-                way.add(allIntervals.get(segment.getIndex()));
-                allIntervals.remove(segment.getIndex());
-
-            }
-
-            ways.add(way);
-            way.removeAll();
-            System.out.println("bufStack " + way);
-            bufStack.removeAll();
-            //way.sort();
-            //ways.add(way);
-           // System.out.println("way " + way);
-            //way.removeAll();
-            if(allIntervals.size() == 1){
-                ways.add(allIntervals);
-                break;
-            }
-
-        }
-        System.out.println("после удаления " + allIntervals.size());
-        ways.forEach(System.out::println);
-        return functions;
-    }
-
-    public static Segment maxWayIfCanBeIn(StackSegmentsList pack, Segment fromAll, int index) {
-        Segment funcSegment;
-        for (int i = 0; i < pack.size(); i++) {
-            funcSegment = Collections.max(pack.getCollection(),Comparator.comparing(Segment::getLength));
-            if(funcSegment.getSecondDot() <= fromAll .getFirstDot()){
-                Segment segment = new Segment(funcSegment.getFirstDot(),fromAll.getSecondDot(),
-                        (fromAll.getLength() + funcSegment.getLength()),-2);
-                segment.setIndex(index);
-                bufStack.add(segment);
-                return segment;
+            else {
+                way.addWithCheck(zeroPriorityList.get(segmentIndex + 1));
+                segmentIndex++;
             }
         }
-
-        return ZeroSegment.getInstance();
     }
 
-    public static Segment maxWayIfCanBeIn2(StackSegmentsList pack) {
-        //segment.setIndexes(funcSegment.getIndexes(),index);
-       return pack.getMaxSegment();
-    }
-
-    public static StackSegmentsList putAllIntervalsInList(MatrixList matrixList) {
-        StackSegmentsList stackSegmentsList = new StackSegmentsList(-2);
-
-        for (int i = 0; i < matrixList.size(); i++) {
-                stackSegmentsList.addAll(matrixList.get(i));
+    private static int getBestChannel(Segment[][] matrix){
+        int bestPriority = InputData.getChannelAmount();
+        for (int i = 0; i < matrix.length; i++) {
+            if( bestPriority > matrix[i][0].getPriority()){
+                bestPriority = matrix[i][0].getPriority();
+            }
         }
-
-        return stackSegmentsList;
+        return bestPriority;
     }
 
     public static void showCoordinateMatrix(MatrixList matrixList) {
@@ -159,11 +162,6 @@ public class Algorithms {
             }
             System.out.println();
         }
-    }
-
-
-    private static boolean isCanAdd(Segment segment, StackSegmentsList bestSolution) {
-        return bestSolution.getLastSegment().getSecondDot() <= segment.getFirstDot();
     }
 
     private static void sortSegmentByPriority(ArrayList<Segment> list) {

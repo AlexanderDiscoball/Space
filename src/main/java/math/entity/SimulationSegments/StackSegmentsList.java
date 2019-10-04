@@ -1,4 +1,4 @@
-package math.entity;
+package math.entity.SimulationSegments;
 
 import java.util.*;
 
