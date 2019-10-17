@@ -1,16 +1,19 @@
 package math;
 
-import math.entity.SimulationSegments.MatrixList;
-import math.entity.SimulationSegments.Segment;
-import math.entity.SimulationSegments.StackSegments;
-import math.entity.SimulationSegments.StackSegmentsList;
-import math.entity.StackSegmentsSlice;
+import cern.jet.random.Poisson;
+import cern.jet.random.engine.DRand;
+import cern.jet.random.engine.RandomEngine;
+import math.entity.AreaSegments.Area;
+import math.entity.AreaSegments.AreaList;
+import math.entity.Array.TwoDimensionalArray;
+import math.entity.Array.TwoDimensionalArrayList;
+import math.entity.Segment.Segment;
+import math.entity.LineSegments.Line;
+import math.entity.LineSegments.LineList;
+import math.entity.SegmentPack;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GeneratorRandom {
@@ -18,51 +21,183 @@ public class GeneratorRandom {
     private static final int MAXSTEP = 10;
     private static final int DROPPOINTS = InputData.getDropPoints();
     private static final int STEPDROPPOINTS = InputData.getTimeAmount()/DROPPOINTS;
-    private static final LocalDateTime TIMENOW = LocalDateTime.now();
-    private static int buf = 0;
     private static int seed = 15;
     private static Random gen = new Random(seed);
 
-    public static MatrixList generateMatrix(){
-        MatrixList matrixList = new MatrixList();
+
+    static RandomEngine engine = new DRand();
+    static Poisson poisson = new Poisson(InputData.getLAMBDA(), engine);
+    private static int buf = (2 * poisson.nextInt());
+    private static final int COAFSPACE = 6;
+    private static final int COAFLENGTh = 1;
+
+
+
+    public static TwoDimensionalArrayList generateMatrix(){
+        TwoDimensionalArrayList matrixList = new TwoDimensionalArrayList();
 
         for (int line = 0; line < InputData.getChannelAmount(); line++) {
-            StackSegments stackSegments = generateStackSegments(line);
+            Line stackSegments = generateStackSegments(line);
             matrixList.add(stackSegments);
         }
         return matrixList;
     }
 
-    private static StackSegments generateStackSegments(int line){
-        StackSegmentsList stackSegmentsList = new StackSegmentsList(line);
+    public static TwoDimensionalArrayList generateMatrix(int start,int end){
+        TwoDimensionalArrayList matrixList = new TwoDimensionalArrayList();
+
+        for (int line = 0; line < InputData.getChannelAmount(); line++) {
+            Line stackSegments = generateStackSegments(line,start,end);
+            matrixList.add(stackSegments);
+        }
+        return matrixList;
+    }
+
+    private static Line generateStackSegments(int line){
+        LineList stackSegmentsList = new LineList(line);
 
         for (int i = 0; i < InputData.getSegmentsAmount(); i++) {
           stackSegmentsList.add(generateSegment(line));
         }
-        buf = getRandomStep();
+        buf = COAFSPACE * poisson.nextInt();
+        return stackSegmentsList;
+    }
+
+    private static Line generateStackSegments(int line,int start,int end){
+        LineList stackSegmentsList = new LineList(line);
+        for (int i = 0; i < InputData.getSegmentsAmount(); i++) {
+          stackSegmentsList.add(generateSegment(line,start,end));
+        }
+        buf = start + COAFSPACE * poisson.nextInt();
         return stackSegmentsList;
     }
 
     private static Segment generateSegment(int line){
         int first = buf;
-        int second = buf + 1 + getRandomStep();
-        buf = second + getRandomStep();
+        int second = buf + 1 +COAFLENGTh* poisson.nextInt();
+        buf = second + (COAFSPACE * poisson.nextInt());
 
         return new Segment(first,second,line);
     }
 
-    private static int getRandomStep(){
+    private static Segment generateSegment(int line,int start,int end){
+        int first = buf;
+        int second = buf + 1 +COAFLENGTh* poisson.nextInt();
+        while(second >= end){
+            first = start +COAFLENGTh* poisson.nextInt();
+            second = first + 1 + COAFLENGTh* poisson.nextInt();
+        }
+        buf = second + (COAFSPACE * poisson.nextInt());
+
+        return new Segment(first,second,line);
+    }
+
+
+    public static int getRandomStep(){
         return gen.nextInt(MAXSTEP);
     }
 
-    private static int getRandomNumber(){
-        return ((int) (Math.random() * InputData.getTimeAmount()));
+    private static int getRandomChannel(){
+        return ((int) (Math.random() * InputData.getChannelAmount()));
+    }
+    private static int getRandomLength(){
+        return (1 + (int) (Math.random() * STEPDROPPOINTS));
     }
 
     private static int getRandomAmount(){
         gen.setSeed(seed);
         seed+=4;
         return gen.nextInt(MAXSTEP);
+    }
+
+    public static List<LinkedList<SergAlg>> genareteSergEntity(){
+        List<LinkedList<SergAlg>> tracks=new ArrayList<>();
+        int intervals_num = InputData.getChannelAmount();
+        Interval bufInterval;
+        SergAlg temp_obj;
+        for(int i=0;i<InputData.getChannelAmount();i++) {
+            LinkedList<SergAlg> temporary=new LinkedList<>();
+            for(int j=0;j<intervals_num;j++) {
+                bufInterval = rand_gen();
+                temp_obj=new SergAlg(bufInterval.f,bufInterval.s,i);
+                temporary.add(temp_obj);
+            }
+            buf = COAFSPACE * poisson.nextInt();
+            tracks.add(temporary);
+        }
+        return tracks;
+    }
+
+    public static Interval rand_gen() {
+        int first = buf;
+        int second = buf + 1 + COAFLENGTh * poisson.nextInt();
+        buf = second +  COAFSPACE * poisson.nextInt();
+        return new Interval(first,second);
+    }
+
+    static class Interval{
+        public int f;
+        public int s;
+        public Interval(int f,int s){
+            this.s=s;
+            this.f=f;
+        }
+    }
+
+
+
+    //DELIMITER Генерация интервала с обьектами и точками сброса
+    public static TwoDimensionalArray generateBigInterval(){
+        List<Integer> dropPoints = createRandomDropPoints();
+        int start,end;
+        start = dropPoints.get(0);
+        TwoDimensionalArray areaMatrix = generateFirstDropInterval(0,start);
+        buf=start;
+        for (int index = 1; index < dropPoints.size(); index++) {
+            end = dropPoints.get(index);
+            for (SegmentPack area :areaMatrix) {
+                addIntervalInArea(start,end,area,randomAddOrNot());
+            }
+            start = end;
+        }
+        return areaMatrix;
+    }
+
+    public static TwoDimensionalArray generateFirstDropInterval(int start,int end){
+        TwoDimensionalArray twoDimensionalArray = new TwoDimensionalArrayList();
+        TwoDimensionalArray generateMat = generateMatrix(start, end);
+        for (SegmentPack segmentPack :generateMat) {
+            for (Segment segment : segmentPack) {
+                twoDimensionalArray.add(new AreaList(){{add(segment);}});
+            }
+        }
+      return twoDimensionalArray;
+    }
+
+    private static void addIntervalInArea(int start, int end, SegmentPack area, boolean canAdd) {
+        if(canAdd){
+           LinkedList<Segment> list =(LinkedList<Segment>) area.getCollection();
+           list.add(generateSegmentForArea(start,end,list.getLast().getLength()));
+        }
+    }
+
+    private static Area generateArea() {
+        Area area = new AreaList();
+        area.add(generateSegment(getRandomChannel()));
+        buf = getRandomStep();
+        return area;
+    }
+
+    private static Segment generateSegmentForArea(int start,int end,int length){
+        int first = buf;
+        int second = buf + length;
+        while(second >= end){
+            first = start + poisson.nextInt();
+            second= first + length;
+        }
+        buf = second + poisson.nextInt();
+
+        return new Segment(first,second,getRandomChannel());
     }
 
     public static List<Integer> createRandomDropPoints(){
@@ -73,6 +208,11 @@ public class GeneratorRandom {
             dropPoints.add(point);
         }
         return dropPoints;
+    }
+
+    private static boolean randomAddOrNot() {
+        int yes = (int) (Math.random() * 100);
+        return yes <= 85;
     }
 
 
@@ -104,8 +244,8 @@ public class GeneratorRandom {
         return (from + (int) (Math.random() * to));
     }
 
-    public static ArrayList<StackSegmentsList> generateManyStacks() {
-        ArrayList<StackSegmentsList> matrixList = new ArrayList<>();
+    public static ArrayList<LineList> generateManyStacks() {
+        ArrayList<LineList> matrixList = new ArrayList<>();
         int intervalMax;
         int intervalMin;
 
@@ -113,7 +253,7 @@ public class GeneratorRandom {
         double segmentsAmount = InputData.getSegmentsAmount();
         int segmentCounter = 1;
         for (int channel = 0; channel < InputData.getChannelAmount(); channel++) {
-            StackSegmentsList stackSegmentsList = new StackSegmentsList(channel);
+            LineList stackSegmentsList = new LineList(channel);
             HashSet<Integer> howManyZeroElements = getRandomCountZeroElements();
 
             while (stackSegmentsList.size() != InputData.getSegmentsAmount()){
@@ -144,7 +284,7 @@ public class GeneratorRandom {
         return repoRandomNumber;
     }
 
-    private static void addZeroSegments(StackSegmentsList stackSegmentsList){
+    private static void addZeroSegments(LineList stackSegmentsList){
         while (stackSegmentsList.size() != InputData.getSegmentsAmount()){
             stackSegmentsList.addZeroSegments();
         }
@@ -152,7 +292,7 @@ public class GeneratorRandom {
 
     public static Segment[][] generateSegmentMatrix(){
         Segment[][] matrix = new Segment[InputData.getChannelAmount()][InputData.getSegmentsAmount()];
-        ArrayList<StackSegmentsList> matrixList = generateManyStacks();
+        ArrayList<LineList> matrixList = generateManyStacks();
         for (int i = 0; i < InputData.getChannelAmount(); i++) {
             for (int j = 0; j < InputData.getSegmentsAmount(); j++) {
                     matrix[i][j] = matrixList.get(i).get(j);

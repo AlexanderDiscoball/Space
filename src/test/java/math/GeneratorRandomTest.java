@@ -1,12 +1,15 @@
 package math;
 
-import math.entity.SimulationSegments.Segment;
-import math.entity.SimulationSegments.StackSegmentsList;
+import math.entity.AreaSegments.Area;
+import math.entity.Array.TwoDimensionalArray;
+import math.entity.Array.TwoDimensionalArrayList;
+import math.entity.Segment.Segment;
+import math.entity.LineSegments.LineList;
+import math.entity.SegmentPack;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -46,12 +49,49 @@ public class GeneratorRandomTest {
 
     @Test
     public void generateRandomSegmentsWithIntervals() {
-       ArrayList<StackSegmentsList> list  = GeneratorRandom.generateManyStacks();
-        for (StackSegmentsList stackSegmentsList : list) {
+       ArrayList<LineList> list  = GeneratorRandom.generateManyStacks();
+        for (LineList stackSegmentsList : list) {
             if(stackSegmentsList.size() < InputData.getSegmentsAmount()){
                 Assert.fail("будет содержать null в  матрице");
             }
         }
+    }
+
+    @Test
+    public void SergEntityTest(){
+        List<LinkedList<SergAlg>> tracks = GeneratorRandom.genareteSergEntity();
+        int sumLength = 0;
+        int sumBetween = 0;
+        int start;
+        int end ;
+        int size = 0;
+        for (LinkedList<SergAlg> list :tracks) {
+            start = 0;
+            size += list.size();
+            for (SergAlg sergAlg :list) {
+               sumLength += sergAlg.getLen();
+               end = sergAlg.getBegin();
+               sumBetween += end - start;
+               start = sergAlg.getEnd();
+            }
+        }
+        System.out.println(sumLength);
+        System.out.println(sumBetween);
+        assertEquals(InputData.getLAMBDA() * size,sumLength);
+        assertEquals(2 * InputData.getLAMBDA()-1,sumBetween/size);
+
+    }
+
+
+    @Test
+    public void separation(){
+//        Integer end = 3000;
+//        Integer start = 1000;
+//        TwoDimensionalArray twoDimensionalArray = GeneratorRandom.generateBigInterval();
+//        twoDimensionalArray = Algorithms.separation(twoDimensionalArray,start,end);
+//        twoDimensionalArray = Algorithms.greedyAlgorithm(twoDimensionalArray);
+//        System.out.println("Лучшее решение "+twoDimensionalArray.get(0));
+
     }
 
     private static int getMinInterval(int segmentCounter){

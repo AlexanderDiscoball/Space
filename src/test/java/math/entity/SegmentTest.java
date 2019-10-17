@@ -1,6 +1,6 @@
 package math.entity;
 
-import math.entity.SimulationSegments.Segment;
+import math.entity.Segment.Segment;
 import org.junit.Assert;
 import org.junit.Test;
 

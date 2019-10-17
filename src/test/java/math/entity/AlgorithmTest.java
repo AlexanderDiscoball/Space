@@ -3,102 +3,203 @@ package math.entity;
 import math.GeneratorRandom;
 import math.Refactor;
 import math.Algorithms;
-import math.entity.SimulationSegments.Matrix;
-import math.entity.SimulationSegments.MatrixList;
-import math.entity.SimulationSegments.Segment;
-import math.entity.SimulationSegments.StackSegments;
+import math.entity.Array.TwoDimensionalArray;
+import math.entity.Array.TwoDimensionalArrayList;
+import math.entity.Array.TwoDimensionalArraySet;
+import math.entity.LineSegments.LineList;
+import math.entity.Segment.Segment;
+import math.entity.LineSegments.Line;
 import org.junit.Test;
+
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
 public class AlgorithmTest {
-    Matrix clon = GeneratorRandom.generateMatrix();
+    static final TwoDimensionalArray clon;
+    static
+    {clon= GeneratorRandom.generateMatrix();}
+
 
     @Test
-    public void RandomTest(){
-        MatrixList matrixList = GeneratorRandom.generateMatrix();
-        int buf = 0;
-        for (int i = 0; i < matrixList.size(); i++) {
-           buf += matrixList.get(i).size();
-            matrixList.get(i).setFullLength();
-        }
-        System.out.println(buf);
-        System.out.println(matrixList.size());
-
-    }
-    @Test
-    public void ref(){
+    public void dinamicAlgorithmList(){
         int sizeBefore = 0;
         int sizeAfter = 0;
         int sumBefore = 0;
         int sumAfter = 0;
-
-        Matrix matrix = clon.clone();
-        System.out.println(matrix.size());
-        for (StackSegments stack :matrix) {
+        TwoDimensionalArray twoDimensionalArray = clon.clone();
+        twoDimensionalArray.getCollection().forEach(System.out::println);
+        for (SegmentPack stack : twoDimensionalArray) {
             sizeBefore += stack.size();
             for (Segment segment :stack) {
-                sizeBefore+=segment.getLength();
+                sumBefore+=segment.getLength();
             }
         }
-        matrix = Refactor.dynamicAlgorithm(matrix);
-        for (StackSegments stack :matrix) {
+        twoDimensionalArray = Refactor.dynamicAlgorithm(twoDimensionalArray);
+        for (SegmentPack stack : twoDimensionalArray) {
             sizeAfter += stack.size();
             for (Segment segment :stack) {
-                sizeAfter+=segment.getLength();
+                sumAfter+=segment.getLength();
             }
         }
-        for (int j = 0; j < matrix.size(); j++) {
-            System.out.println("Решение "+j+" "+ matrix.get(j).size()+" Сумма "+  matrix.get(j).getFullLength());
+        for (int j = 0; j < twoDimensionalArray.size(); j++) {
+            System.out.println("Решение "+j+" "+ twoDimensionalArray.get(j).size()+" Сумма "+  twoDimensionalArray.get(j).getFullLength());
         }
-        System.out.println("Общее количество решений "+ matrix.size());
-        System.out.println("Ref"+matrix.get(0));
-        System.out.println("Ref"+matrix.get(0).size());
+        System.out.println("Общее количество решений "+ twoDimensionalArray.size());
+        System.out.println("Ref"+ twoDimensionalArray.get(0));
+        System.out.println("Ref"+ twoDimensionalArray.get(0).size());
         assertEquals(sizeBefore, sizeAfter);
         assertEquals(sumBefore, sumAfter);
     }
 
-    @Test
-    public void refSet(){
-        int sizeBefore = 0;
-        int sizeAfter = 0;
-        int sumBefore = 0;
-        int sumAfter = 0;
+
+    public TwoDimensionalArray dinamicAlgorithmSet(){
         int count = 0;
-        Matrix matrix = clon.clone();
-        for (StackSegments stack :matrix) {
-            sizeBefore += stack.size();
-            for (Segment segment :stack) {
-                sizeBefore+=segment.getLength();
-            }
-        }
+        TwoDimensionalArray twoDimensionalArray = clon.clone();
+//
         System.out.println("Размер матрицы до "+count);
-        matrix = Algorithms.dynamicAlgorithm(matrix);
-        for (StackSegments stack :matrix) {
-            sizeAfter += stack.size();
-            for (Segment segment :stack) {
-                sizeAfter+=segment.getLength();
-            }
-        }
-
-        int counter = 0;
-        for (StackSegments set :matrix.getCollection()) {
-            System.out.println("Решение "+counter+" Элементов "+set.size()+" Сумма "+  set.getFullLength());
-            if(counter==matrix.getCollection().size()-1){
-                System.out.println("RefSet "+set.getCollection());
-                System.out.println("RefSet "+set.getCollection().size());
-            }
-            counter++;
-        }
-        assertEquals(sizeBefore, sizeAfter);
-        assertEquals(sumBefore, sumAfter);
+        twoDimensionalArray = Algorithms.dynamicAlgorithm(twoDimensionalArray);
+        return twoDimensionalArray;
+//
     }
 
     @Test
     public void both(){
-
-        ref();
-
-        refSet();
+        ArrayList<Integer> listList = new ArrayList<>();
+        int counter = 0;
+        TwoDimensionalArray twoDimensionalArray1 = listTest();
+        for (SegmentPack set : twoDimensionalArray1.getCollection()) {
+            System.out.println("Решение "+counter+" Элементов "+set.size()+" Сумма "+  set.getFullLength());
+            listList.add(set.getFullLength());
+            counter++;
+        }
+        counter = 0;
+        TwoDimensionalArray twoDimensionalArray2 = dinamicAlgorithmSet();
+        ArrayList<Integer> listSet = new ArrayList<>();
+        for (SegmentPack set : twoDimensionalArray2.getCollection()) {
+            System.out.println("Решение "+counter+" Элементов "+set.size()+" Сумма "+  set.getFullLength());
+            listSet.add(set.getFullLength());
+            if(counter== twoDimensionalArray2.getCollection().size()-1){
+                System.out.println("Количество решений List "+ twoDimensionalArray1.size());
+                System.out.println("Количество решений Set "+ twoDimensionalArray2.size());
+                System.out.println("List последнее решение "+twoDimensionalArray1.get(0));
+                System.out.println("Set последнее решение "+set.getCollection());
+            }
+            counter++;
+        }
+        Collections.reverse(listSet);
+        int size = Math.min(listList.size(),listSet.size());
+        for (int i = 0; i < size; i++) {
+            assertEquals(listSet, listList);
+        }
     }
+
+
+    public TwoDimensionalArray listTest(){
+        TwoDimensionalArray twoDimensionalArray = clon.clone();
+        for (SegmentPack stack : twoDimensionalArray) {
+            System.out.println(stack);
+        }
+        twoDimensionalArray = Refactor.dynamicAlgorithm(twoDimensionalArray);
+        return twoDimensionalArray;
+    }
+    @Test
+    public void refactorList(){
+        int sizeBefore = 0;
+        int sizeAfter = 0;
+        int sumBefore = 0;
+        int sumAfter = 0;
+        int counter = 0;
+        TwoDimensionalArray twoDimensionalArray = clon.clone();
+        for (SegmentPack stack : twoDimensionalArray) {
+            sizeBefore += stack.size();
+            //System.out.println(stack);
+            for (Segment segment :stack) {
+                sizeBefore+=segment.getLength();
+            }
+        }
+        long start = System.currentTimeMillis();
+        twoDimensionalArray = Refactor.dynamicAlgorithm(twoDimensionalArray);
+        long end = System.currentTimeMillis();
+                for (SegmentPack stack : twoDimensionalArray) {
+                    sizeAfter += stack.size();
+                    for (Segment segment :stack) {
+                        sizeAfter+=segment.getLength();
+                    }
+                }
+
+        System.out.println("Время на алгоритм List " + (end - start)+" миллисекунд");
+        System.out.println("Общее количество решений List "+ twoDimensionalArray.size());
+                for (SegmentPack set : twoDimensionalArray.getCollection()) {
+                    if(counter== 0||counter==1){
+                        System.out.println("Первое решение List "+set.getCollection());
+                    }
+                    counter++;
+                }
+
+                assertEquals(sizeBefore, sizeAfter);
+                assertEquals(sumBefore, sumAfter);
+
+    }
+    @Test
+    public void refactorSet(){
+        int counter = 0;
+        TwoDimensionalArray twoDimensionalArray = clon.clone();
+        long start = System.currentTimeMillis();
+        twoDimensionalArray = Algorithms.dynamicAlgorithm(twoDimensionalArray);
+        long end = System.currentTimeMillis();
+
+        for (SegmentPack set : twoDimensionalArray.getCollection()) {
+            if(counter== (twoDimensionalArray.getCollection().size()-1)){
+                System.out.println("Первое решение Set "+set.getCollection());
+            }
+            counter++;
+        }
+        System.out.println("Общее количество решений Set "+ twoDimensionalArray.size());
+        System.out.println("Время на алгоритм Set " + (end - start)+" миллисекунд");
+    }
+
+    @Test
+    public void greedyAlg(){
+        int counter = 0;
+        int sizeBefore = 0;
+        int sizeAfter = 0;
+        int sumBefore = 0;
+        int sumAfter = 0;
+        TwoDimensionalArray twoDimensionalArray = clon.clone();
+        for (SegmentPack segmentPack :twoDimensionalArray) {
+            segmentPack.setFullLength();
+        }
+        Collections.sort((List)twoDimensionalArray.getCollection());
+
+        for (SegmentPack stack : twoDimensionalArray) {
+            sizeBefore += stack.size();
+            //System.out.println(stack);
+            for (Segment segment :stack) {
+                sizeBefore+=segment.getLength();
+            }
+        }
+        long start = System.currentTimeMillis();
+        twoDimensionalArray = Algorithms.greedyAlgorithm(twoDimensionalArray);
+        long end = System.currentTimeMillis();
+        for (SegmentPack stack : twoDimensionalArray) {
+            sizeAfter += stack.size();
+            for (Segment segment :stack) {
+                sizeAfter+=segment.getLength();
+            }
+        }
+
+        System.out.println("Первое решение Greedy "+twoDimensionalArray.get(0));
+        System.out.println("Второе решение Greedy "+twoDimensionalArray.get(1));
+
+        System.out.println("Общее количество решений Greedy "+ twoDimensionalArray.size());
+        System.out.println("Время на алгоритм Greedy " + (end - start)+" миллисекунд");
+    }
+
+    @Test
+    public void greed(){
+        greedyAlg();
+        refactorSet();
+    }
+
 }

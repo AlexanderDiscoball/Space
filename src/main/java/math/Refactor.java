@@ -1,33 +1,44 @@
 package math;
 
-import math.entity.SimulationSegments.*;
+import math.entity.AreaSegments.AreaList;
+import math.entity.Array.TwoDimensionalArraySet;
+import math.entity.LineSegments.*;
+import math.entity.Array.TwoDimensionalArray;
+import math.entity.Array.TwoDimensionalArrayList;
+import math.entity.Segment.Segment;
+import math.entity.Segment.ZeroSegment;
+import math.entity.SegmentPack;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 public class Refactor {
-    static long timeToDelete2 = 0;
 
-    public static MatrixList dynamicAlgorithm(Matrix matrixList){
-        MatrixList ways = new MatrixList();
-        MatrixList functions;
-        long timeToDelete = 0;
+    static SegmentPack buf = new LineList(-1);
+    public static TwoDimensionalArrayList dynamicAlgorithm(TwoDimensionalArray twoDimensionalArrayList){
+        if(twoDimensionalArrayList instanceof TwoDimensionalArraySet){
+           twoDimensionalArrayList = ((TwoDimensionalArraySet) twoDimensionalArrayList).castToList();
+        }
+        TwoDimensionalArrayList ways = new TwoDimensionalArrayList();
+        TwoDimensionalArrayList functions;
 
-        StackSegments buff;
+        SegmentPack buff;
 
-        StackSegmentsList allIntervals = putAllIntervalsInList(matrixList);
+        LineList allIntervals = putAllIntervalsInList(twoDimensionalArrayList);
         allIntervals.sort();
-        System.out.println("Все интервалы в матрице лист"+allIntervals);
-        System.out.println("Размер матрицы лист"+allIntervals.size());
 
         while (allIntervals.size() > 0) {
-            functions = new MatrixList();
-            functions.add(new StackSegmentsList(-1){{add(allIntervals.get(0));setFullLength();}});
+            functions = new TwoDimensionalArrayList();
+            functions.add(new LineList(-1){{add(allIntervals.get(0));setFullLength();}});
             for (int i = 1; i < allIntervals.size(); i++) {
-                functions.add(addMaxWayIfCanBeIn(functions, allIntervals.get(i)));
+                buf = addMaxWayIfCanBeIn(functions, allIntervals.get(i));
+                CustomAddToSortedList(functions,buf);
             }
             //ДОБАВЛЕНИЕ
-            buff = functions.getBestSolution();
+            buff = functions.get(functions.size()-1);
             ways.add(buff);
             //УДАЛЕНИЕ
             allIntervals.removeAll(buff);
@@ -36,12 +47,8 @@ public class Refactor {
         return ways;
     }
 
-    public static StackSegmentsList addMaxWayIfCanBeIn(MatrixList functions, Segment fromAll) {
-        functions.sort();
-        if(functions.get(functions.size() - 1) != Collections.max(functions.getCollection(),Comparator.comparing(StackSegments::getFullLength))){
-            System.out.println("Ошибка");
-        }
-        StackSegmentsList b = new StackSegmentsList(-1);;
+    public static LineList addMaxWayIfCanBeIn(TwoDimensionalArrayList functions, Segment fromAll) {
+        LineList b = new LineList(-1);
         for (int i = functions.size() - 1; i >= 0; i--) {
             if(functions.get(i).getLastSegment().getSecondDot() <= fromAll.getFirstDot()){
                 b.addAll(functions.get(i));
@@ -49,20 +56,31 @@ public class Refactor {
                 b.setFullLength();
                 return b;
             }
+
         }
         b.add(fromAll);
         b.setFullLength();
         return b;
     }
 
-    public static StackSegmentsList putAllIntervalsInList(Matrix matrixList) {
-        StackSegmentsList stackSegmentsList = new StackSegmentsList(-2);
+    private static void CustomAddToSortedList(TwoDimensionalArrayList functions, SegmentPack buf) {
+        int index = findIndex(functions);
+        functions.add(index,buf);
+    }
 
-        for (int i = 0; i < matrixList.size(); i++) {
-            stackSegmentsList.addAll(matrixList.get(i));
+    private static int findIndex(TwoDimensionalArrayList functions) {
+        if(buf.compareTo(functions.get(functions.size() - 1)) > 0){
+            return functions.size();
+        }
+        return functions.size() - 1;
+    }
+
+    public static LineList putAllIntervalsInList(TwoDimensionalArray twoDimensionalArrayList) {
+        LineList stackSegmentsList = new LineList(-2);
+        for (int i = 0; i < twoDimensionalArrayList.size(); i++) {
+            stackSegmentsList.addAll(twoDimensionalArrayList.get(i));
         }
 
         return stackSegmentsList;
     }
-
 }

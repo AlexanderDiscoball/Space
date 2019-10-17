@@ -1,29 +1,31 @@
 package math;
 
-import math.entity.SimulationSegments.*;
+import math.entity.AreaSegments.AreaList;
+import math.entity.LineSegments.*;
+import math.entity.Array.TwoDimensionalArray;
+import math.entity.Array.TwoDimensionalArrayList;
+import math.entity.Array.TwoDimensionalArraySet;
+import math.entity.Segment.Segment;
+import math.entity.Segment.ZeroSegment;
+import math.entity.SegmentPack;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Algorithms {
-    static long timeToDelete2 = 0;
 
-    public static MatrixSet dynamicAlgorithm(Matrix matrix){
-        MatrixSet ways = new MatrixSet(StackSegments::compareTo);
-        MatrixSet functions;
+    public static TwoDimensionalArraySet dynamicAlgorithm(TwoDimensionalArray twoDimensionalArray){
+        TwoDimensionalArraySet ways = new TwoDimensionalArraySet(SegmentPack::compareTo);
+        TwoDimensionalArraySet functions;
 
-        StackSegments buff;
+        SegmentPack buff;
 
-        StackSegmentsSet allIntervals = putAllIntervalsInList(matrix);
-        System.out.println("Все интервалы в матрице сет "+allIntervals.getCollection());
-        System.out.println("Размер матрицы сет "+allIntervals.size());
-        System.out.println();
-        int count = 0;
+        LineSet allIntervals = putAllIntervalsInList(twoDimensionalArray);
 
         while (allIntervals.size() > 0) {
-            functions = new MatrixSet(StackSegments::compareTo);
+            functions = new TwoDimensionalArraySet(SegmentPack::compareTo);
             for (Segment segment : allIntervals.getCollection()) {
                 functions.add(addMaxWayIfCanBeIn(functions, segment));
-                count++;
             }
             //ДОБАВЛЕНИЕ
             buff = functions.getTreeSet().pollLast();
@@ -31,17 +33,16 @@ public class Algorithms {
             //УДАЛЕНИЕ
             allIntervals.removeAll(buff);
         }
-        System.out.println("Размер после матрицы сет "+allIntervals.size());
-        System.out.println("счетчик "+count);
         return ways;
     }
 
-    public static StackSegmentsSet addMaxWayIfCanBeIn(MatrixSet functions, Segment fromAll) {
-        StackSegmentsSet b = new StackSegmentsSet(-1);
+    public static LineSet addMaxWayIfCanBeIn(TwoDimensionalArraySet functions, Segment fromAll) {
+        LineSet b = new LineSet(-1);
         b.add(fromAll);
+        Line s;
         Iterator iterator = functions.getTreeSet().descendingIterator();
         while (iterator.hasNext()){
-            StackSegments s = (StackSegments) iterator.next();
+            s = (Line) iterator.next();
             if(s.getLastSegment().getSecondDot() <= fromAll.getFirstDot()){
                 b.addAll(s);
                 b.setFullLength();
@@ -53,108 +54,105 @@ public class Algorithms {
         return b;
     }
 
-    public static StackSegmentsSet putAllIntervalsInList(Matrix matrix) {
-        StackSegmentsSet sss = new StackSegmentsSet(-1);
-        for (StackSegments stackSegments : matrix.getCollection()) {
-            sss.addAll(stackSegments);
+    public static TwoDimensionalArraySet dynamicAlgorithmSize(TwoDimensionalArray twoDimensionalArray){
+        TwoDimensionalArraySet ways = new TwoDimensionalArraySet(SegmentPack::compareTo);
+        TwoDimensionalArraySet functions;
+
+        SegmentPack buff;
+
+        LineSet allIntervals = putAllIntervalsInList(twoDimensionalArray);
+
+        while (allIntervals.size() > 0) {
+            functions = new TwoDimensionalArraySet(Comparator.comparing(SegmentPack::size));
+            for (Segment segment : allIntervals.getCollection()) {
+                functions.add(addMaxWayIfCanBeInSize(functions, segment));
+            }
+            //ДОБАВЛЕНИЕ
+            buff = functions.getTreeSet().pollLast();
+            ways.add(buff);
+            //УДАЛЕНИЕ
+            allIntervals.removeAll(buff);
+        }
+        return ways;
+    }
+
+    public static LineSet addMaxWayIfCanBeInSize(TwoDimensionalArraySet functions, Segment fromAll) {
+        LineSet b = new LineSet(-1);
+        b.add(fromAll);
+        Line s;
+        Iterator iterator = functions.getTreeSet().descendingIterator();
+        while (iterator.hasNext()){
+            s = (Line) iterator.next();
+            if(s.getLastSegment().getSecondDot() <= fromAll.getFirstDot()){
+                b.addAll(s);
+                b.setFullLength();
+                //System.out.println(b.getTreeSet());
+                return b;
+            }
+        }
+        b.setFullLength();
+        return b;
+    }
+
+    public static LineSet putAllIntervalsInList(TwoDimensionalArray twoDimensionalArray) {
+        LineSet sss = new LineSet(-1);
+        for (SegmentPack line : twoDimensionalArray.getCollection()) {
+            sss.addAll(line);
         }
         return sss;
     }
 
-    private static StackSegmentsList bestWay = new StackSegmentsList(-1);
-    private static StackSegmentsList way = new StackSegmentsList(-1);
-    private static ArrayList<StackSegmentsList> allWays = new ArrayList<>();
-    static StackSegmentsList bufStack = new StackSegmentsList(-2);
-    static StackSegmentsList allIntervals;
-    static MatrixList buffer;
 
-    private static void greedyAlgorithm(MatrixList matrixList) {
-        int sum = 0;
-        ArrayList<Segment> list = new ArrayList<>();
-        boolean containSegments = true;
-        while (containSegments) {
-            for (int i = 0; i < matrixList.size(); i++) {
-                for (int j = 0; j < matrixList.get(i).size(); j++) {
+    public static void removeUsedSegmentsFromMainMatrix(TwoDimensionalArray mainArray,List<Integer> indexes, TwoDimensionalArray buf) {
+        int index;
 
-                    list.add(matrixList.get(j).get(i));
+        for (Segment segment :buf.get(0)) {
+            index = indexes.indexOf(segment.getLine());
 
+            if(index != -1){
+                indexes.remove(index);
+                mainArray.remove(index);
+            }
+        }
+        buf.remove(0);
 
-                    if ((j + 1) == matrixList.get(i).size()) {
-                        sortSegmentByLength(list);
-                        int pointer = list.get(0).getSecondDot() ;
-                        sortSegmentByPriority(list);
-
-                        for (Segment segment : list) {
-
-                            int lessThanTimeAmount = sum + segment.getLength();
-                            if (lessThanTimeAmount <= InputData.getTimeAmount() && bestWay.isSegmentCanBeInList(segment)) {
-                                bestWay.add(segment);
-                                sum += segment.getLength();
-                                if(segment != ZeroSegment.getInstance()) {
-                                    matrixList.set(ZeroSegment.getInstance(), segment.getLine(),i);
-                                }
-                                break;
-                            }
-                        }
-                    }
+        for (SegmentPack segmentPack :buf) {
+            for (Segment segment :segmentPack) {
+                index = indexes.indexOf(segment.getLine());
+                if(index != -1){
+                SegmentPack segments = mainArray.get(index);
+                segments.remove(segment);
                 }
-                list = new ArrayList<>();
             }
-
-            if (sum == 0) {
-                containSegments = false;
-            }
-            else {
-                sum=0;
-                allWays.add(bestWay);
-                bestWay = new StackSegmentsList(-1);
-            }
-
         }
     }
 
+    public static TwoDimensionalArrayList greedyAlgorithm(TwoDimensionalArray twoDimensionalArray) {
+        TwoDimensionalArrayList ways = new TwoDimensionalArrayList();
+        LineList way;
 
-    private static void betterAlgorithm(Segment[][] matrix){
-        int lineNumber = 0;
-        List<Segment> zeroPriorityList = new ArrayList<>(Arrays.asList(matrix[getBestChannel(matrix)]));
-        zeroPriorityList.remove(ZeroSegment.getInstance());
+        LineSet allIntervals = putAllIntervalsInList(twoDimensionalArray);
 
-        way.addWithCheck(zeroPriorityList.get(0));
+        while (allIntervals.size() > 0) {
+            way = new LineList(-1);
+            Segment buf = allIntervals.getFirstSegment();
+            way.add(buf);
+            allIntervals.remove(buf);
+            for (Segment segment :allIntervals) {
 
-        for (int segmentIndex = 0; segmentIndex < zeroPriorityList.size() - 1; ) {
-            if (way.get(way.size() - 1).getSecondDot() !=
-                    zeroPriorityList.get(segmentIndex + 1).getFirstDot()){
-                SEARCHING_SEGMENTS: for (lineNumber = 1; lineNumber < matrix.length; lineNumber++) {
-                    for (int segmentNumber = 0; segmentNumber < matrix[lineNumber].length; segmentNumber++) {
-
-                        if(zeroPriorityList.get(segmentIndex).getSecondDot() < matrix[lineNumber][segmentNumber].getFirstDot() &&
-                                zeroPriorityList.get(segmentIndex + 1).getFirstDot() > matrix[lineNumber][segmentNumber].getSecondDot()){
-                            way.addWithCheck(matrix[lineNumber][segmentNumber]);
-                            break SEARCHING_SEGMENTS;
-                        }
-                    }
+                if(way.getLastSegment().getSecondDot() <= segment.getFirstDot()){
+                    way.add(segment);
                 }
-                way.addWithCheck(zeroPriorityList.get(segmentIndex + 1));
-                segmentIndex++;
             }
-            else {
-                way.addWithCheck(zeroPriorityList.get(segmentIndex + 1));
-                segmentIndex++;
-            }
+            //ДОБАВЛЕНИЕ
+            ways.add(way);
+            //УДАЛЕНИЕ
+            allIntervals.removeAll(way);
         }
+        return ways;
     }
 
-    private static int getBestChannel(Segment[][] matrix){
-        int bestPriority = InputData.getChannelAmount();
-        for (int i = 0; i < matrix.length; i++) {
-            if( bestPriority > matrix[i][0].getPriority()){
-                bestPriority = matrix[i][0].getPriority();
-            }
-        }
-        return bestPriority;
-    }
-
-    public static void showCoordinateMatrix(MatrixList matrixList) {
+    public static void showCoordinateMatrix(TwoDimensionalArrayList matrixList) {
         for (int i = 0; i < matrixList.size(); i++) {
             for (int j = 0; j < matrixList.get(i).size(); j++) {
                 String b = (matrixList.get(i).get(j)).getFirstDot() + "," + (matrixList.get(i).get(j)).getSecondDot() + "  ";
@@ -174,4 +172,93 @@ public class Algorithms {
         list.sort(comparator);
         Collections.reverse(list);
     }
+
+
+
+    //DELIMITER
+
+    public static TwoDimensionalArray separation(LineList allIntervals, int start, int end){
+        LineList buf;
+        TwoDimensionalArray output;
+        int[] indexes = getIndex(allIntervals,new Segment(start,end,-1)) ;
+        int indexStart  = indexes[0];
+        int indexEnd  = indexes[1];
+        if(indexEnd == allIntervals.size()) {
+            indexEnd = allIntervals.size() - 1;
+        }
+        else {
+            while (!(allIntervals.get(indexEnd + 1).getSecondDot() > end)) {
+                indexEnd++;
+            }
+        }
+        buf = createSubLine(allIntervals,indexStart,indexEnd);
+        System.out.println("Все интервалы от "+start +" до "+end +" "+buf);
+        output = createLineMatrix(buf);
+        cutOff(allIntervals,indexStart,indexEnd);
+        return output;
+    }
+
+    private static void cutOff(LineList allIntervals,int indexStart,int indexEnd) {
+        //System.out.println(indexStart +" end " +indexEnd);
+        //System.out.println("До удаления "+allIntervals);
+        allIntervals.getCollection().subList(indexStart, indexEnd+1).clear();
+        //System.out.println("После удаления "+allIntervals);
+    }
+
+    public static LineList createSubLine(LineList allIntervals, int start, int end){
+        LineList subLine = new LineList(-1);
+        for (int i = start; i <= end; i++) {
+            subLine.add(allIntervals.get(i));
+        }
+        return subLine;
+    }
+
+    private static TwoDimensionalArray createLineMatrix(LineList buf) {
+        buf.getCollection().sort(Comparator.comparing(Segment::getLine));
+        int line = buf.get(0).getLine();
+        SegmentPack segmentPack = new LineList(line);
+        TwoDimensionalArray twoDimensionalArray = new TwoDimensionalArrayList();
+        twoDimensionalArray.add(segmentPack);
+        for (Segment segment :buf) {
+            if(segment.getLine() != line){
+                twoDimensionalArray.add(segmentPack);
+                line = segment.getLine();
+                segmentPack = new LineList(line);
+            }
+            segmentPack.add(segment);
+        }
+        return twoDimensionalArray;
+    }
+
+    public static LineList getAllIntervals(TwoDimensionalArray twoDimensionalArray) {
+        LineList sss = new LineList(-1);
+        for (SegmentPack line : twoDimensionalArray.getCollection()) {
+            sss.addAll(line);
+        }
+        return sss;
+    }
+
+    private static int[] getIndex(LineList allFirstSegments, Segment limit) {
+        int[] indexes = new int[2];
+        indexes[1] = searchEndBorderIndex(allFirstSegments,limit);
+        indexes[0] = searchStartBorderIndex(allFirstSegments,limit);
+        return indexes;
+    }
+
+    private static int searchEndBorderIndex(LineList allFirstSegments, Segment limit){
+        int index = Collections.binarySearch(allFirstSegments.getCollection(), limit,Comparator.comparing(Segment::getSecondDot));
+        if (index > 0) {
+            return index;
+        }
+        return -index - 1;
+    }
+
+    private static int searchStartBorderIndex(LineList allFirstSegments, Segment limit){
+        int index = Collections.binarySearch(allFirstSegments.getCollection(), limit,Comparator.comparing(Segment::getFirstDot));
+        if (index > 0) {
+            return index;
+        }
+        return -index - 1;
+    }
+
 }

@@ -1,24 +1,24 @@
 package math;
 
-import math.entity.SimulationSegments.MatrixList;
-import math.entity.SimulationSegments.Segment;
-import math.entity.SimulationSegments.StackSegmentsList;
-import math.entity.SimulationSegments.ZeroSegment;
+import math.entity.Array.TwoDimensionalArrayList;
+import math.entity.Segment.Segment;
+import math.entity.LineSegments.LineList;
+import math.entity.Segment.ZeroSegment;
 
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
-    private static StackSegmentsList bestWay = new StackSegmentsList(-1);
-    private static StackSegmentsList way = new StackSegmentsList(-1);
-    private static ArrayList<StackSegmentsList> allWays = new ArrayList<>();
+    private static LineList bestWay = new LineList(-1);
+    private static LineList way = new LineList(-1);
+    private static ArrayList<LineList> allWays = new ArrayList<>();
 
     public static void main(String[] args) {
-
         long startTime = System.currentTimeMillis();
 
 
-        MatrixList matrixList = GeneratorRandom.generateMatrix();
+        TwoDimensionalArrayList matrixList = GeneratorRandom.generateMatrix();
         long random1 = System.currentTimeMillis();
 
 
@@ -31,7 +31,7 @@ public class Main {
         long random = System.currentTimeMillis();
         System.out.println("Время на создание матрицы" + " " + (random - startTime) + " миллисекунд");
 
-        StackSegmentsList ways = new StackSegmentsList(-1);
+        LineList ways = new LineList(-1);
 
 
         System.out.println(way);
@@ -79,7 +79,7 @@ public class Main {
             else {
                 sum=0;
                 allWays.add(bestWay);
-                bestWay = new StackSegmentsList(-1);
+                bestWay = new LineList(-1);
             }
 
         }
