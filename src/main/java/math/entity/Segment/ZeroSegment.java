@@ -9,7 +9,7 @@ public class ZeroSegment extends Segment {
 
 
     private ZeroSegment() throws IllegalArgumentException {
-        super(0,0,InputData.getChannelAmount()+1);
+        super(0,0,InputData.getChannelAmount()+1, -1);
         this.priority = InputData.getChannelAmount()+1;
     }
 

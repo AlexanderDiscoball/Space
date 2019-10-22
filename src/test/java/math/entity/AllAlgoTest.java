@@ -1,21 +1,16 @@
 package math.entity;
 
 import math.GeneratorRandom;
-import math.Refactor;
 import math.Algorithms;
 import math.entity.Array.TwoDimensionalArray;
-import math.entity.Array.TwoDimensionalArrayList;
-import math.entity.Array.TwoDimensionalArraySet;
-import math.entity.LineSegments.LineList;
 import math.entity.Segment.Segment;
-import math.entity.LineSegments.Line;
 import org.junit.Test;
 
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class AlgorithmTest {
+public class AllAlgoTest {
     static final TwoDimensionalArray clon;
     static
     {clon= GeneratorRandom.generateMatrix();}
@@ -35,7 +30,7 @@ public class AlgorithmTest {
                 sumBefore+=segment.getLength();
             }
         }
-        twoDimensionalArray = Refactor.dynamicAlgorithm(twoDimensionalArray);
+        twoDimensionalArray = Algorithms.dynamicAlgorithm(twoDimensionalArray);
         for (SegmentPack stack : twoDimensionalArray) {
             sizeAfter += stack.size();
             for (Segment segment :stack) {
@@ -87,7 +82,6 @@ public class AlgorithmTest {
             }
             counter++;
         }
-        Collections.reverse(listSet);
         int size = Math.min(listList.size(),listSet.size());
         for (int i = 0; i < size; i++) {
             assertEquals(listSet, listList);
@@ -100,7 +94,7 @@ public class AlgorithmTest {
         for (SegmentPack stack : twoDimensionalArray) {
             System.out.println(stack);
         }
-        twoDimensionalArray = Refactor.dynamicAlgorithm(twoDimensionalArray);
+        twoDimensionalArray = Algorithms.dynamicAlgorithm(twoDimensionalArray);
         return twoDimensionalArray;
     }
     @Test
@@ -119,7 +113,7 @@ public class AlgorithmTest {
             }
         }
         long start = System.currentTimeMillis();
-        twoDimensionalArray = Refactor.dynamicAlgorithm(twoDimensionalArray);
+        twoDimensionalArray = Algorithms.dynamicAlgorithm(twoDimensionalArray);
         long end = System.currentTimeMillis();
                 for (SegmentPack stack : twoDimensionalArray) {
                     sizeAfter += stack.size();

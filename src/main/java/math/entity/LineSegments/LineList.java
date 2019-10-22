@@ -17,6 +17,16 @@ public class LineList implements Iterable<Segment>, Line,Comparable<SegmentPack>
         segmentsList = new ArrayList<>();
     }
 
+    public LineList(List<Segment> segmentsList){
+        if(segmentsList.isEmpty()){
+            LineNumber = -1;
+        }
+        else {
+            this.LineNumber = segmentsList.get(0).getLine();
+        }
+        this.segmentsList = segmentsList;
+    }
+
     public void addWithCheckLineEquals(Segment segment){
             if (isLineEquals(segment) && isSegmentCanBeInList(segment)) {
                 segmentsList.add(segment);
@@ -76,6 +86,10 @@ public class LineList implements Iterable<Segment>, Line,Comparable<SegmentPack>
         }
     }
 
+    public LineList subListToMerge(int index){
+        return new LineList(segmentsList.subList(index,segmentsList.size()));
+    }
+
     public void addZeroSegments() {
         segmentsList.add(ZeroSegment.getInstance());
     }
@@ -98,6 +112,10 @@ public class LineList implements Iterable<Segment>, Line,Comparable<SegmentPack>
 
     public Segment get(int index){
         return segmentsList.get(index);
+    }
+
+    public void set(int index,Segment segment){
+         segmentsList.set(index,segment);
     }
 
     public int getNumberOfLine(){
@@ -134,6 +152,9 @@ public class LineList implements Iterable<Segment>, Line,Comparable<SegmentPack>
 
     public void addAll(SegmentPack segmentPack){
         segmentsList.addAll(segmentPack.getCollection());
+    }
+    public void addAll(int index, SegmentPack segmentPack){
+        segmentsList.addAll(index,segmentPack.getCollection());
     }
 
     public int size(){

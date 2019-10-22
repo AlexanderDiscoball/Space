@@ -8,25 +8,28 @@ public class Segment implements Comparable<Segment>{
     private int line;
     private Integer length;
     private Integer priority;
+    private int areaId;
 
     private ArrayList<Integer> indexes = new ArrayList<>();
 
-    public Segment(int firstDot,int secondDot, int line) throws IllegalArgumentException{
+    public Segment(int firstDot,int secondDot, int line, int areaId) throws IllegalArgumentException{
         if(firstDot <= secondDot) {
             this.firstDot = firstDot;
             this.secondDot = secondDot;
             this.line = line;
+            this.areaId = areaId;
             this.length = secondDot - firstDot;
             this.priority = setPriority(line);
         }
         else throw new IllegalArgumentException("Первое число должно быть меньше второго");
     }
 
-    public Segment(int firstDot, int secondDot,int length,int line) throws IllegalArgumentException{
+    public Segment(int firstDot, int secondDot,int length, int line, int areaId) throws IllegalArgumentException{
         if(firstDot <= secondDot) {
             this.firstDot = firstDot;
             this.secondDot = secondDot;
             this.line = line;
+            this.areaId = areaId;
             this.length = length;
             this.priority = setPriority(line);
         }
@@ -38,6 +41,10 @@ public class Segment implements Comparable<Segment>{
             return line - (2*line);
         }
         else return line;
+    }
+
+    public int getAreaId() {
+        return areaId;
     }
 
     public void setLine(int line) {
@@ -71,7 +78,9 @@ public class Segment implements Comparable<Segment>{
                 +"-"
                 +secondDot
                 +"L"
-                +line;
+                +line
+                +"id"
+                +areaId;
     }
 
 

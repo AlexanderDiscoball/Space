@@ -12,8 +12,9 @@ public class AreaList implements Area {
     private int id;
     Integer fullLength;
 
-    public AreaList(){
+    public AreaList(int id){
         segmentsList = new LinkedList<>();
+        this.id = id;
     }
 
     @Override
@@ -102,5 +103,15 @@ public class AreaList implements Area {
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public int getAreaId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return ""+ segmentsList.toString();
     }
 }

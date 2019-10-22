@@ -1,6 +1,9 @@
 package math;
 
+import math.entity.AreaSegments.Area;
+import math.entity.Array.ArrayHash;
 import math.entity.Array.TwoDimensionalArrayList;
+import math.entity.LineSegments.Line;
 import math.entity.LineSegments.LineList;
 import math.entity.LineSegments.LineSet;
 import math.entity.Array.TwoDimensionalArray;
@@ -8,9 +11,8 @@ import math.entity.Array.TwoDimensionalArraySet;
 import math.entity.Segment.Segment;
 import math.entity.SegmentPack;
 import org.junit.Test;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+
+import java.util.*;
 
 public class SergeyAlgoTest {
     private static int buf = 0;
@@ -130,8 +132,6 @@ public class SergeyAlgoTest {
         return tracks;
     }
 
-
-
     public void dinamic(List<LinkedList<SergAlg>> tracks){
         TwoDimensionalArray twoDimensionalArray = clone(tracks);
         twoDimensionalArray = Algorithms.dynamicAlgorithm(twoDimensionalArray);
@@ -159,60 +159,124 @@ public class SergeyAlgoTest {
     }
     @Test
     public void seive(){
-        List<LinkedList<SergAlg>> tracks = GeneratorRandom.genareteSergEntity();
-        TwoDimensionalArray mainArray = clone2(tracks);
-        List<Integer> indexes = mainArray.setAreasId();
-        TwoDimensionalArray buf;
         long resultTime = 0;
         long timeStart= 0;
         long timeEnd= 0;
         int start = 0;
         int end;
+
+        ArrayHash arrayHash = GeneratorRandom.generateBigHashInterval();
+        System.out.println("Количество обьектов "+arrayHash.getHashPack().size());
+        Separator separator = new Separator();
+        int intervalSize = 0;
+        for (SegmentPack segments :arrayHash.getHashPack().values()) {
+           intervalSize += segments.size();
+        }
+        System.out.println("Количество интервалов "+intervalSize);
+        LineList all = new LineList(-1);
+//        for (SegmentPack segments :mainArray) {
+//            System.out.println(segments);
+//        }
+        ArrayList<Integer> mask = new ArrayList<>();
+
+        TwoDimensionalArray buf;
+
+
         LineList result = new LineList(-1);
+        LineList way;
+        timeStart = System.currentTimeMillis();
+
+        LineList allIntervals = Algorithms.getAllIntervals(arrayHash);
+        allIntervals.getCollection().sort(Comparator.comparing(Segment::getPriority));
+        System.out.println("Начало и конец максимальный крен "+allIntervals.getFirstSegment().getPriority() +"::" + allIntervals.getLastSegment().getPriority());
+        allIntervals.sort();
+        System.out.println("Начало и конец максимальная длина "+allIntervals.getFirstSegment().getFirstDot() +"::" + allIntervals.getLastSegment().getSecondDot());
+
         List<Integer> dropPoints = GeneratorRandom.createRandomDropPoints();
         System.out.println("Точки сброса " + dropPoints);
-        timeStart = System.currentTimeMillis();
-        LineList allIntervals = Algorithms.getAllIntervals(mainArray);
-        allIntervals.sort();
-        System.out.println("Все интервалы "+allIntervals);
+
         timeEnd = System.currentTimeMillis();
         resultTime += (timeEnd - timeStart);
         for (Integer dropPoint : dropPoints) {
-            if(mainArray.size() == 0){
+            if(arrayHash.getHashPack().size() == 0){
                 break;
             }
+            all = new LineList(-1);
             end = dropPoint;
             timeStart = System.currentTimeMillis();
-            buf = Algorithms.separation(allIntervals,start,end);
+            Segment segment = new Segment(0,end,-1,-1);
+
+            //System.out.println(all);
+            way = separator.separation(allIntervals,start,end);
+            //separator.removeChosenSegments(allIntervals,way);
+            System.out.println("Line Array");
+
+            if(way.size() == 0){
+                start = end;
+                continue;
+            }
+            buf = separator.createLineArray(way);
+
+            //buf = separator.createLineArray(way);
+
             timeEnd = System.currentTimeMillis();
             resultTime += (timeEnd - timeStart);
 
-            buf = Algorithms.greedyAlgorithm(buf);
+            System.out.println("Размер входной матрицы "+buf.size());
+            way = Algorithms.greedyAlgorithmForHashSimulation(buf,arrayHash);
+            System.out.println("Решили ");
             if(buf.size() == 0){
                 start = end;
                 continue;
             }
-            result.addAll(buf.get(0));
-            Algorithms.removeUsedSegmentsFromMainMatrix(mainArray ,indexes ,buf);
+            result.addAll(way);
+//            System.out.println("Удаляем ");
+//            Algorithms.removeUsedSegmentsFromMainMatrix(mainArray ,way,buf);
+//            System.out.println("Удалили ");
             start = end;
         }
-        System.out.println("Конец ");
-        if(mainArray.getCollection().size() <= 400) {
-            System.out.println("Остаток " + mainArray.getCollection());
-        }
-        else {
-            System.out.println("Остаток слишком велик для печати ");
-        }
+//        if(mainArray.getCollection().size() <= 400) {
+//            System.out.println("Остаток " + mainArray.getCollection());
+//        }
+//        else {
+//            System.out.println("Остаток слишком велик для печати ");
+//        }
+        System.out.println("Размер остатка " + arrayHash.getHashPack().size());
         System.out.println("Результат "+result);
-        System.out.println("Размер остатка " + mainArray.getCollection().size());
-
         System.out.println("Время на разбивку "+(resultTime)+ " миллисекунд");
         System.out.println();
+    }
+    public void secSepa(LineList all){
+
+    }
+    public void sepa(TwoDimensionalArray mainArray,Segment segment,LineList all){
+        for (SegmentPack segments : mainArray) {
+            int index = Collections.binarySearch((List)segments.getCollection(),segment,Comparator.comparing(Segment::getSecondDot));
+            if(index < 0){
+                index = -index -1;
+                if(index >= segments.size()){
+                    all.addAll(segments);
+                    continue;
+                }
+                if(index == 0){
+                    continue;
+                }
+                if(index < segments.size()){
+                    index--;
+                }
+            }
+            if(index == 0) {
+                all.add(segments.getFirstSegment());
+            }
+            if(index > 0) {
+                all.addAll(new LineList(((List) segments.getCollection()).subList(0, index)));
+            }
+        }
     }
 
     public void fasterDinamic(List<LinkedList<SergAlg>> tracks){
         TwoDimensionalArray twoDimensionalArray = clone(tracks);
-        twoDimensionalArray = Refactor.dynamicAlgorithm(twoDimensionalArray);
+        twoDimensionalArray = Algorithms.dynamicAlgorithm(twoDimensionalArray);
         System.out.println("Количество решений быстрым динамическим " + twoDimensionalArray.getCollection().size());
         verification(twoDimensionalArray);
     }
@@ -222,7 +286,7 @@ public class SergeyAlgoTest {
         for (LinkedList<SergAlg> SergAlgs : tracks) {
             LineSet lineSet = new LineSet(SergAlgs.getFirst().getRoll());
             for (SergAlg SergAlg : SergAlgs) {
-               lineSet.add(new Segment(SergAlg.getBegin(), SergAlg.getEnd(), SergAlg.getRoll()));
+               lineSet.add(new Segment(SergAlg.getBegin(), SergAlg.getEnd(), SergAlg.getRoll(), GeneratorRandom.generateAreaId()));
             }
             lineSet.setFullLength();
             twoDimensionalArray.add(lineSet);
@@ -230,18 +294,6 @@ public class SergeyAlgoTest {
         return twoDimensionalArray;
     }
 
-    private TwoDimensionalArray clone2(List<LinkedList<SergAlg>> tracks) {
-        TwoDimensionalArray twoDimensionalArray = new TwoDimensionalArrayList();
-        for (LinkedList<SergAlg> SergAlgs : tracks) {
-            LineList lineList = new LineList(SergAlgs.getFirst().getRoll());
-            for (SergAlg SergAlg : SergAlgs) {
-               lineList.add(new Segment(SergAlg.getBegin(), SergAlg.getEnd(), SergAlg.getRoll()));
-            }
-            lineList.setFullLength();
-            twoDimensionalArray.add(lineList);
-        }
-        return twoDimensionalArray;
-    }
 
     public static void verification(TwoDimensionalArray twoDimensionalArray){
         Integer realSize = 0;

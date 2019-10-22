@@ -10,7 +10,7 @@ public class SegmentTest {
     @Test
     public void IllegalSegmentLower() throws IllegalArgumentException{
         try {
-            Segment segment = new Segment(2,1,0);
+            Segment segment = new Segment(2,1,0,-1);
             Assert.fail("Expected IOException");
         } catch (IllegalArgumentException thrown) {
             Assert.assertEquals("Первое число должно быть меньше второго", thrown.getMessage());
@@ -20,7 +20,7 @@ public class SegmentTest {
     @Test
     public void IllegalSegmentEquals(){
         try {
-            Segment segment = new Segment(2,1,0);
+            Segment segment = new Segment(2,1,0,-1);
             Assert.fail("Expected IOException");
         } catch (IllegalArgumentException thrown) {
             Assert.assertEquals("Первое число должно быть меньше второго", thrown.getMessage());
@@ -29,13 +29,13 @@ public class SegmentTest {
 
     @Test
     public void setPriority(){
-        Segment segment = new Segment(1,2,-1000);
+        Segment segment = new Segment(1,2,-1000,-1);
         Assert.assertEquals(segment.getPriority(), (Integer) 1000);
     }
 
     @Test
     public void setLength(){
-        Segment segment = new Segment(1,100,-1000);
+        Segment segment = new Segment(1,100,-1000,-1);
         Assert.assertEquals(segment.getLength(), (Integer) 99);
     }
 
