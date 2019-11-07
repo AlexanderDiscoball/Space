@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ccdce174-b321-4e39-86f9-225d4488689b" name="Default Changelist" comment="Доделка динамического алгоритма">
+    <list default="true" id="ccdce174-b321-4e39-86f9-225d4488689b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/InputData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/InputData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/BetterGeneratorRandom.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Segment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/StackSegments.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/ZeroSegment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/BetterGeneratorRandomTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/SegmentTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/StackSegmentsTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/GeneratorRandom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/GeneratorRandom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/InputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/InputData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/BetterGeneratorRandom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Segment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/StackSegments.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/ZeroSegment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/BetterGeneratorRandomTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/SegmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/IntervalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/StackSegmentsTest.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,8 +42,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -35,11 +58,11 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/build.gradle" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Space2/build.gradle" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="show.inlinked.gradle.project.popup" value="true" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
@@ -64,7 +87,21 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.AlgorithmsTest.dynamicAlgorithm">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="math.Main" />
+      <module name="untitled.main" />
+      <option name="VM_PARAMETERS" value="-Xmx15000m" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="math.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="math.Test" />
       <module name="untitled.main" />
@@ -78,7 +115,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AlgorithmsTest.dynamicAlgorithm" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SergeyAlgoTest.greedAndNadir (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled.test" />
       <extension name="coverage">
         <pattern>
@@ -87,14 +124,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="math" />
-      <option name="MAIN_CLASS_NAME" value="math.AlgorithmsTest" />
-      <option name="METHOD_NAME" value="dynamicAlgorithm" />
+      <option name="MAIN_CLASS_NAME" value="math.SergeyAlgoTest" />
+      <option name="METHOD_NAME" value="greedAndNadir" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AlgorithmsTest.maxWayIfCanBeIn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SergeyAlgoTest.greedAndNadir" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled.test" />
       <extension name="coverage">
         <pattern>
@@ -103,52 +140,45 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="math" />
-      <option name="MAIN_CLASS_NAME" value="math.AlgorithmsTest" />
-      <option name="METHOD_NAME" value="maxWayIfCanBeIn" />
+      <option name="MAIN_CLASS_NAME" value="math.SergeyAlgoTest" />
+      <option name="METHOD_NAME" value="greedAndNadir" />
       <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-Xmx14000m" />
+      <option name="PARAMETERS" value="" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StackSegmentsTest.addAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Testing.asd" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="untitled.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="math.entity.*" />
+          <option name="PATTERN" value="math.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="math.entity" />
-      <option name="MAIN_CLASS_NAME" value="math.entity.StackSegmentsTest" />
-      <option name="METHOD_NAME" value="addAll" />
+      <option name="PACKAGE_NAME" value="math" />
+      <option name="MAIN_CLASS_NAME" value="math.Testing" />
+      <option name="METHOD_NAME" value="asd" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="StackSegmentsTest.getMax" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="untitled.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="math.entity.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="math.entity" />
-      <option name="MAIN_CLASS_NAME" value="math.entity.StackSegmentsTest" />
-      <option name="METHOD_NAME" value="getMax" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.Test" />
+      <item itemvalue="JUnit.Testing.asd" />
+      <item itemvalue="JUnit.SergeyAlgoTest.greedAndNadir" />
+      <item itemvalue="JUnit.SergeyAlgoTest.greedAndNadir (1)" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AlgorithmsTest.dynamicAlgorithm" />
-        <item itemvalue="JUnit.AlgorithmsTest.maxWayIfCanBeIn" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.SergeyAlgoTest.greedAndNadir (1)" />
+        <item itemvalue="JUnit.SergeyAlgoTest.greedAndNadir" />
+        <item itemvalue="JUnit.Testing.asd" />
         <item itemvalue="Application.Test" />
-        <item itemvalue="JUnit.StackSegmentsTest.getMax" />
-        <item itemvalue="JUnit.StackSegmentsTest.addAll" />
       </list>
     </recent_temporary>
   </component>
@@ -170,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569589381503</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Доделка динамического алгоритма">
+      <created>1569590195783</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1569590195783</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -189,5 +226,12 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Доделка динамического алгоритма" />
     <option name="LAST_COMMIT_MESSAGE" value="Доделка динамического алгоритма" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="it_sol" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
