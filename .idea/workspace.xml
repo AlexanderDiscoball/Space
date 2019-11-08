@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ccdce174-b321-4e39-86f9-225d4488689b" name="Default Changelist" comment="">
+    <list default="true" id="c85ec12a-998f-42f4-9ee2-0deb855c1c9f" name="Default Changelist" comment="Доделка динамического алгоритма">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/InputData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/InputData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/BetterGeneratorRandom.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Segment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/StackSegments.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/ZeroSegment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/BetterGeneratorRandomTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/SegmentTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/StackSegmentsTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/GeneratorRandom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/GeneratorRandom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/InputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/InputData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/BetterGeneratorRandom.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Segment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/StackSegments.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/ZeroSegment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/BetterGeneratorRandomTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/SegmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/IntervalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/StackSegmentsTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Algorithms$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Algorithms$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom$1.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
