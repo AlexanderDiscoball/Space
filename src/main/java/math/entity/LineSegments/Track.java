@@ -3,11 +3,10 @@ package math.entity.LineSegments;
 import math.entity.Array.ArrayHash;
 import math.entity.interval.Interval;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
-public class Track implements Cloneable{
+public class Track implements Cloneable, Iterable<Interval>{
+    private int tracksWithIntervalsOffTheSolutionCount=0;
     private static int tracks_length=0;
     private static int tracks_quantity=0;
     private List<Interval> rangeOfIntervals;
@@ -20,7 +19,7 @@ public class Track implements Cloneable{
 
     public Track(int trackNumber) {
         this.trackNumber = trackNumber;
-        this.rangeOfIntervals = new LinkedList<>();
+        this.rangeOfIntervals = new ArrayList<>();
     }
 
     public Track(int trackNumber, List<Interval> rangeOfIntervals) {
@@ -29,21 +28,21 @@ public class Track implements Cloneable{
     }
 
     public boolean mergeWithoutCrossings(Track investigatedTrack, ArrayHash mainArray) {
-        int countWhenToBeChanged=0;
         ListIterator<Interval> it_sol=this.rangeOfIntervals.listIterator();
-
+        investigatedTrack.rangeOfIntervals.sort(Comparator.comparing(Interval::getSecondDot));
         ListIterator<Interval> it_track=investigatedTrack.rangeOfIntervals.listIterator();
         if(temporaryIntervalsCantBeInitialized(it_track))
             return investigatedTrackIsEmpty(); //return; //switch to the next track
         else
             initializeTemporaryIntervals(it_track, it_sol);
+        int IntervalsOffTheSolutionCount=0;
         do {
             if(trackIntervalPrecedesSolInterval())
                 if(solIntervalWasChangedOnPreviousStep())
                     if(trackIntervalDisjoinSolPrevInterval())
                         addIntervalToSolutionChangingTmpSol(it_sol,mainArray);
                     else
-                        countWhenToBeChanged++;//trackToStartShouldBeChanged(countToBeChanged);
+                        IntervalsOffTheSolutionCount++;
                 else
                     addIntervalToSolution(it_sol,mainArray);
             else
@@ -59,7 +58,7 @@ public class Track implements Cloneable{
                     appendLeftoverIntervalToSolution(it_sol, mainArray);
                 }
                 else {
-                    countWhenToBeChanged++;//trackToStartShouldBeChanged(countToBeChanged);
+                    IntervalsOffTheSolutionCount++;//trackToStartShouldBeChanged(countToBeChanged);
                 }
             }
 
@@ -69,8 +68,11 @@ public class Track implements Cloneable{
             else
                 trackIntervalTemporarilyinvestigated=it_track.next();
         }while(trackIsntBypassed(it_track));
+
+        if(IntervalsOffTheSolutionCount > 10)
+            tracksWithIntervalsOffTheSolutionCount++;
         //crossings,i.e. track should be changed
-        return countWhenToBeChanged != 0; //no crossings,i.e. track shouldn't be changed
+        return IntervalsOffTheSolutionCount != 0; //no crossings,i.e. track shouldn't be changed
     }
 
 
@@ -218,20 +220,20 @@ public class Track implements Cloneable{
     }
 
     public boolean mergeWithoutCrossingsAll(Track investigatedTrack) {
-        int countWhenToBeChanged=0;
         ListIterator<Interval> it_sol=this.rangeOfIntervals.listIterator();
         ListIterator<Interval> it_track=investigatedTrack.rangeOfIntervals.listIterator();
         if(temporaryIntervalsCantBeInitialized(it_track))
             return investigatedTrackIsEmpty(); //return; //switch to the next track
         else
             initializeTemporaryIntervals(it_track, it_sol);
+        int IntervalsOffTheSolutionCount=0;
         do {
             if(trackIntervalPrecedesSolInterval())
                 if(solIntervalWasChangedOnPreviousStep())
                     if(trackIntervalDisjoinSolPrevInterval())
                         addIntervalToSolutionChangingTmpSol(it_track, it_sol);
                     else
-                        countWhenToBeChanged++;//trackToStartShouldBeChanged(countToBeChanged);
+                        IntervalsOffTheSolutionCount++;
                 else
                     addIntervalToSolution(it_track, it_sol);
             else
@@ -246,16 +248,25 @@ public class Track implements Cloneable{
                 appendLeftoverIntervalToSolution(it_track, it_sol);
             }
             else
-                countWhenToBeChanged++;//trackToStartShouldBeChanged(countToBeChanged);
+                IntervalsOffTheSolutionCount++;
 
             if(bypassingOfTheTrackShouldBeStopped(investigatedTrack, it_track))
-                //|| count_missed_int>=15500) //remove 3rd cond if you want to find the optimized solution
                 break;
             else
                 trackIntervalTemporarilyinvestigated=it_track.next();
         }while(trackIsntBypassed(it_track));
-        //crossings,i.e. track should be changed
-        return countWhenToBeChanged != 0; //no crossings,i.e. track shouldn't be changed
+
+        if(IntervalsOffTheSolutionCount > 10)
+            tracksWithIntervalsOffTheSolutionCount++;
+
+        if(IntervalsOffTheSolutionCount==0) {
+            IntervalsOffTheSolutionCount=0;
+            return false; //crossings aren't presented between solution's and track's intervals
+        }
+        else {
+            IntervalsOffTheSolutionCount=0;
+            return true; //crossings are presented between solution's and track's intervals
+        }
     }
 
 
@@ -303,4 +314,14 @@ public class Track implements Cloneable{
         it_track.remove();
     }
 
+    @Override    public Iterator<Interval> iterator() {
+        return rangeOfIntervals.iterator();
+    }
+    public  int getNumberOfTracksWithIntervalsOffTheSolution() {
+        return tracksWithIntervalsOffTheSolutionCount;
+    }
+
+    public  void resetNumberOfTracksWithIntervalsOffTheSolution() {
+        tracksWithIntervalsOffTheSolutionCount=0;
+    }
 }

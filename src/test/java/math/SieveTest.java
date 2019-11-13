@@ -149,7 +149,7 @@ public class SieveTest {
             end = dropPoint;
             //System.out.println("tchkDrop " +end);
             //solution = separator.separationArrays222(mainArray,indexMask,start,end);
-            solution = separator.separationArrays(mainArray,start,end);
+            solution =null; //separator.separationArrays(mainArray,start,end);
 
             if(solution.size() == 0){
                 start = end;

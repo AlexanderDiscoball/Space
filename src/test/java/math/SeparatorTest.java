@@ -1,7 +1,10 @@
 package math;
 
+import math.entity.Array.ArrayHash;
+import math.entity.Array.Selection;
 import math.entity.Array.TwoDimensionalArray;
 import math.entity.LineSegments.LineList;
+import math.entity.LineSegments.Track;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
 import org.junit.Test;
@@ -124,11 +127,26 @@ public class SeparatorTest {
         line = Algorithms.getAllIntervals(twoDimensionalArray);
         TwoDimensionalArray array = separator.createLineArray(line);
         for (SegmentPack segments :array) {
+            System.out.println(segments);
             for (Interval interval :segments) {
                 assertEquals(interval.getLine(), ((LineList) segments).getLine());
             }
         }
 
+    }
+
+    @Test
+    public void createSelectionTest(){
+        preparing();
+        TwoDimensionalArray twoDimensionalArray = GeneratorRandom.generateMatrix();
+        line = Algorithms.getAllIntervals(twoDimensionalArray);
+        Selection selection = separator.createSelection(line);
+        for (Track segments :selection) {
+            System.out.println(segments);
+            for (Interval interval :segments) {
+                assertEquals(interval.getLine(), segments.getTrackNumber());
+            }
+        }
     }
 
     public static void preparing(){
@@ -141,6 +159,12 @@ public class SeparatorTest {
     public void TestForTest(){
         assertTrue(firstDot >= start);
         assertTrue(secondDot <= end);
+    }
+
+    @Test
+    public void separationArrayTest(){
+
+
     }
 
     private static int generateRandomStartPointForTest(LineList line){

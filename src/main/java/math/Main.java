@@ -8,6 +8,7 @@ import math.entity.Array.TwoDimensionalArray;
 import math.entity.LineSegments.LineList;
 import math.entity.LineSegments.Track;
 import math.entity.interval.Interval;
+import org.openjdk.jol.info.GraphLayout;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -16,22 +17,23 @@ import static math.Simulation.residuePoints;
 
 public class Main {
     public static void main(String[] args) {
+        long resultTime = 0, timeStart, timeEnd, resultTimeGreedy = 0,resultTimeNadir = 0;
+        int end;
+        int start;
+        int gr = 0;
+        int counterPasses = 0;
+        System.out.println("Число Интервалов " + InputData.getChannelAmount()*InputData.getSegmentsAmount()*InputData.getDropPoints());
         ArrayHash mainArray = Simulation.genSimulationForTest();
-        for (SegmentPack segmentPack :mainArray.values()) {
-            System.out.println(segmentPack);
-        }
+//        for (SegmentPack segmentPack :mainArray.values()) {
+//            System.out.println(segmentPack);
+//        }
 
         System.out.println("Создание обьектов завершено");
         System.out.println("ШАГ "+Simulation.step);
-//        System.out.println("oppa");
-//        GraphLayout graphLayout = GraphLayout.parseInstance( mainArray);
-//        for (Class<?> key : graphLayout.getClasses()) {
-//            if(key.getName().contains("Segment.Segment")) {
-//                System.out.println(graphLayout.getClassCounts().count(key));
-//                System.out.println(graphLayout.getClassSizes().count(key));
-//            }
-//        }
-//        System.out.println(graphLayout.totalSize()/1024/1024 + " Мегабайт");
+
+        if(false) {
+            showIntervalSizeAndFullSize(mainArray);
+        }
 
             Separator separator = new Separator();
             Selection selection;
@@ -39,29 +41,19 @@ public class Main {
             Track result = new Track(-1);
             LineList solution;
 
-            long resultTime = 0, timeStart, timeEnd, resultTimeGreedy = 0,resultTimeNadir = 0;
-            int end;
-            int start = 0;
-            int gr = 0;
-            int counterPasses = 0;
-
-
-            Map<Integer,Integer> indexMask = new HashMap<>();
-
-            initIndexMask(indexMask,mainArray);
-
-
             List<Integer> dropPoints = Simulation.dropPoints;
+
             if(InputData.getNeedStatistics()) {
                 preparingStatistics(Algorithms.getAllIntervals(mainArray), mainArray, dropPoints);
             }
+            start = dropPoints.get(0);
+            dropPoints.remove(0);
             for (Integer dropPoint :dropPoints) {
                 timeStart = System.currentTimeMillis();
                 end = dropPoint;
-                //solution = separator.separationArrays222(mainArray,indexMask,start,end);
-                solution = separator.separationArrays(mainArray,start,end);
+                HashMap<Integer,Track> map = separator.separationArrays(mainArray,start,end);
 
-                if(solution.size() == 0){
+                if(map.size() == 0){
                     start = end;
                     continue;
                 }
@@ -69,8 +61,7 @@ public class Main {
 
                 if(gr == 0) {
                     System.out.println("NadirStart");
-                    Selection nadir = separator.createSelection(solution);
-                    resultTimeNadir = nadirTest(nadir);
+                    resultTimeNadir = nadirTest(map);
                     System.out.println("Время чтобы перебрать все Надирным "+resultTimeNadir/1000+ " секунд");
 
 //                    TwoDimensionalArray greedy = separator.createLineArray(solution);
@@ -79,9 +70,9 @@ public class Main {
                     gr = 1;
                 }
 
-                selection = separator.createSelection(solution);
+                //selection = separator.createSelection(solution);
 
-                Track endSol = Algorithms.nadirAlgorithm(selection,mainArray);
+                Track endSol = Algorithms.nadirAlgorithm(map,mainArray);
                 result.addAll(endSol);
 
                 if(mainArray.size() == 0){
@@ -98,7 +89,7 @@ public class Main {
             resultTime = resultTime - resultTimeGreedy - resultTimeNadir;
             System.out.println("Размер остатка " + mainArray.getHashPack().size());
             System.out.println("Остаток " + mainArray.getHashPack());
-            System.out.println("residuePoints" + residuePoints);
+            System.out.println("ОБьекты на которые попала точка сброса" + residuePoints);
             List<Integer> areasId = new ArrayList<>();
         for (SegmentPack area :mainArray.getHashPack().values()) {
             areasId.add(((Area)area).getAreaId());
@@ -109,16 +100,26 @@ public class Main {
             }
         }
 
-
         System.out.println("Число ненулевых проходов (в которых был результат) "+ counterPasses);
-            //System.out.println("Остаток " + mainArray.getHashPack().values()+ " - число обьектов");
-            System.out.println("Результат "+result.size()+ " - число обьектов");
-
-            System.out.println("Общее время "+(resultTime) /1000+ " секунд");
-            System.out.println();
+        System.out.println("Результат "+result.size()+ " - число обьектов");
+        System.out.println("Общее время "+(resultTime) /1000+ " секунд");
+        System.out.println();
     }
-    private static long nadirTest(Selection nadir) {
+
+    private static Selection convertToSelection(HashMap<Integer, Track> map2) {
+        Selection selection = new Selection();
+        for (Track track :map2.values()) {
+            selection.add(track);
+        }
+        return selection;
+    }
+
+    private static long nadirTest(HashMap<Integer,Track> map) {
         long timeStart = System.currentTimeMillis();
+        Selection nadir = convertToSelection(map);
+        for (Track track :nadir) {
+            track.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
+        }
         int resultBunch = Algorithms.nadirAlgorithmAll(nadir,nadir.getTracksCount(),0,0);
         System.out.println(resultBunch + " Количество проходов надирным алгоритмом");
         long timeEnd = System.currentTimeMillis();
@@ -156,6 +157,18 @@ public class Main {
         allIntervals.sort();
         System.out.println("Начало и конец максимальная длина "+allIntervals.getFirstSegment().getFirstDot() +"::" + allIntervals.getLastSegment().getSecondDot());
 
+    }
+
+    public static void showIntervalSizeAndFullSize(Object object){
+                System.out.println("oppa");
+                GraphLayout graphLayout = GraphLayout.parseInstance(object);
+                for (Class<?> key : graphLayout.getClasses()) {
+                    if(key.getName().contains("Segment.Segment")) {
+                        System.out.println(graphLayout.getClassCounts().count(key));
+                        System.out.println(graphLayout.getClassSizes().count(key));
+                    }
+                }
+                System.out.println(graphLayout.totalSize()/1024/1024 + " Мегабайт");
     }
 
 

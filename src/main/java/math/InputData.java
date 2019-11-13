@@ -1,16 +1,19 @@
 package math;
 
 public class InputData {
-    private static final int channelAmount = 10;
-    private static final int segmentsAmount = 10;
-    private static final int timeAmount = 1000000;
-    private static final int dropPoints = 10;
+    private static final int channelAmount = 525;
+    private static final int segmentsAmount = 525;
+    private static final int dropPoints = 400;
+    private static final boolean needStatistics = false;
+
     private static final int LAMBDA = 5;
     private static final int COEFSPACE = 1;
     private static final int COEFLENGTH = 1;
     private static final int COEFDROPPOINTS = 1;
-    private static final boolean needStatistics = false;
+
     private static final int seed = 10;
+    private static final int timeAmount = 1000000;
+    private static final int voluntaristCriteria = 40;
 
     public static int getChannelAmount() {
         return channelAmount;
@@ -49,5 +52,9 @@ public class InputData {
 
     public static int getSeed() {
         return seed;
+    }
+
+    public static int getVoluntaristCriteria() {
+        return voluntaristCriteria;
     }
 }

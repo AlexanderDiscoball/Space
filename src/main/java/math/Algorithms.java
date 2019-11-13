@@ -39,10 +39,10 @@ public class Algorithms {
                 buf = addMaxWayIfCanBeIn(functions, allIntervals.get(i));
                 CustomAddToSortedList(functions,buf);
             }
-            //ДОБАВЛЕНИЕ
+
             buff = functions.get(functions.size()-1);
             ways.add(buff);
-            //УДАЛЕНИЕ
+
             allIntervals.removeAll(buff);
         }
 
@@ -111,10 +111,10 @@ public class Algorithms {
             for (Interval interval : allIntervals.getCollection()) {
                 functions.add(addMaxWayIfCanBeInSize(functions, interval));
             }
-            //ДОБАВЛЕНИЕ
+
             buff = functions.getTreeSet().pollLast();
             ways.add(buff);
-            //УДАЛЕНИЕ
+
             allIntervals.removeAll(buff);
         }
         return ways;
@@ -186,10 +186,9 @@ public class Algorithms {
                     way.add(interval);
                 }
             }
-            //ДОБАВЛЕНИЕ
+
             ways.add(way);
-            //System.out.println("Решение жаным на одном куске "+way);
-            //УДАЛЕНИЕ
+
             allIntervals.removeAll(way);
         }
         return ways;
@@ -234,7 +233,7 @@ public class Algorithms {
             timeStart = System.currentTimeMillis();
             end = dropPoint;
             //solution = separator.separationArrays222(mainArray,indexMask,start,end);
-            solution = separator.separationArrays(mainArray,start,end);
+            solution =null; //separator.separationArrays(mainArray,start,end);
 
             if(solution.size() == 0){
                 start = end;
@@ -295,17 +294,22 @@ public class Algorithms {
         System.out.println();
     }
 
-    public static Track nadirAlgorithm(Selection bunchOfTracks, ArrayHash mainArray){
-        int sizeOfBunchOfTracks = bunchOfTracks.getTracksCount();
-        Track solution = bunchOfTracks.getTrackNo(0).clone();
-        for (Interval interval :solution.getRangeOfIntervals()) {
+    public static Track nadirAlgorithm(HashMap<Integer,Track> map, ArrayHash mainArray){
+        Map.Entry<Integer,Track> entry = map.entrySet().iterator().next();
+        Track solution = entry.getValue();
+        solution.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
+        map.remove(entry.getKey());
+        for (Interval interval : solution.getRangeOfIntervals()) {
             mainArray.remove(interval.getAreaId());
         }
-            for(int i = 1; i < sizeOfBunchOfTracks; i++) { //replace i on smth sensible
-                if(!(bunchOfTracks.getTrackNo(i).getRangeOfIntervals().isEmpty())) {
-                    solution.mergeWithoutCrossings(bunchOfTracks.getTrackNo(i),mainArray);
-                }
+
+        for(Track mergedTrack: map.values()) { //replace i on smth sensible
+            solution.mergeWithoutCrossings(mergedTrack,mainArray);
+            if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
+                solution.resetNumberOfTracksWithIntervalsOffTheSolution();
+                break;
             }
+        }
 
         //System.out.println("Solution "+solution);
         return solution;
@@ -315,9 +319,7 @@ public class Algorithms {
 
     public static int nadirAlgorithmAll(Selection bunchOfTracks,int sizeOfBunchOfTracks, int trackToStartNo,  int passageNum){
         Track allSolutions = new Track(-1);
-        int myCounter = 0;
         while(trackToStartNo <= (sizeOfBunchOfTracks - 1)) {
-            //boolean areIntervalsCrossed=false;
             boolean cross = false;
             boolean changed = false;
             boolean bunchOfTracksIsEmpty = true;
@@ -331,26 +333,35 @@ public class Algorithms {
             solution.takeIntoAccountSolutionInfo();
             trackToStartNo++;
             for(int i = trackToStartNo; i < sizeOfBunchOfTracks; i++) { //replace i on smth sensible
-                if(!(bunchOfTracks.getTrackNo(i).getRangeOfIntervals().isEmpty())) {
+                if(bunchOfTracks.getTrackNo(i).getRangeOfIntervals().isEmpty()) {
+                    continue;
+                }
+                else {
                     bunchOfTracksIsEmpty = false;
                     cross = solution.mergeWithoutCrossingsAll(bunchOfTracks.getTrackNo(i)); //true - cross or false - don't cross
-                    if(cross && !changed){
+                    if(cross == true && changed == false){
                         trackToStartNo = i;
-                        resultPasses++;
                         changed = true;
                     }
-                    else {
-                        if (!changed)
-                            trackToStartNo++;
+                    else
+                    if(changed == false && i != (sizeOfBunchOfTracks - 1))
+                        trackToStartNo++;
+                    else if(changed == false && i == (sizeOfBunchOfTracks - 1)) {
+                        trackToStartNo++;
+                        bunchOfTracksIsEmpty = true;
                     }
                 }
+
+                if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
+                    solution.resetNumberOfTracksWithIntervalsOffTheSolution();
+                    break;
+                }
             }
-            allSolutions.addAll(solution);
-            if(bunchOfTracksIsEmpty) {
+            if(bunchOfTracksIsEmpty == true) {
                 break;
             }
         }
-        //System.out.println("allSolutions "+allSolutions);
+    //System.out.println("allSolutions "+allSolutions);
         return  passageNum;
     }
 

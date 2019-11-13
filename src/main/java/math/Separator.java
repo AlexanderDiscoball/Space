@@ -58,7 +58,8 @@ public class Separator {
         return out;
     }
 
-    public TwoDimensionalArray createLineArray(LineList subLine) {
+
+        public TwoDimensionalArray createLineArray(LineList subLine) {
         subLine.getCollection().sort(Comparator.comparing(Interval::getLine));
         int line = subLine.get(0).getLine();
         SegmentPack segmentPack = new LineList(line);
@@ -75,22 +76,6 @@ public class Separator {
         return twoDimensionalArray;
     }
 
-    public Selection createSelection(LineList subLine) {
-        subLine.getCollection().sort(Comparator.comparing(Interval::getPriority));
-        int line = subLine.get(0).getLine();
-        Track track = new Track(line);
-        Selection selection = new Selection();
-        for (Interval interval :subLine) {
-            if(interval.getLine() != line){
-                selection.add(track);
-                line = interval.getLine();
-                track = new Track(line);
-            }
-            track.add(interval);
-        }
-        selection.add(track);
-        return selection;
-    }
 
     public int[] getIndexes(SegmentPack allSegments, Interval limit) {
         int[] indexes = new int[2];
@@ -128,30 +113,49 @@ public class Separator {
         return -index - 1;
     }
 
-    public LineList separationArrays(ArrayHash mainArray,int start, int end) {
-        LineList stump = new LineList(-1);
-
+    public HashMap<Integer,Track> separationArrays(ArrayHash mainArray,int start, int end) {
+        HashMap<Integer,Track> map = new HashMap<>();
+        Track buf;
+        int keyIndex;
         for (SegmentPack segments :mainArray.values()) {
-            //int buf = indexMask.get(segments.getFirstSegment().getAreaId());
             int i;
-            ArrayList<Interval> list = new ArrayList<>();
             for (i = 0; i < segments.size(); i++) {
                 Interval interval = segments.get(i);
                 if(interval.getSecondDot() > end){
-                    //indexMask.replace(indexMask.get(buf),i);
                     break;
                 }
                 else if(interval.getFirstDot() >= start) {
-                    stump.add(interval);
-                    //list.add(interval);
-                    //segments.remove(interval);
+                    keyIndex = interval.getLine();
+                    if(map.containsKey(keyIndex)) {
+                        // stump.add(interval);
+                        buf = map.get(keyIndex);
+                        buf.add(interval);
+                    }
+                    else{
+                        map.put(interval.getLine(),new Track(keyIndex){{add(interval);}});
+                    }
                 }
             }
             ((List) segments.getCollection()).subList(0, i).clear();
-
-            //segments.getCollection().removeAll(list);
         }
-        return stump;
+        return map;
+    }
+
+    public Selection createSelection(LineList subLine) {
+        subLine.getCollection().sort(Comparator.comparing(Interval::getPriority));
+        int line = subLine.get(0).getLine();
+        Track track = new Track(line);
+        Selection selection = new Selection();
+        for (Interval interval :subLine) {
+            if(interval.getLine() != line){
+                selection.add(track);
+                line = interval.getLine();
+                track = new Track(line);
+            }
+            track.add(interval);
+        }
+        selection.add(track);
+        return selection;
     }
 
     private int[] getIndexesStartEnd(SegmentPack segments, Map<Integer,Integer> indexMask, int end) {

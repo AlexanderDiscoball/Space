@@ -2,6 +2,7 @@ package math.entity.Array;
 
 import math.entity.LineSegments.Track;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
@@ -25,6 +26,18 @@ public class Selection implements Iterable<Track> {
         return rangeOfTracks.get(i);
     }
 
+    public int size(){
+        return rangeOfTracks.size();
+    }
+
+    public void remove(Track track){
+        rangeOfTracks.remove(track);
+    }
+
+    public void removeAll(List<Track> mask){
+        rangeOfTracks.removeAll(mask);
+    }
+
     public void add(Track track){
         rangeOfTracks.add(track);
     }
@@ -32,5 +45,9 @@ public class Selection implements Iterable<Track> {
     @Override
     public Iterator<Track> iterator() {
         return rangeOfTracks.iterator();
+    }
+
+    public void sort(){
+        rangeOfTracks.sort(Comparator.comparing(Track::getTrackNumber));
     }
 }

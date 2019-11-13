@@ -71,9 +71,9 @@ public class Simulation {
         int index = findIndexDropPoints(dropPoints);
         List<Integer> viewObject = new ArrayList<>();
         for (int i = 0; i <= index; i++) {
+            int b =dropPoints.get(i);
             for (SegmentPack segments : twoDimensionalArray) {
                 for (Interval interval : segments) {
-                    int b =dropPoints.get(i);
                     if(interval.getFirstDot() < b && interval.getSecondDot() > b  ){
                         viewObject.add(interval.getAreaId());
                     }
@@ -193,11 +193,16 @@ public class Simulation {
         List<Integer> drops = new ArrayList<>();
         int loopStart = 0;
         int loopEnd = InputData.getDropPoints() * step;
-        while (!(loopStart > loopEnd)){
-            drops.add(loopStart);
-            loopStart = loopStart + (step/InputData.getCoefDropPoints());
+        if(step != 0) {
+            while (!(loopStart > loopEnd)) {
+                drops.add(loopStart);
+                loopStart = loopStart + (step / InputData.getCoefDropPoints());
+            }
+            return drops;
         }
-        return drops;
+        else {
+            return Collections.emptyList();
+        }
     }
 
     public static boolean randomAddOrNot() {
