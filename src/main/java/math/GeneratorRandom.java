@@ -27,7 +27,7 @@ public class GeneratorRandom {
     public static int areaCunt = 0;
     public static RandomEngine engine = new DRand();
     public static Poisson poisson = new Poisson(InputData.getLAMBDA(), engine);
-    public static int buf = (2 * poisson.nextInt());
+    public static int buf = getRandomStep();
     public static int channel = 0;
     public static boolean reverse;
 
@@ -47,25 +47,10 @@ public class GeneratorRandom {
         TwoDimensionalArrayList matrixList = new TwoDimensionalArrayList();
 
         for (int line = 0; line < InputData.getChannelAmount(); line++) {
-            Line stackSegments = generateStackSegments(getReverseChannel(), line);
+            Line stackSegments = generateStackSegments(line);
             matrixList.add(stackSegments);
         }
         return matrixList;
-    }
-
-    public static int getReverseChannel(){
-        if(channel > InputData.getChannelAmount()){
-            reverse = true;
-        }
-        if(channel < 0){
-            reverse = false;
-        }
-        if(reverse){
-            return channel--;
-        }
-        else {
-            return channel++;
-        }
     }
 
     public static Line generateStackSegments(int line){
@@ -74,29 +59,12 @@ public class GeneratorRandom {
         for (int i = 0; i < InputData.getSegmentsAmount(); i++) {
             stackSegmentsList.add(generateSegment(line));
         }
-        buf = InputData.getCoefSpace() * getRandomStep();
+        buf = stackSegmentsList.getFirstSegment().getSecondDot() + InputData.getCoefSpace() * getRandomStep();
         return stackSegmentsList;
     }
 
-    public static Line generateStackSegments(int line, int areaId){
-        LineList stackSegmentsList = new LineList(line);
-
-        for (int i = 0; i < InputData.getSegmentsAmount(); i++) {
-            stackSegmentsList.add(generateSegment(line,areaId));
-        }
-        buf = InputData.getCoefSpace() * getRandomStep();
-        return stackSegmentsList;
-    }
 
     public static math.entity.interval.Interval generateSegment(int line){
-        int first = buf;
-        int second = buf + 1 + InputData.getCoefLength() * getRandomStep();
-        buf = second + (InputData.getCoefSpace() * getRandomStep());
-
-        return new math.entity.interval.Interval(first,second,line,generateAreaId());
-    }
-
-    public static math.entity.interval.Interval generateSegment(int line, int areaId){
         int first = buf;
         int second = buf + 1 + InputData.getCoefLength() * getRandomStep();
         buf = second + (InputData.getCoefSpace() * getRandomStep());
@@ -118,6 +86,20 @@ public class GeneratorRandom {
         return new math.entity.interval.Interval(first,second,getRandomChannel(),areaId);
     }
 
+    public static int getReverseChannel(){
+        if(channel > InputData.getChannelAmount()){
+            reverse = true;
+        }
+        if(channel < 0){
+            reverse = false;
+        }
+        if(reverse){
+            return channel--;
+        }
+        else {
+            return channel++;
+        }
+    }
 
     public static math.entity.interval.Interval generateSegment(int line, int start, int end){
         int first = buf;
@@ -137,7 +119,7 @@ public class GeneratorRandom {
     }
 
     public static int getRandomChannel(){
-        return ((int) (Math.random() * InputData.getChannelAmount()));
+        return (gen.nextInt(InputData.getChannelAmount()));
     }
 
 

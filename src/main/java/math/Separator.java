@@ -1,17 +1,17 @@
 package math;
 
-import math.entity.Array.ArrayHash;
-import math.entity.Array.Selection;
-import math.entity.Array.TwoDimensionalArray;
-import math.entity.Array.TwoDimensionalArrayList;
+import math.annotation.GetMethodTime;
+import math.entity.Array.*;
 import math.entity.LineSegments.LineList;
 import math.entity.LineSegments.Track;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
+import math.spring.Sepa;
 
 import java.util.*;
+import java.util.stream.Stream;
 
-public class Separator {
+public class Separator implements Sepa {
 
     public LineList separation(LineList allIntervals, int start, int end){
         LineList subLine;
@@ -21,19 +21,11 @@ public class Separator {
         if(indexEnd == allIntervals.size()) {
             indexEnd = allIntervals.size() - 1;
         }
-//        if(indexEnd > -1 && indexStart > -1) {
-//            System.out.println(allIntervals.get(indexStart).getFirstDot() + "::" + allIntervals.get(indexEnd).getSecondDot());
-//        }
-//        else{
-//            System.out.println("Нет интервалов");
-//        }
         if(indexEnd == -1 || indexStart == -1){
             subLine = new LineList(-1);
             return subLine;
         }
         subLine = createSubLine(allIntervals,indexStart,indexEnd+1);
-        //cutOff(allIntervals,0,indexEnd);
-        //System.out.println("Все интервалы от " + start + " до " + end + " " + subLine);
         return subLine;
     }
 
@@ -113,10 +105,45 @@ public class Separator {
         return -index - 1;
     }
 
-    public HashMap<Integer,Track> separationArrays(ArrayHash mainArray,int start, int end) {
-        HashMap<Integer,Track> map = new HashMap<>();
+    public SeparateArray separationArrays(ArrayHash mainArray,int start, int end) {
+        SeparateArray separateArray = new SeparateArray();
         Track buf;
-        int keyIndex;
+
+        for (int line = 0; line < InputData.getChannelAmount(); line++) {
+            separateArray.put(line,new Track(line));
+        }
+
+        for (SegmentPack segments :mainArray.values()) {
+            //System.out.println(segments);
+            if(segments.getCollection().isEmpty())continue;
+            int startIndex = findStartIndex(segments, start);
+            int index;
+            for (index = startIndex; index < segments.size(); index++) {
+                Interval interval = segments.get(index);
+                if(interval.getSecondDot() > end){
+                    break;
+                }
+                buf = separateArray.get(interval.getLine());
+                buf.add(interval);
+
+            }
+            ((List) segments.getCollection()).subList(0, index+startIndex).clear();
+        }
+        separateArray.values().removeIf(track -> track.getRangeOfIntervals().isEmpty());
+        return separateArray;
+    }
+
+    private int findStartIndex(SegmentPack segments, int start) {
+        for (int i = 0; i < segments.size(); i++) {
+            if(segments.get(i).getFirstDot() >= start){
+                return i;
+            }
+        }
+        return segments.size() -1;
+    }
+
+    public LineList separationArrays222(ArrayHash mainArray,int start, int end) {
+        LineList stump = new LineList(-1);
         for (SegmentPack segments :mainArray.values()) {
             int i;
             for (i = 0; i < segments.size(); i++) {
@@ -125,20 +152,12 @@ public class Separator {
                     break;
                 }
                 else if(interval.getFirstDot() >= start) {
-                    keyIndex = interval.getLine();
-                    if(map.containsKey(keyIndex)) {
-                        // stump.add(interval);
-                        buf = map.get(keyIndex);
-                        buf.add(interval);
-                    }
-                    else{
-                        map.put(interval.getLine(),new Track(keyIndex){{add(interval);}});
-                    }
+                    stump.add(interval);
                 }
             }
             ((List) segments.getCollection()).subList(0, i).clear();
         }
-        return map;
+        return stump;
     }
 
     public Selection createSelection(LineList subLine) {
@@ -155,25 +174,13 @@ public class Separator {
             track.add(interval);
         }
         selection.add(track);
+        for (Track intervals :selection) {
+            intervals.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
+        }
+
         return selection;
     }
 
-    private int[] getIndexesStartEnd(SegmentPack segments, Map<Integer,Integer> indexMask, int end) {
-        int index = indexMask.get(segments.getFirstSegment().getAreaId());
-        int[] indexes = new int[2];
-        indexes[0] = index;
-        for (Interval interval :segments) {
-          if(interval.getSecondDot() > end){
-              indexes[1] = index-1;
-              break;
-          }
-          index++;
-          if(index == segments.size()){
-              indexes[1] = segments.size()-1;
-          }
-        }
-        return indexes;
-    }
 
     public LineList separationArrays222(ArrayHash mainArray,Map<Integer,Integer> indexMask,int start, int end) {
         LineList stump = new LineList(-1);

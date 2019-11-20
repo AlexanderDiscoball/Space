@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="math.entity.IntervalTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2019-11-11T07:26:29" hostname="DESKTOP-HSKT15E" time="0.001">
+  <properties/>
+  <testcase name="IllegalSegmentEquals" classname="math.entity.IntervalTest" time="0.0"/>
+  <testcase name="setLength" classname="math.entity.IntervalTest" time="0.0"/>
+  <testcase name="IllegalSegmentLower" classname="math.entity.IntervalTest" time="0.0"/>
+  <testcase name="setPriority" classname="math.entity.IntervalTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

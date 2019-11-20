@@ -3,134 +3,169 @@ package math;
 import cern.jet.random.Poisson;
 import cern.jet.random.engine.DRand;
 import cern.jet.random.engine.RandomEngine;
-import math.entity.Array.ArrayHash;
-import math.entity.Array.Selection;
-import math.entity.Array.TwoDimensionalArray;
-import math.entity.Array.TwoDimensionalArrayList;
+import math.entity.AreaSegments.Area;
+import math.entity.Array.*;
 import math.entity.LineSegments.Line;
 import math.entity.LineSegments.LineList;
 import math.entity.LineSegments.Track;
 import math.entity.SegmentPack;
 import math.entity.interval.Interval;
+import math.spring.Algo;
+import math.spring.Sepa;
 import org.junit.Test;
+import org.openjdk.jol.info.GraphLayout;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.*;
+import java.util.stream.Stream;
+
+import static math.Simulation.residuePoints;
+import static math.Simulation.step;
+import static org.junit.Assert.assertEquals;
 
 public class Testing {
-    @Test
-    public void test(){
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 300; i++) {
-            list.add(poissonRandomNumber(5));
-        }
-        int sum = 0;
-        for (Integer aDouble :list) {
-            sum += aDouble;
-        }
-        System.out.println(((double) sum) / 300);
-        RandomEngine engine = new DRand();
-        Poisson poisson = new Poisson(5, engine);
-        double kol = 1000000D;
-        list = new ArrayList<>();
-        for (int i = 0; i < kol; i++) {
-            list.add((poisson.nextInt()));
-        }
-        sum = 0;
-        for (Integer aDouble :list) {
-            sum += aDouble;
-        }
-        System.out.println(((double) sum) / kol);
 
+    private static Algo algorithms;
+    private static Sepa separator;
+
+    public Testing(){
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
+        algorithms = context.getBean(Algo.class);
+        separator = new Separator();
     }
 
-    int poissonRandomNumber(int lambda) {
-        double L = Math.exp(-lambda);
-        int k = 0;
-        double p = 1;
-        do {
-            k = k + 1;
-            double u = Math.random();
-            p = p * u;
-        } while (p > L);
-        return k - 1;
-    }
 
     @Test
-    public void testList(){
+    public void Test() {
+        long timeStart, timeEnd, timeToSeparateStart, timeToSeparateEnd, timeToAlgoStart, timeToAlgoEnd;
+        long resultTime = 0;
+        long resultTimeGreedy = 0;
+        long resultTimeNadir = 0;
+        long timeToSeparateResult = 0;
+        long timeToAlgoResult = 0;
+        int end;
+        int start = 0;
+        int gr = 0;
+        int counterPasses = 0;
+        Track result = new Track(-1);
         ArrayHash mainArray = Simulation.genSimulationForTest();
-        Separator separator = new Separator();
-        LineList solution = new LineList(-1);
-        for (SegmentPack segmentPack :mainArray.values()) {
-            System.out.println(segmentPack);
-            solution.addAll(segmentPack);
-        }
-        System.out.println("ssssssssss");
-        Selection selection = separator.createSelection(solution);
-        for (Track track :selection) {
-            track.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
-            System.out.println(track);
+        System.out.println("Создание обьектов завершено");
+
+
+        List<Integer> dropPoints = Simulation.dropPoints;
+        System.out.println("Количество точек сброса "+dropPoints.size());
+        if(InputData.getNeedStatistics()) {
+            preparingStatistics(Algorithms.getAllIntervals(mainArray), mainArray, dropPoints);
         }
 
+        for (Integer dropPoint :dropPoints) {
 
-        int i = Algorithms.nadirAlgorithmAll(selection,selection.getTracksCount(),0,0);
-        System.out.println("Надирный "+i);
-        TwoDimensionalArray twoDimensionalArray = new TwoDimensionalArrayList();
-        twoDimensionalArray.add(solution);
-        TwoDimensionalArray twoDimensionalArray1 = Algorithms.greedyAlgorithm(twoDimensionalArray);
-        System.out.println("Жадный "+twoDimensionalArray1.size());
-    }
+            timeStart = System.currentTimeMillis();
+            end = dropPoint;
+            timeToSeparateStart = System.currentTimeMillis();
+            //
+            SeparateArray separateArray = separator.separationArrays(mainArray,start,end);
+            //
+            timeToSeparateEnd= System.currentTimeMillis();
+            timeToSeparateResult += timeToSeparateEnd - timeToSeparateStart;
 
-    public static int[] merge(int[] a, int[] b) {
-        int[] result = new int[a.length + b.length];
-        int aIndex = 0;
-        int bIndex = 0;
-        int i = 0;
+            if(separateArray.size() == 0){
+                start = end;
+                continue;
+            }
+            counterPasses++;
 
-        while (i < result.length) {
-            result[i] = a[aIndex] < b[bIndex] ? a[aIndex++] : b[bIndex++];
-            if (aIndex == a.length) {
-                System.arraycopy(b, bIndex, result, ++i, b.length - bIndex);
+            timeToAlgoStart = System.currentTimeMillis();
+            //
+            Track endSol = Algorithms.nadirAlgorithm(separateArray,mainArray);
+            //
+            timeToAlgoEnd = System.currentTimeMillis();
+            timeToAlgoResult += timeToAlgoEnd - timeToAlgoStart;
+            result.addAll(endSol);
+
+            if(mainArray.size() == 0){
                 break;
             }
-            if (bIndex == b.length) {
-                System.arraycopy(a, aIndex, result, ++i, a.length - aIndex);
-                break;
-            }
-            i++;
+
+            start = end;
+            timeEnd = System.currentTimeMillis();
+            resultTime += timeEnd - timeStart;
+
         }
-        return result;
-    }
 
-    @Test
-    public void asd(){
-        Algorithms.fullSepaAlgo();
-    }
+        resultTime = resultTime - resultTimeGreedy - resultTimeNadir;
+        System.out.println("Размер остатка " + mainArray.getHashPack().size());
+        System.out.println("Остаток " + mainArray.getHashPack());
+        System.out.println("ОБьекты на которые попала точка сброса" + residuePoints);
+        List<Integer> areasId = new ArrayList<>();
 
-    public static void main(String[] args) {
-       Line list = GeneratorRandom.generateStackSegments(-1);
-       Line list2 = GeneratorRandom.generateStackSegments(-1);
-       Line list3 = GeneratorRandom.generateStackSegments(-1);
-       Line list4 = GeneratorRandom.generateStackSegments(-1);
-
-       List<Interval> result = Algorithms.merge2(((List<Interval>) list.getCollection()),(List<Interval>) list2.getCollection());
-       result = Algorithms.merge2(result,(List<Interval>) list3.getCollection());
-       result = Algorithms.merge2(result,(List<Interval>) list4.getCollection());
-        System.out.println(result);
-        Iterator<Interval> iterator = result.listIterator();
-       Interval prev = iterator.next();
-        while(iterator.hasNext()){
-            Interval interval = iterator.next();
-            if(prev.getSecondDot()> interval.getSecondDot()){
-                System.out.println("Error");
-                System.out.println(prev);
-                System.out.println(interval);
+        for (SegmentPack area :mainArray.getHashPack().values()) {
+            areasId.add(((Area)area).getAreaId());
+        }
+        for (Integer id :residuePoints) {
+            if(!(areasId.contains(id))){
+                System.out.println("Обьект сьемки "+id+" не содержится");
             }
         }
 
+        System.out.println("Число ненулевых проходов (в которых был результат) "+ counterPasses);
+        System.out.println("Результат "+result.size()+ " - число обьектов");
+        System.out.println("Время на разбивку "+timeToSeparateResult/1000+ " секунд");
+        System.out.println("Время на алгоритм "+timeToAlgoResult/1000+ " секунд");
+        System.out.println("Общее время "+(resultTime) /1000+ " секунд");
+        System.out.println();
+        if(InputData.getCheckResults()) {
+            for (int i = 0; i <  Simulation.allResults.size(); i++) {
+                assertEquals(Simulation.allResults.getRangeOfIntervals().get(i).getAreaId(), result.getRangeOfIntervals().get(i).getAreaId());
+            }
+        }
+        System.out.println("Решения совпадают");
+
     }
-    @Test
-    public void howManyMemory(){
-        System.out.println(Runtime.getRuntime().maxMemory()/8/1024/1024 +" Магабайт");
-        System.out.println(Runtime.getRuntime().totalMemory()/8/1024/1024 +" Магабайт");
+
+    private static long greedyTest(TwoDimensionalArray greedy) {
+        long timeStart = System.currentTimeMillis();
+        greedy = Algorithms.greedyAlgorithm(greedy);
+        System.out.println(greedy.size() + " Количество проходов жадным алгоритмом");
+        long timeEnd = System.currentTimeMillis();
+        return timeEnd - timeStart;
+    }
+
+    private static void initIndexMask(Map<Integer, Integer> indexMask, ArrayHash mainArray) {
+        for (SegmentPack segments :mainArray.values()) {
+            indexMask.put(segments.getFirstSegment().getAreaId(),0);
+        }
+    }
+
+
+    private static void preparingStatistics(LineList allIntervals,ArrayHash arrayHash,List<Integer> dropPoints) {
+        System.out.println("ШАГ "+Simulation.step);
+        System.out.println("Случайные точки сброса " + dropPoints);
+        System.out.println("Количество обьектов "+arrayHash.getHashPack().size());
+
+        int intervalSize = 0;
+        for (SegmentPack segments :arrayHash.getHashPack().values()) {
+            intervalSize += segments.size();
+        }
+        System.out.println("Количество интервалов "+intervalSize);
+
+
+        //allIntervals.getCollection().sort(Comparator.comparing(Interval::getPriority));
+        //System.out.println("Начало и конец максимальный крен "+allIntervals.getFirstSegment().getPriority() +"::" + allIntervals.getLastSegment().getPriority());
+        //allIntervals.sort();
+        //System.out.println("Начало и конец максимальная длина "+allIntervals.getFirstSegment().getFirstDot() +"::" + allIntervals.getLastSegment().getSecondDot());
+
+    }
+
+    public static void showIntervalSizeAndFullSize(Object object){
+        System.out.println("oppa");
+        GraphLayout graphLayout = GraphLayout.parseInstance(object);
+        for (Class<?> key : graphLayout.getClasses()) {
+            if(key.getName().contains("Segment.Segment")) {
+                System.out.println(graphLayout.getClassCounts().count(key));
+                System.out.println(graphLayout.getClassSizes().count(key));
+            }
+        }
+        System.out.println(graphLayout.totalSize()/1024/1024 + " Мегабайт");
     }
 }

@@ -12,6 +12,10 @@ public class ArrayHash {
         hashPack = new HashMap<>();
     }
 
+    public ArrayHash(HashMap<Integer, SegmentPack> hashPack){
+        this.hashPack = hashPack;
+    }
+
     public HashMap<Integer, SegmentPack> getHashPack(){
         return hashPack;
     }

@@ -7,20 +7,21 @@ import math.entity.Array.*;
 import math.entity.LineSegments.*;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
+import math.spring.Algo;
 
 import java.util.*;
 
 import static math.Simulation.residuePoints;
 
 @AlgorithmsType
-public class Algorithms {
+public class Algorithms implements Algo {
     /**
      * Dynamic algorithm. Check pdf file in directory Space2 for more details.
      * "Максимальные интервалы пересечения - algorithm _ Qaru"
      */
     static SegmentPack buf = new LineList(-1);
-    @GetMethodTime
-    public static TwoDimensionalArrayList dynamicAlgorithm(TwoDimensionalArray twoDimensionalArrayList){
+
+    public TwoDimensionalArrayList dynamicAlgorithm(TwoDimensionalArray twoDimensionalArrayList){
         if(twoDimensionalArrayList instanceof TwoDimensionalArraySet){
             twoDimensionalArrayList = ((TwoDimensionalArraySet) twoDimensionalArrayList).castToList();
         }
@@ -97,7 +98,7 @@ public class Algorithms {
      * Dynamic algorithm but another sort principle.
      * We sort all SegmentPack with size() parameter.
      */
-    @GetMethodTime
+
     public static TwoDimensionalArraySet dynamicAlgorithmSize(TwoDimensionalArray twoDimensionalArray){
         TwoDimensionalArraySet ways = new TwoDimensionalArraySet(SegmentPack::compareTo);
         TwoDimensionalArraySet functions;
@@ -167,7 +168,7 @@ public class Algorithms {
      * Greedy algorithm. Check pdf file in directory Space2 for more details.
      * "Жадные алгоритмы. Глава 16. фрагмент книги Кормен Т. и др. - Алгоритмы"
      */
-    @GetMethodTime
+
     public static TwoDimensionalArrayList greedyAlgorithm(TwoDimensionalArray twoDimensionalArray) {
         TwoDimensionalArrayList ways = new TwoDimensionalArrayList();
         LineList way;
@@ -294,17 +295,37 @@ public class Algorithms {
         System.out.println();
     }
 
-    public static Track nadirAlgorithm(HashMap<Integer,Track> map, ArrayHash mainArray){
-        Map.Entry<Integer,Track> entry = map.entrySet().iterator().next();
+    public static Track nadirAlgorithm(SeparateArray separateArray, ArrayHash mainArray){
+        Map.Entry<Integer,Track> entry = separateArray.getSeparatePack().entrySet().iterator().next();
         Track solution = entry.getValue();
+        separateArray.remove(entry.getKey());
+
         solution.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
-        map.remove(entry.getKey());
+
+        for (Interval interval : solution.getRangeOfIntervals()) {
+            mainArray.remove(interval.getAreaId());
+        }
+        for(Track mergedTrack: separateArray.values()) {
+            solution.mergeWithoutCrossings(mergedTrack,mainArray);
+//            if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) {
+//                solution.resetNumberOfTracksWithIntervalsOffTheSolution();
+//                break;
+//            }
+        }
+        return solution;
+    }
+
+
+    public static Track nadirAlgorithmWhenSort(Selection selection, ArrayHash mainArray){
+        Track solution = selection.iterator().next();
+
+        selection.remove(solution);
         for (Interval interval : solution.getRangeOfIntervals()) {
             mainArray.remove(interval.getAreaId());
         }
 
-        for(Track mergedTrack: map.values()) { //replace i on smth sensible
-            solution.mergeWithoutCrossings(mergedTrack,mainArray);
+        for(Track mergedTrack: selection) { //replace i on smth sensible
+            solution.mergeWithoutCrossingsDontNeedSort(mergedTrack,mainArray);
             if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
                 solution.resetNumberOfTracksWithIntervalsOffTheSolution();
                 break;
@@ -317,13 +338,15 @@ public class Algorithms {
 
     public static int resultPasses = 0;
 
-    public static int nadirAlgorithmAll(Selection bunchOfTracks,int sizeOfBunchOfTracks, int trackToStartNo,  int passageNum){
-        Track allSolutions = new Track(-1);
+    @GetMethodTime
+    public ArrayList nadirAlgorithmAll(Selection bunchOfTracks,int sizeOfBunchOfTracks, int trackToStartNo,  int passageNum){
+        Track allSolution = new Track(-1);
         while(trackToStartNo <= (sizeOfBunchOfTracks - 1)) {
             boolean cross = false;
             boolean changed = false;
             boolean bunchOfTracksIsEmpty = true;
             Track solution = bunchOfTracks.getTrackNo(trackToStartNo).clone();
+
             if(!solution.getRangeOfIntervals().isEmpty())
                 passageNum++;
             else {
@@ -352,22 +375,29 @@ public class Algorithms {
                     }
                 }
 
-                if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
-                    solution.resetNumberOfTracksWithIntervalsOffTheSolution();
-                    break;
-                }
+//                if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
+//                    solution.resetNumberOfTracksWithIntervalsOffTheSolution();
+//                    break;
+//                }
             }
+            allSolution.addAll(solution);
             if(bunchOfTracksIsEmpty == true) {
                 break;
             }
         }
+
+        ArrayList list = new ArrayList();
+        list.add(passageNum);
+        list.add(allSolution);
+
     //System.out.println("allSolutions "+allSolutions);
-        return  passageNum;
+        return  list;
     }
 
     private static long greedyTest(TwoDimensionalArray greedy) {
         long timeStart = System.currentTimeMillis();
-        greedy = Algorithms.greedyAlgorithm(greedy);
+        Algorithms algorithms = new Algorithms();
+        greedy = algorithms.greedyAlgorithm(greedy);
         System.out.println(greedy.size() + " Количество проходов жадным алгоритмом");
         long timeEnd = System.currentTimeMillis();
         return timeEnd - timeStart;
@@ -392,10 +422,6 @@ public class Algorithms {
         SegmentPack segmentPack;
         allIntervals.remove(buf);
         for (Interval interval :allIntervals) {
-            //                    index = mask.indexOf(segment.getAreaId());
-            //                    if(index > 0) {
-            //                        mainArray.get(index).remove(segment);
-            //                    }
             if(way.getLastSegment().getSecondDot() <= interval.getFirstDot()){
                 way.add(interval);
                 index = mask.indexOf(interval.getAreaId());

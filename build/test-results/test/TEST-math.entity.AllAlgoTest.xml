@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="math.entity.AllAlgoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-11-11T07:26:29" hostname="DESKTOP-HSKT15E" time="0.042">
+  <properties/>
+  <testcase name="inspect" classname="math.entity.AllAlgoTest" time="0.042"/>
+  <system-out><![CDATA[РўРµСЃС‚ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РєРѕР»РёС‡РµС‚СЃРІР° РїСЂРѕС…РѕР¶РґРµРЅРёР№ СЂР°Р·Р»РёС‡РЅС‹РјРё Р°Р»РіРѕСЂРёС‚РјР°РјРё
+РљРѕР»РёС‡РµСЃС‚РІРѕ СЃРµРіРјРµРЅС‚РѕРІ 10
+Р’СЂРµРјСЏ РЅР° Р°Р»РіРѕСЂРёС‚Рј dynamicAlgorithm 5 РјРёР»Р»РёСЃРµРєСѓРЅРґ
+РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµС€РµРЅРёР№ dynamicAlgorithm 8
+
+Р’СЂРµРјСЏ РЅР° Р°Р»РіРѕСЂРёС‚Рј greedyAlgorithm 0 РјРёР»Р»РёСЃРµРєСѓРЅРґ
+РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµС€РµРЅРёР№ greedyAlgorithm 9
+
+Р’СЂРµРјСЏ РЅР° Р°Р»РіРѕСЂРёС‚Рј dynamicAlgorithmSize 16 РјРёР»Р»РёСЃРµРєСѓРЅРґ
+РљРѕР»РёС‡РµСЃС‚РІРѕ СЂРµС€РµРЅРёР№ dynamicAlgorithmSize 9
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
