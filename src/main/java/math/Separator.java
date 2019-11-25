@@ -1,15 +1,13 @@
 package math;
 
-import math.annotation.GetMethodTime;
-import math.entity.Array.*;
-import math.entity.LineSegments.LineList;
-import math.entity.LineSegments.Track;
+import math.entity.array.*;
+import math.entity.linesegments.LineList;
+import math.entity.linesegments.Track;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
 import math.spring.Sepa;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Separator implements Sepa {
 
@@ -114,9 +112,20 @@ public class Separator implements Sepa {
         }
 
         for (SegmentPack segments :mainArray.values()) {
-            //System.out.println(segments);
+
             if(segments.getCollection().isEmpty())continue;
-            int startIndex = findStartIndex(segments, start);
+            int startIndex = -1;
+            for (int i = 0; i < segments.size(); i++) {
+                if(segments.get(i).getFirstDot() >= start){
+                    startIndex = i;
+                    break;
+                }
+            }
+
+            if(startIndex == -1){
+                return separateArray;
+            }
+
             int index;
             for (index = startIndex; index < segments.size(); index++) {
                 Interval interval = segments.get(index);
@@ -139,7 +148,7 @@ public class Separator implements Sepa {
                 return i;
             }
         }
-        return segments.size() -1;
+        return -1;
     }
 
     public LineList separationArrays222(ArrayHash mainArray,int start, int end) {

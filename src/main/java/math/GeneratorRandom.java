@@ -4,17 +4,17 @@ package math;
 import cern.jet.random.Poisson;
 import cern.jet.random.engine.DRand;
 import cern.jet.random.engine.RandomEngine;
-import math.entity.AreaSegments.AreaList;
-import math.entity.Array.TwoDimensionalArray;
-import math.entity.Array.TwoDimensionalArrayList;
-import math.entity.LineSegments.Line;
-import math.entity.LineSegments.LineList;
-import math.entity.SegmentPack;
+import math.entity.array.TwoDimensionalArrayList;
+import math.entity.dropintervaltrack.TrackDropInterval;
+import math.entity.interval.DropInterval;
+import math.entity.linesegments.Line;
+import math.entity.linesegments.LineList;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static math.Simulation.*;
+import static math.Simulation.step;
 
 public class GeneratorRandom {
 
@@ -124,97 +124,33 @@ public class GeneratorRandom {
 
 
 
-    public static List<LinkedList<SergAlg>> genareteSergEntity(){
-        List<LinkedList<SergAlg>> tracks=new ArrayList<>();
-        int intervals_num = InputData.getChannelAmount();
-        Interval bufInterval;
-        SergAlg temp_obj;
-        for(int i=0;i<InputData.getChannelAmount();i++) {
-            LinkedList<SergAlg> temporary=new LinkedList<>();
-            for(int j=0;j<intervals_num;j++) {
-                bufInterval = rand_gen();
-                temp_obj=new SergAlg(bufInterval.f,bufInterval.s,i);
-                temporary.add(temp_obj);
-            }
-            buf = InputData.getCoefSpace() * poisson.nextInt();
-            tracks.add(temporary);
+    public static TrackDropInterval createRandomDropIntervals(int howManyIntervals, int fullLength){
+        TrackDropInterval trackDropInterval = new TrackDropInterval();
+
+        int step = fullLength / howManyIntervals;
+        int buffer = InputData.getCoefLength() * gen.nextInt(step);
+        for (int i = 0; i < howManyIntervals; i++) {
+            int first = buffer;
+            int second = buffer + 1 + InputData.getCoefLength() * gen.nextInt(step);
+            buffer = second + (InputData.getCoefSpace() * gen.nextInt(step));
+            trackDropInterval.add( new DropInterval(first,second,gen.nextInt(step)));
         }
-        return tracks;
+        return trackDropInterval;
     }
 
-    public static Interval rand_gen() {
-        int first = buf;
-        int second = buf + 1 + InputData.getCoefLength() * poisson.nextInt();
-        buf = second +  InputData.getCoefSpace() * poisson.nextInt();
-        return new Interval(first,second);
-    }
+    public static TrackDropInterval createDropIntervals(int howManyIntervals, int fullLength){
+        TrackDropInterval trackDropInterval = new TrackDropInterval();
 
-    static class Interval{
-        public int f;
-        public int s;
-        public Interval(int f,int s){
-            this.s=s;
-            this.f=f;
+        int step = fullLength / howManyIntervals;
+        int buffer = 0;
+        for (int i = 0; i < howManyIntervals; i++) {
+            int first = buffer;
+            int second = buffer + 1 + InputData.getCoefLength() * step;
+            buffer = second;
+            trackDropInterval.add( new DropInterval(first,second,step));
         }
+        return trackDropInterval;
     }
-
-
-
-    //DELIMITER Генерация интервала с обьектами и точками сброса
-    public static TwoDimensionalArray generateBigInterval(){
-        List<Integer> dropPoints = createRandomDropPoints();
-        int start,end;
-        start = dropPoints.get(0);
-        TwoDimensionalArray areaMatrix = generateFirstDropInterval(0,start);
-        buf=start;
-        for (int index = 1; index < dropPoints.size(); index++) {
-            end = dropPoints.get(index);
-            for (SegmentPack area :areaMatrix) {
-                addIntervalInArea(start,end,area,randomAddOrNot());
-            }
-            start = end;
-        }
-        return areaMatrix;
-    }
-
-    public static TwoDimensionalArray generateFirstDropInterval(int start,int end){
-        TwoDimensionalArray twoDimensionalArray = new TwoDimensionalArrayList();
-        TwoDimensionalArray generateMat = generateAreaMatrix(start,end);
-        for (SegmentPack segmentPack :generateMat) {
-            for (int i = 0; i < segmentPack.size(); i++) {
-                final int integer = i;
-                twoDimensionalArray.add(new AreaList(segmentPack.get(i).getAreaId()){{add(segmentPack.get(integer));}});
-            }
-        }
-        return twoDimensionalArray;
-    }
-
-    public static TwoDimensionalArrayList generateAreaMatrix(int start,int end){
-        TwoDimensionalArrayList matrixList = new TwoDimensionalArrayList();
-        areaCunt = 0;
-        for (int line = 0; line < InputData.getChannelAmount(); line++) {
-            LineList stackSegments = generateAreaSegments(line,start,end);
-            matrixList.add(stackSegments);
-        }
-        return matrixList;
-    }
-
-    public static LineList generateAreaSegments(int line,int start,int end){
-        LineList stackSegmentsList = new LineList(line);
-        for (int i = 0; i < InputData.getSegmentsAmount(); i++) {
-            stackSegmentsList.add(generateSegment(line,start,end));
-            areaCunt++;
-        }
-        buf = start + InputData.getCoefSpace() * getRandomStep();
-        return stackSegmentsList;
-    }
-
-
-
-
-
-
-
 
 
     //DELIMITER

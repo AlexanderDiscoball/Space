@@ -1,14 +1,12 @@
 package math.spring;
 
-import math.Algorithms;
-import math.annotation.GetMethodTime;
+import math.entity.linesegments.Algorithms;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

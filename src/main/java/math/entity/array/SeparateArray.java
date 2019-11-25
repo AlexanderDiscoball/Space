@@ -1,7 +1,6 @@
-package math.entity.Array;
+package math.entity.array;
 
-import math.entity.LineSegments.Track;
-import math.entity.SegmentPack;
+import math.entity.linesegments.Track;
 
 import java.util.*;
 

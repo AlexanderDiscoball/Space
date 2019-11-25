@@ -1,4 +1,4 @@
-package math.entity.LineSegments;
+package math.entity.linesegments;
 
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;

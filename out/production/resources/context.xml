@@ -6,6 +6,6 @@
 
 
     <bean class="math.spring.GetTimeMethodWorkingAnnotationBeanPostProcessor"/>
-    <bean class="math.Algorithms" id="Algo"/>
+    <bean class="math.entity.linesegments.Algorithms" id="Algo"/>
 
 </beans>

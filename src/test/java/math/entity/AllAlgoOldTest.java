@@ -1,9 +1,9 @@
 package math.entity;
 
 import math.GeneratorRandom;
-import math.Algorithms;
+import math.entity.linesegments.Algorithms;
 import math.annotation.GetMethodTime;
-import math.entity.Array.TwoDimensionalArray;
+import math.entity.array.TwoDimensionalArray;
 import math.entity.interval.Interval;
 import org.junit.Test;
 

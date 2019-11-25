@@ -1,10 +1,12 @@
 package math;
 
-import math.entity.Array.ArrayHash;
-import math.entity.Array.TwoDimensionalArray;
-import math.entity.Array.TwoDimensionalArrayList;
-import math.entity.LineSegments.LineList;
-import math.entity.LineSegments.LineSet;
+import math.entity.areasegments.Area;
+import math.entity.array.ArrayHash;
+import math.entity.array.TwoDimensionalArray;
+import math.entity.array.TwoDimensionalArrayList;
+import math.entity.linesegments.Algorithms;
+import math.entity.linesegments.LineList;
+import math.entity.linesegments.LineSet;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
 import org.junit.Test;
@@ -213,7 +215,7 @@ public class SieveOldTest {
     }
 
     public TwoDimensionalArray cloneHashArray(ArrayHash mainArray) {
-       Collection<SegmentPack> collection = mainArray.getHashPack().values();
+       Collection<Area> collection = mainArray.getHashPack().values();
        TwoDimensionalArray twoDimensionalArray = new TwoDimensionalArrayList();
         for (SegmentPack segments :collection) {
             twoDimensionalArray.add(segments);

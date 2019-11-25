@@ -1,8 +1,8 @@
 package math;
 
-import math.entity.Array.ArrayHash;
-import math.entity.Array.TwoDimensionalArray;
-import math.entity.LineSegments.LineList;
+import math.entity.array.ArrayHash;
+import math.entity.array.TwoDimensionalArray;
+import math.entity.linesegments.LineList;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
 import org.junit.Test;

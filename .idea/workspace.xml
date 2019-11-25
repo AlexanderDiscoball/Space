@@ -3,50 +3,77 @@
   <component name="ChangeListManager">
     <list default="true" id="ccdce174-b321-4e39-86f9-225d4488689b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Algorithms$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Algorithms$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Algorithms.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Algorithms.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom$Interval.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom$Interval.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Algorithms$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Algorithms.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom$Interval.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/GeneratorRandom.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/InputData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/InputData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/OldTest.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/Separator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Separator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/SergAlg.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/Simulation$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Simulation$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/Simulation$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Simulation$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/Simulation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/Simulation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/AreaSegments/Area.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/AreaSegments/Area.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/AreaSegments/AreaList.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/AreaSegments/AreaList.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Array/ArrayHash.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/Array/ArrayHash.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Array/Selection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/Array/Selection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Array/SeparateArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/Array/SeparateArray.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Array/TwoDimensionalArray.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/Array/TwoDimensionalArray.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Array/TwoDimensionalArrayList.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/Array/TwoDimensionalArrayList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/Array/TwoDimensionalArraySet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/Array/TwoDimensionalArraySet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/LineSegments/Line.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/LineSegments/Line.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/LineSegments/LineList.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/LineSegments/LineList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/LineSegments/LineSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/LineSegments/LineSet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/entity/LineSegments/Track.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/entity/LineSegments/Track.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/spring/Algo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/spring/Algo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/spring/GetTimeMethodWorkingAnnotationBeanPostProcessor$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/spring/GetTimeMethodWorkingAnnotationBeanPostProcessor$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/classes/math/spring/GetTimeMethodWorkingAnnotationBeanPostProcessor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/spring/GetTimeMethodWorkingAnnotationBeanPostProcessor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/META-INF/untitled.main.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SeparatorTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SeparatorTest.class.BASE.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SergeyAlgoTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SieveTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SimulationTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/classes/math/spring/Sepa.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/math/spring/Sepa.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/resources/context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/resources/context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomOldTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/GeneratorRandomOldTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SeparatorOldTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/SeparatorOldTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SergeyAlgoOldTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SieveOldTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/SieveOldTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/SimulationOldTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/SimulationOldTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/test/classes/math/Testing.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/Testing.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/AllAlgoTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/IntervalTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/LineListTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/Algorithms.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Algorithms.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/AllAlgoOldTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/entity/AllAlgoOldTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/classes/math/entity/LineListOldTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/classes/math/entity/LineListOldTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/Algorithms.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/linesegments/Algorithms.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/GeneratorRandom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/GeneratorRandom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/InputData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/InputData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/OldTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/Separator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Separator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/SergAlg.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/Simulation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/annotation/GetMethodTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/annotation/GetMethodTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Array/ArrayHash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/Array/ArrayHash.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/LineSegments/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/LineSegments/Track.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/annotation/AlgorithmsType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/annotation/AlgorithmsType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/AreaSegments/Area.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/areasegments/Area.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/AreaSegments/AreaList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/areasegments/AreaList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Array/ArrayHash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/array/ArrayHash.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Array/Selection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/array/Selection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Array/SeparateArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/array/SeparateArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Array/TwoDimensionalArray.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/array/TwoDimensionalArray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Array/TwoDimensionalArrayList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/array/TwoDimensionalArrayList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/Array/TwoDimensionalArraySet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/array/TwoDimensionalArraySet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/LineSegments/Line.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/linesegments/Line.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/LineSegments/LineList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/linesegments/LineList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/LineSegments/LineSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/linesegments/LineSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/entity/LineSegments/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/entity/linesegments/Track.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/spring/Algo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/spring/Algo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/math/spring/GetTimeMethodWorkingAnnotationBeanPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/spring/GetTimeMethodWorkingAnnotationBeanPostProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomOldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/SeparatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/SeparatorOldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/SergeyAlgoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/SergeyAlgoOldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/SieveTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/SieveOldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/SimulationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/SimulationOldTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/math/spring/Sepa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/math/spring/Sepa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomOldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/GeneratorRandomOldTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/SeparatorOldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/SeparatorOldTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/SergeyAlgoOldTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/SieveOldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/SieveOldTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/SimulationOldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/SimulationOldTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/math/Testing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/Testing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/AllAlgoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/AllAlgoOldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/IntervalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/IntervalOldTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/LineListTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/LineListOldTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/AllAlgoOldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/AllAlgoOldTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/math/entity/LineListOldTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/math/entity/LineListOldTest.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -84,8 +111,8 @@
       <list>
         <option value="JUnit4 Test Class" />
         <option value="FxmlFile" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -130,79 +157,46 @@
     </option>
   </component>
   <component name="RunManager" selected="JUnit.Testing.Test">
-    <configuration name="OldTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="math.OldTest" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="math.Main" />
       <module name="Space.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="math.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Testing (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Space.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="math.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="math" />
-      <option name="MAIN_CLASS_NAME" value="math.Testing" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Testing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Space.test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="math.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="math" />
-      <option name="MAIN_CLASS_NAME" value="math.Testing" />
-      <option name="METHOD_NAME" value="Test" />
-      <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" value="-Xmx15000m" />
-      <option name="PARAMETERS" value="" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="math.entity.linesegments.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Testing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SeparatorOldTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Space.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="math.*" />
+          <option name="PATTERN" value="math.entity.linesegments.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="math" />
-      <option name="MAIN_CLASS_NAME" value="math.Testing" />
+      <option name="MAIN_CLASS_NAME" value="math.SeparatorOldTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Testing.Test (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SimulationOldTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Space.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="math.*" />
+          <option name="PATTERN" value="math.entity.linesegments.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="math" />
-      <option name="MAIN_CLASS_NAME" value="math.Testing" />
-      <option name="METHOD_NAME" value="Test" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="math.SimulationOldTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -211,7 +205,7 @@
       <module name="Space.test" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="math.*" />
+          <option name="PATTERN" value="math.entity.linesegments.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -239,6 +233,22 @@
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-Xmx15000m" />
       <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Testing.Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Space.test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="math.entity.linesegments.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="math" />
+      <option name="MAIN_CLASS_NAME" value="math.Testing" />
+      <option name="METHOD_NAME" value="Test" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -260,19 +270,18 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.OldTest" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.SeparatorOldTest" />
+      <item itemvalue="JUnit.SimulationOldTest" />
       <item itemvalue="JUnit.Testing.Test" />
-      <item itemvalue="JUnit.Testing" />
-      <item itemvalue="JUnit.Testing.Test (1)" />
-      <item itemvalue="JUnit.Testing (1)" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.Testing.Test" />
-        <item itemvalue="JUnit.Testing.Test (1)" />
-        <item itemvalue="JUnit.Testing (1)" />
-        <item itemvalue="Application.OldTest" />
         <item itemvalue="JUnit.Testing.Test" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.SimulationOldTest" />
+        <item itemvalue="JUnit.SeparatorOldTest" />
       </list>
     </recent_temporary>
   </component>
@@ -348,6 +357,15 @@
     <option name="LAST_COMMIT_MESSAGE" value="Переработка, теперь разбивка проходит создавая LineArray" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/math/FlightPathCreator.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="it_sol" />

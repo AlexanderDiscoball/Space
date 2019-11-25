@@ -1,8 +1,7 @@
 package math.entity;
 
-import math.Main;
 import math.entity.interval.Interval;
-import math.entity.LineSegments.LineList;
+import math.entity.linesegments.LineList;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

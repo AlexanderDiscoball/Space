@@ -1,7 +1,7 @@
-package math.entity.Array;
+package math.entity.array;
 
-import math.entity.LineSegments.Line;
-import math.entity.LineSegments.LineList;
+import math.entity.linesegments.Line;
+import math.entity.linesegments.LineList;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
 

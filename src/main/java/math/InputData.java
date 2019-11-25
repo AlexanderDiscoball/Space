@@ -1,11 +1,14 @@
 package math;
 
 public class InputData {
-    private static final int channelAmount = 100;
-    private static final int segmentsAmount = 100;
-    private static final int dropPoints = 69;
+    private static final int channelAmount = 600;
+    private static final int segmentsAmount = 600;
+    private static int dropPoints = -1;
+
     private static final boolean needStatistics = true;
     private static final boolean needCheckResults = false;
+    private static final boolean withCriteria = true;
+    private static final boolean needStatisticsMaxMin = false;
 
     private static final int LAMBDA = 5;
     private static final int COEFSPACE = 1;
@@ -14,7 +17,7 @@ public class InputData {
 
     private static final int seed = 10;
     private static final int timeAmount = 1000000;
-    private static final int voluntaristCriteria = 40;
+    private static final int voluntaristCriteria = 1;
 
     public static int getChannelAmount() {
         return channelAmount;
@@ -26,6 +29,14 @@ public class InputData {
 
     public static int getTimeAmount() {
         return timeAmount;
+    }
+
+    public static void setDropPoints(int dropPoints) {
+        InputData.dropPoints = dropPoints;
+    }
+
+    public static boolean isNeedStatisticsMaxMin() {
+        return needStatisticsMaxMin;
     }
 
     public static int getDropPoints() {
@@ -48,11 +59,11 @@ public class InputData {
         return COEFDROPPOINTS;
     }
 
-    public static boolean getNeedStatistics(){
+    public static boolean isNeedStatistics(){
         return needStatistics;
     }
 
-    public static boolean getCheckResults(){
+    public static boolean isCheckResults(){
         return needCheckResults;
     }
 
@@ -64,4 +75,7 @@ public class InputData {
         return voluntaristCriteria;
     }
 
+    public static boolean isWithCriteria() {
+        return withCriteria;
+    }
 }

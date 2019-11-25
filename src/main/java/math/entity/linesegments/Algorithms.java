@@ -1,10 +1,12 @@
-package math;
+package math.entity.linesegments;
 
+import math.InputData;
+import math.Separator;
+import math.Simulation;
 import math.annotation.AlgorithmsType;
 import math.annotation.GetMethodTime;
-import math.entity.AreaSegments.Area;
-import math.entity.Array.*;
-import math.entity.LineSegments.*;
+import math.entity.areasegments.Area;
+import math.entity.array.*;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
 import math.spring.Algo;
@@ -15,6 +17,13 @@ import static math.Simulation.residuePoints;
 
 @AlgorithmsType
 public class Algorithms implements Algo {
+
+    private static List<Track> resultsAll = new ArrayList<>();
+
+    public static List<Track> getResultsAll() {
+        return resultsAll;
+    }
+
     /**
      * Dynamic algorithm. Check pdf file in directory Space2 for more details.
      * "Максимальные интервалы пересечения - algorithm _ Qaru"
@@ -301,52 +310,48 @@ public class Algorithms implements Algo {
         separateArray.remove(entry.getKey());
 
         solution.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
-
-        for (Interval interval : solution.getRangeOfIntervals()) {
-            mainArray.remove(interval.getAreaId());
-        }
-        for(Track mergedTrack: separateArray.values()) {
-            solution.mergeWithoutCrossings(mergedTrack,mainArray);
-//            if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) {
-//                solution.resetNumberOfTracksWithIntervalsOffTheSolution();
-//                break;
-//            }
-        }
-        return solution;
-    }
-
-
-    public static Track nadirAlgorithmWhenSort(Selection selection, ArrayHash mainArray){
-        Track solution = selection.iterator().next();
-
-        selection.remove(solution);
-        for (Interval interval : solution.getRangeOfIntervals()) {
-            mainArray.remove(interval.getAreaId());
-        }
-
-        for(Track mergedTrack: selection) { //replace i on smth sensible
-            solution.mergeWithoutCrossingsDontNeedSort(mergedTrack,mainArray);
-            if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
-                solution.resetNumberOfTracksWithIntervalsOffTheSolution();
-                break;
+        Iterator<Interval> iter = solution.getRangeOfIntervals().iterator();
+        while (iter.hasNext()){
+            int interval = iter.next().getAreaId();
+            if(mainArray.contain(interval)) {
+                mainArray.remove(interval);
+            }
+            else{
+                iter.remove();
             }
         }
-
-        //System.out.println("Solution "+solution);
+        int size = solution.size();
+        int stopCounter = 0;
+        for(Track mergedTrack: separateArray.values()) {
+            solution.mergeWithoutCrossings(mergedTrack,mainArray);
+            if(size == solution.size()){
+                stopCounter++;
+            }
+            else {
+                size = solution.size();
+            }
+            if(InputData.isWithCriteria()) {
+                if (stopCounter == InputData.getVoluntaristCriteria()) {
+                    break;
+                }
+            }
+        }
         return solution;
     }
+
+
 
     public static int resultPasses = 0;
 
     @GetMethodTime
-    public ArrayList nadirAlgorithmAll(Selection bunchOfTracks,int sizeOfBunchOfTracks, int trackToStartNo,  int passageNum){
+    public ArrayList nadirAlgorithmAll(Selection bunchOfTracks,int sizeOfBunchOfTracks, int trackToStartNo,  int passageNum, int criterionValue){
+        int conter = 0;
         Track allSolution = new Track(-1);
         while(trackToStartNo <= (sizeOfBunchOfTracks - 1)) {
             boolean cross = false;
             boolean changed = false;
             boolean bunchOfTracksIsEmpty = true;
             Track solution = bunchOfTracks.getTrackNo(trackToStartNo).clone();
-
             if(!solution.getRangeOfIntervals().isEmpty())
                 passageNum++;
             else {
@@ -354,33 +359,41 @@ public class Algorithms implements Algo {
                 continue;
             }
             solution.takeIntoAccountSolutionInfo();
+            int lastIncludedTrackNumber = trackToStartNo;
+            int numberOfTracksFullyOffTheSolution=0;
             trackToStartNo++;
             for(int i = trackToStartNo; i < sizeOfBunchOfTracks; i++) { //replace i on smth sensible
-                if(bunchOfTracks.getTrackNo(i).getRangeOfIntervals().isEmpty()) {
+                if(bunchOfTracks.getTrackNo(i).getRangeOfIntervals().isEmpty())
                     continue;
-                }
                 else {
                     bunchOfTracksIsEmpty = false;
-                    cross = solution.mergeWithoutCrossingsAll(bunchOfTracks.getTrackNo(i)); //true - cross or false - don't cross
-                    if(cross == true && changed == false){
-                        trackToStartNo = i;
-                        changed = true;
+                    Info mergeResultInfo = solution.mergeWithoutCrossingsAll(bunchOfTracks.getTrackNo(i));
+                    if(mergeResultInfo.cross) { // true - solution and examined track cross
+                        if(!changed){
+                            trackToStartNo = i;
+                            changed = true;
+                        }
                     }
-                    else
-                    if(changed == false && i != (sizeOfBunchOfTracks - 1))
-                        trackToStartNo++;
-                    else if(changed == false && i == (sizeOfBunchOfTracks - 1)) {
-                        trackToStartNo++;
-                        bunchOfTracksIsEmpty = true;
+                    else{ // false - solution and examined track don't cross
+                        if(!changed && i != (sizeOfBunchOfTracks - 1))
+                            trackToStartNo++;
+                        else if(!changed && i == (sizeOfBunchOfTracks - 1)) {
+                            trackToStartNo++;
+                            bunchOfTracksIsEmpty = true;
+                        }
                     }
+                    lastIncludedTrackNumber += mergeResultInfo.numOfTracksWithInclIntervals;
+                    numberOfTracksFullyOffTheSolution += mergeResultInfo.numOfTracksFullyOffTheSolution;
                 }
 
-//                if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
-//                    solution.resetNumberOfTracksWithIntervalsOffTheSolution();
-//                    break;
-//                }
+                //a voluntarist criteria
+                if(InputData.isWithCriteria()) {
+                    if (numberOfTracksFullyOffTheSolution == criterionValue)
+                        break;
+                }
             }
             allSolution.addAll(solution);
+            resultsAll.add(solution);
             if(bunchOfTracksIsEmpty == true) {
                 break;
             }
@@ -407,6 +420,27 @@ public class Algorithms implements Algo {
         for (SegmentPack segments :mainArray.values()) {
             indexMask.put(segments.getFirstSegment().getAreaId(),0);
         }
+    }
+
+
+    public static Track nadirAlgorithmWhenSort(Selection selection, ArrayHash mainArray){
+        Track solution = selection.iterator().next();
+
+        selection.remove(solution);
+        for (Interval interval : solution.getRangeOfIntervals()) {
+            mainArray.remove(interval.getAreaId());
+        }
+
+        for(Track mergedTrack: selection) { //replace i on smth sensible
+            solution.mergeWithoutCrossingsDontNeedSort(mergedTrack,mainArray);
+            //            if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
+            //                solution.resetNumberOfTracksWithIntervalsOffTheSolution();
+            //                break;
+            //            }
+        }
+
+        //System.out.println("Solution "+solution);
+        return solution;
     }
 
     public static LineList greedyAlgorithmForSimulation(TwoDimensionalArray twoDimensionalArray, TwoDimensionalArray mainArray,ArrayList<Integer> mask) {

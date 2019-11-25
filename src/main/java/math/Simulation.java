@@ -1,14 +1,14 @@
 package math;
 
-import math.entity.AreaSegments.Area;
-import math.entity.AreaSegments.AreaList;
-import math.entity.Array.*;
-import math.entity.LineSegments.LineList;
-import math.entity.LineSegments.Track;
+import math.entity.areasegments.Area;
+import math.entity.areasegments.AreaList;
+import math.entity.array.*;
+import math.entity.linesegments.Algorithms;
+import math.entity.linesegments.LineList;
+import math.entity.linesegments.Track;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
 import math.spring.Algo;
-import math.spring.Sepa;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.*;
@@ -21,6 +21,7 @@ public class Simulation {
     public static List<Integer> residuePoints;
     public static Track allResults;
     private static Algo algorithms;
+    public static int amountSolutions;
 
     public Simulation() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
@@ -37,16 +38,17 @@ public class Simulation {
         setStep(firstArray);
         SeparateArray separateArray = separator.separationArrays(arrayHash,0,step);
 
-        int amount = nadirTest(separateArray);
-
+        amountSolutions = nadirTest(separateArray);
 
         if(InputData.getDropPoints() > 0){
-            amount = InputData.getDropPoints();
+            amountSolutions = InputData.getDropPoints();
         }
-        setDropPoints(amount);
+        InputData.setDropPoints(amountSolutions);
+        setDropPoints(amountSolutions);
         setResiduePoints(firstArray);
-        System.out.println("Число Интервалов " + InputData.getChannelAmount()*InputData.getSegmentsAmount()*amount);
-        List<TwoDimensionalArray> manySameMatrix = genSamePackArrays(firstArray, amount);
+        System.out.println("Число Интервалов " + InputData.getChannelAmount()*InputData.getSegmentsAmount()*amountSolutions);
+
+        List<TwoDimensionalArray> manySameMatrix = genSamePackArrays(firstArray, amountSolutions);
         ArrayHash mainArray = new ArrayHash();
         List<LineList> allLineList = new ArrayList<>();
         for (int i = 0; i < InputData.getChannelAmount() * InputData.getSegmentsAmount(); i++) {
@@ -73,21 +75,21 @@ public class Simulation {
         return mainArray;
     }
 
-    private static ArrayHash convertToArrayHash(TwoDimensionalArray firstArray) {
+    public static ArrayHash convertToArrayHash(TwoDimensionalArray firstArray) {
         ArrayHash arrayHash = new ArrayHash();
         for (SegmentPack segmentPack :firstArray) {
-            arrayHash.put(segmentPack.getFirstSegment().getLine(),new LineList(segmentPack.getFirstSegment().getLine()){{addAll(segmentPack);}});
+            arrayHash.put(segmentPack.getFirstSegment().getLine(),new AreaList(segmentPack.getFirstSegment().getLine()){{addAll(segmentPack);}});
         }
         return arrayHash;
     }
 
-    private static int  nadirTest(SeparateArray separateArray) {
+    public static int  nadirTest(SeparateArray separateArray) {
         System.out.println("NadirStart");
         Selection nadir = convertToSelection(separateArray.getSeparatePack());
         for (Track track :nadir) {
             track.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
         }
-        ArrayList list = algorithms.nadirAlgorithmAll(nadir,nadir.getTracksCount(),0,0);
+        ArrayList list = algorithms.nadirAlgorithmAll(nadir,nadir.getTracksCount(),0,0,InputData.getVoluntaristCriteria());
         int resultBunch  = (Integer) list.get(0);
         allResults = (Track)list.get(1);
         System.out.println(resultBunch + " Количество проходов надирным алгоритмом");
@@ -120,7 +122,7 @@ public class Simulation {
     }
 
 
-    private static void setStep(TwoDimensionalArray twoDimensionalArray) {
+    public static void setStep(TwoDimensionalArray twoDimensionalArray) {
         LineList allIntervals = Algorithms.getAllIntervals(twoDimensionalArray);
         step = findMaxPoint(allIntervals);
     }
@@ -179,7 +181,7 @@ public class Simulation {
     }
 
     public static ArrayHash generateBigHashInterval(){
-        List<Integer> dropPoints = createRandomDropPoints();
+        List<Integer> dropPoints = createRandomDropPoints(step);
         int start,end;
         start = dropPoints.get(0);
         ArrayHash arrayHash = generateFirstHashDropInterval(0,start);
@@ -247,11 +249,11 @@ public class Simulation {
         return new Interval(first,second,getRandomChannel(),id);
     }
 
-    public static List<Integer> createRandomDropPoints(){
+    public static List<Integer> createRandomDropPoints(int step){
         dropPoints = new ArrayList<>();
-
         int loopStart = 0;
-        if(InputData.getCoefDropPoints() >= 2) {
+
+        if(isMoreTight()) {
             for (int i = 0; i < InputData.getCoefDropPoints(); i++) {
                 loopStart += step / InputData.getCoefDropPoints();
                 dropPoints.add(loopStart);
@@ -264,11 +266,13 @@ public class Simulation {
                 }
             }
         }
-        else {
+
+        else if(isLessTight()){
             for (int i = 1; i < InputData.getDropPoints() * InputData.getCoefDropPoints() + 1; i++) {
                 dropPoints.add((int)(i * (step / InputData.getCoefDropPoints())));
             }
         }
+
         for (int i = 0; i < dropPoints.size(); i++) {
             dropPoints.set(i,dropPoints.get(i) + randomSign((step / InputData.getCoefDropPoints()) / 2));
         }
@@ -286,6 +290,14 @@ public class Simulation {
 
     }
 
+    private static boolean isMoreTight(){
+        return InputData.getCoefDropPoints() >= 2;
+    }
+
+    private static boolean isLessTight(){
+        return InputData.getCoefDropPoints() < 2;
+    }
+
     private static Integer randomSign(float halfStep) {
         int hStep = gen.nextInt((int)halfStep);
         int rand = GeneratorRandom.getRandomStep();
@@ -298,8 +310,8 @@ public class Simulation {
     private static List<Integer> createDropPoints() {
         dropPoints = new ArrayList<>();
         int loopStart = 0;
-        if(InputData.getCoefDropPoints() >= 2) {
-            for (int i = 0; i < InputData.getCoefDropPoints(); i++) {
+        if(isMoreTight()) {
+            for (int i = 0; i < InputData.getDropPoints(); i++) {
                 loopStart += step / InputData.getCoefDropPoints();
                 dropPoints.add(loopStart);
             }
@@ -311,11 +323,12 @@ public class Simulation {
                 }
             }
         }
-        else {
+        else if(isLessTight()) {
             for (int i = 1; i < InputData.getDropPoints() * InputData.getCoefDropPoints() + 1; i++) {
                 dropPoints.add((int)(i * (step / InputData.getCoefDropPoints())));
             }
         }
+
         if (!(dropPoints.isEmpty())) {
             return dropPoints;
         } else {
@@ -323,15 +336,16 @@ public class Simulation {
         }
     }
 
-    private static List<Integer> createDropPoints(int amount) {
+    public static List<Integer> createDropPoints(int amount) {
         dropPoints = new ArrayList<>();
         int loopStart = 0;
         if(InputData.getCoefDropPoints() >= 2) {
-            for (int i = 0; i < amount; i++) {
+            for (int i = 0; i < InputData.getCoefDropPoints(); i++) {
                 loopStart += step / InputData.getCoefDropPoints();
                 dropPoints.add(loopStart);
             }
             int diff =(int) (step - (InputData.getCoefDropPoints() * dropPoints.get(0)));
+            diff = (int) (diff /InputData.getCoefDropPoints());
             dropPoints.set(0, diff + dropPoints.get(0));
             for (int i = 1; i < InputData.getDropPoints(); i++) {
                 for (int j = 0; j < InputData.getCoefDropPoints(); j++) {

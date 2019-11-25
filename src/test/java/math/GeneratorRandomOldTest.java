@@ -1,7 +1,7 @@
 package math;
 
 import math.entity.interval.Interval;
-import math.entity.LineSegments.LineList;
+import math.entity.linesegments.LineList;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,10 +13,11 @@ public class GeneratorRandomOldTest {
 
     @Test
     public void createRandomDropPoints(){
-        List<Integer> dropPoints = Simulation.createRandomDropPoints();
+        Simulation.genSimulationForTest();
+        List<Integer> dropPoints = Simulation.createDropPoints(Simulation.step);
         if(!dropPoints.isEmpty()) {
             assertEquals(dropPoints.size(), InputData.getDropPoints());
-            assertEquals(dropPoints.get(dropPoints.size() - 1).intValue(), InputData.getTimeAmount());
+            assertEquals(dropPoints.get(dropPoints.size() - 1).intValue(), Simulation.step * Simulation.amountSolutions);
         }
     }
 

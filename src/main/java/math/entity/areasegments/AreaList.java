@@ -1,4 +1,4 @@
-package math.entity.AreaSegments;
+package math.entity.areasegments;
 
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
@@ -10,6 +10,7 @@ public class AreaList implements Area {
     private List<Interval> segmentsList;
     private int id;
     Integer fullLength;
+    private boolean added;
 
     public AreaList(int id){
         segmentsList = new ArrayList<>();
@@ -108,6 +109,16 @@ public class AreaList implements Area {
     @Override
     public int getAreaId() {
         return id;
+    }
+
+    @Override
+    public boolean getAdded() {
+        return added;
+    }
+
+    @Override
+    public void setAdded(boolean add) {
+        added = add;
     }
 
     @Override

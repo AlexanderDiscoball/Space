@@ -1,4 +1,4 @@
-package math.entity.LineSegments;
+package math.entity.linesegments;
 
 import math.entity.interval.Interval;
 import math.entity.interval.ZeroInterval;
@@ -157,6 +157,10 @@ public class LineList implements Iterable<Interval>, Line,Comparable<SegmentPack
 
     public void addAll(SegmentPack segmentPack){
         segmentsList.addAll(segmentPack.getCollection());
+    }
+
+    public void addAll(Collection<Interval> collections){
+        segmentsList.addAll(collections);
     }
     public void addAll(int index, SegmentPack segmentPack){
         segmentsList.addAll(index,segmentPack.getCollection());

@@ -1,15 +1,12 @@
 package math;
 
-import cern.jet.random.Poisson;
-import cern.jet.random.engine.DRand;
-import cern.jet.random.engine.RandomEngine;
-import math.entity.AreaSegments.Area;
-import math.entity.Array.*;
-import math.entity.LineSegments.Line;
-import math.entity.LineSegments.LineList;
-import math.entity.LineSegments.Track;
-import math.entity.SegmentPack;
+import math.entity.areasegments.Area;
+import math.entity.array.*;
 import math.entity.interval.Interval;
+import math.entity.linesegments.Algorithms;
+import math.entity.linesegments.LineList;
+import math.entity.linesegments.Track;
+import math.entity.SegmentPack;
 import math.spring.Algo;
 import math.spring.Sepa;
 import org.junit.Test;
@@ -17,16 +14,15 @@ import org.openjdk.jol.info.GraphLayout;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static math.Simulation.residuePoints;
-import static math.Simulation.step;
 import static org.junit.Assert.assertEquals;
 
 public class Testing {
 
     private static Algo algorithms;
-    private static Sepa separator;
+    private static Separator separator;
+    private static List<Track> iterResults = new ArrayList<>();
 
     public Testing(){
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
@@ -45,16 +41,15 @@ public class Testing {
         long timeToAlgoResult = 0;
         int end;
         int start = 0;
-        int gr = 0;
         int counterPasses = 0;
         Track result = new Track(-1);
         ArrayHash mainArray = Simulation.genSimulationForTest();
         System.out.println("Создание обьектов завершено");
-
-
+        SeparateArray separateArray =null;
         List<Integer> dropPoints = Simulation.dropPoints;
+
         System.out.println("Количество точек сброса "+dropPoints.size());
-        if(InputData.getNeedStatistics()) {
+        if(InputData.isNeedStatistics()) {
             preparingStatistics(Algorithms.getAllIntervals(mainArray), mainArray, dropPoints);
         }
 
@@ -64,10 +59,17 @@ public class Testing {
             end = dropPoint;
             timeToSeparateStart = System.currentTimeMillis();
             //
-            SeparateArray separateArray = separator.separationArrays(mainArray,start,end);
+            separateArray = separator.separationArrays(mainArray,start,end);
             //
             timeToSeparateEnd= System.currentTimeMillis();
             timeToSeparateResult += timeToSeparateEnd - timeToSeparateStart;
+
+//            if(start == 0) {
+//                for (Track segmentPack : separateArray.values()) {
+//                    segmentPack.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
+//                    System.out.println(segmentPack);
+//                }
+//            }
 
             if(separateArray.size() == 0){
                 start = end;
@@ -81,6 +83,7 @@ public class Testing {
             //
             timeToAlgoEnd = System.currentTimeMillis();
             timeToAlgoResult += timeToAlgoEnd - timeToAlgoStart;
+            iterResults.add(endSol);
             result.addAll(endSol);
 
             if(mainArray.size() == 0){
@@ -114,9 +117,22 @@ public class Testing {
         System.out.println("Время на алгоритм "+timeToAlgoResult/1000+ " секунд");
         System.out.println("Общее время "+(resultTime) /1000+ " секунд");
         System.out.println();
-        if(InputData.getCheckResults()) {
+
+        //System.out.println("ALL"+Algorithms.getResultsAll());
+        //System.out.println("ITE"+iterResults);
+//        for (int i = 1; i < Algorithms.getResultsAll().size(); i +=2) {
+//            System.out.println(Algorithms.getResultsAll().get(i-1) +" "+ Algorithms.getResultsAll().get(i));
+//        }
+//
+//        for (Track intervals :iterResults) {
+//            System.out.println(intervals);
+//        }
+
+        if(InputData.isCheckResults()) {
+            assertEquals(Simulation.allResults.size(), result.size());
             for (int i = 0; i <  Simulation.allResults.size(); i++) {
                 assertEquals(Simulation.allResults.getRangeOfIntervals().get(i).getAreaId(), result.getRangeOfIntervals().get(i).getAreaId());
+                assertEquals(Simulation.allResults.getRangeOfIntervals().get(i).getLine(), result.getRangeOfIntervals().get(i).getLine());
             }
         }
         System.out.println("Решения совпадают");
@@ -148,12 +164,14 @@ public class Testing {
             intervalSize += segments.size();
         }
         System.out.println("Количество интервалов "+intervalSize);
-
-
-        //allIntervals.getCollection().sort(Comparator.comparing(Interval::getPriority));
-        //System.out.println("Начало и конец максимальный крен "+allIntervals.getFirstSegment().getPriority() +"::" + allIntervals.getLastSegment().getPriority());
-        //allIntervals.sort();
-        //System.out.println("Начало и конец максимальная длина "+allIntervals.getFirstSegment().getFirstDot() +"::" + allIntervals.getLastSegment().getSecondDot());
+        if(InputData.isNeedStatisticsMaxMin()) {
+            int maxLength = Collections.max(allIntervals.getCollection(), Comparator.comparing(Interval::getPriority)).getPriority();
+            int minLength = Collections.min(allIntervals.getCollection(), Comparator.comparing(Interval::getPriority)).getPriority();
+            System.out.println("Начало и конец максимальный крен " + minLength + "::" + maxLength);
+            maxLength = Collections.max(allIntervals.getCollection(), Comparator.comparing(Interval::getSecondDot)).getSecondDot();
+            minLength = Collections.min(allIntervals.getCollection(), Comparator.comparing(Interval::getFirstDot)).getFirstDot();
+            System.out.println("Начало и конец максимальная длина " + minLength + "::" + maxLength);
+        }
 
     }
 

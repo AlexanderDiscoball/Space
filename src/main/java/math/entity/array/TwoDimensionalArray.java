@@ -1,4 +1,4 @@
-package math.entity.Array;
+package math.entity.array;
 
 import math.entity.SegmentPack;
 
