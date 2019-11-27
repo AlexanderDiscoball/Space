@@ -1,34 +1,34 @@
 package math.entity.interval;
 
 public class Interval implements Comparable<Interval>{
+
     private int firstDot;
     private int secondDot;
-    private int line;
+    private int roll;
     private int length;
     private int priority;
     private int areaId;
 
-
-    public Interval(int firstDot, int secondDot, int line, int areaId) throws IllegalArgumentException{
+    public Interval(int firstDot, int secondDot, int roll, int areaId) throws IllegalArgumentException{
         if(firstDot <= secondDot) {
             this.firstDot = firstDot;
             this.secondDot = secondDot;
-            this.line = line;
+            this.roll = roll;
             this.areaId = areaId;
             this.length = secondDot - firstDot;
-            this.priority = setPriority(line);
+            this.priority = setPriority(roll);
         }
         else throw new IllegalArgumentException("Первое число должно быть меньше второго");
     }
 
-    public Interval(int firstDot, int secondDot, int length, int line, int areaId) throws IllegalArgumentException{
+    public Interval(int firstDot, int secondDot, int length, int roll, int areaId) throws IllegalArgumentException{
         if(firstDot <= secondDot) {
             this.firstDot = firstDot;
             this.secondDot = secondDot;
-            this.line = line;
+            this.roll = roll;
             this.areaId = areaId;
             this.length = length;
-            this.priority = setPriority(line);
+            this.priority = setPriority(roll);
         }
         else throw new IllegalArgumentException("Первое число должно быть меньше второго");
     }
@@ -44,8 +44,8 @@ public class Interval implements Comparable<Interval>{
         return areaId;
     }
 
-    public void setLine(int line) {
-        this.line = line;
+    public void setRoll(int roll) {
+        this.roll = roll;
     }
 
     public Integer getLength(){
@@ -60,8 +60,8 @@ public class Interval implements Comparable<Interval>{
         return secondDot;
     }
 
-    public int getLine() {
-        return line;
+    public int getRoll() {
+        return roll;
     }
 
     public Integer getPriority() {
@@ -75,7 +75,7 @@ public class Interval implements Comparable<Interval>{
                 +"-"
                 +secondDot
                 +" R"
-                +line
+                + roll
                 +" Id"
                 +areaId;
     }
@@ -96,8 +96,8 @@ public class Interval implements Comparable<Interval>{
             if (sComp != 0) {
                 return sComp;
             } else {
-                x1 = this.line;
-                x2 = o.line;
+                x1 = this.roll;
+                x2 = o.roll;
                 sComp = x1.compareTo(x2);
             }
         }

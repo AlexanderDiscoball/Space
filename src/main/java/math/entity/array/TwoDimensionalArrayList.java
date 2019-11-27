@@ -61,7 +61,7 @@ public class TwoDimensionalArrayList implements TwoDimensionalArray {
                area.setId(id);
             }
             for (Interval interval :segmentPack) {
-                interval.setLine(id);
+                interval.setRoll(id);
             }
             id++;
         }

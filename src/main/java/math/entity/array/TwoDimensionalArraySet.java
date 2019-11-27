@@ -49,7 +49,7 @@ public class TwoDimensionalArraySet implements TwoDimensionalArray {
         TwoDimensionalArrayList list = new TwoDimensionalArrayList();
         LineList listLine;
         for (SegmentPack segments :matrixSet) {
-            listLine = new LineList(segments.getFirstSegment().getLine());
+            listLine = new LineList(segments.getFirstSegment().getRoll());
             for (Interval interval :segments) {
                 listLine.add(interval);
             }
@@ -68,7 +68,7 @@ public class TwoDimensionalArraySet implements TwoDimensionalArray {
         List<Integer> indexes = new ArrayList<>();
         for (SegmentPack segmentPack :matrixSet) {
             for (Interval interval :segmentPack) {
-                interval.setLine(id);
+                interval.setRoll(id);
                 indexes.add(id);
             }
             id++;

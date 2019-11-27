@@ -22,7 +22,7 @@ public class LineList implements Iterable<Interval>, Line,Comparable<SegmentPack
             LineNumber = -1;
         }
         else {
-            this.LineNumber = segmentsList.get(0).getLine();
+            this.LineNumber = segmentsList.get(0).getRoll();
         }
         this.segmentsList = segmentsList;
     }
@@ -112,7 +112,7 @@ public class LineList implements Iterable<Interval>, Line,Comparable<SegmentPack
     }
 
     private boolean isLineEquals(Interval interval){
-        return interval.getLine() == LineNumber;
+        return interval.getRoll() == LineNumber;
     }
 
     public Interval get(int index){

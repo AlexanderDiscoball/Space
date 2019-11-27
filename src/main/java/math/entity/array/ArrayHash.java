@@ -1,23 +1,25 @@
 package math.entity.array;
 
-import math.entity.SegmentPack;
-import math.entity.areasegments.Area;
+import math.entity.areasegments.AreaList;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class ArrayHash {
-    HashMap<Integer, Area> hashPack;
+
+public class ArrayHash{
+
+    HashMap<Integer, AreaList> hashPack;
 
     public ArrayHash(){
         hashPack = new HashMap<>();
     }
 
-    public ArrayHash(HashMap<Integer, Area> hashPack){
+    public ArrayHash(HashMap<Integer, AreaList> hashPack){
         this.hashPack = hashPack;
     }
 
-    public HashMap<Integer, Area> getHashPack(){
+    public HashMap<Integer, AreaList> getHashPack(){
         return hashPack;
     }
 
@@ -25,19 +27,19 @@ public class ArrayHash {
         return hashPack.size();
     }
 
-    public Area remove(Integer key){
+    public AreaList remove(Integer key){
         return hashPack.remove(key);
     }
 
-    public void put(Integer key, Area value){
+    public void put(Integer key, AreaList value){
         hashPack.put(key,value);
     }
 
-    public Collection<Area> values(){
+    public Collection<AreaList> values(){
       return hashPack.values();
     }
 
-    public Area get(int key){
+    public AreaList get(int key){
        return hashPack.get(key);
     }
 

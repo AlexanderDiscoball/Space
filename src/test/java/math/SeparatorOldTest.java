@@ -129,7 +129,7 @@ public class SeparatorOldTest {
         for (SegmentPack segments :array) {
             System.out.println(segments);
             for (Interval interval :segments) {
-                assertEquals(interval.getLine(), ((LineList) segments).getLine());
+                assertEquals(interval.getRoll(), ((LineList) segments).getLine());
             }
         }
 
@@ -144,7 +144,7 @@ public class SeparatorOldTest {
         for (Track segments :selection) {
             System.out.println(segments);
             for (Interval interval :segments) {
-                assertEquals(interval.getLine(), segments.getTrackNumber());
+                assertEquals(interval.getRoll(), segments.getTrackNumber());
             }
         }
     }

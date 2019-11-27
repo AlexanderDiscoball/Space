@@ -4,6 +4,7 @@ public class DropInterval {
     private int firstDot;
     private int secondDot;
     private int memory;
+    private int roll;
 
     public DropInterval(int firstDot, int secondDot, int memory) throws IllegalArgumentException{
         if(firstDot <= secondDot) {
@@ -24,6 +25,10 @@ public class DropInterval {
 
     public int getMemory() {
         return memory;
+    }
+
+    public int getRoll() {
+        return roll;
     }
 
     @Override

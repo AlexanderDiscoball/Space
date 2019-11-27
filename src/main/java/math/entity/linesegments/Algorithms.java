@@ -1,25 +1,20 @@
 package math.entity.linesegments;
 
 import math.InputData;
-import math.Separator;
-import math.Simulation;
 import math.annotation.AlgorithmsType;
 import math.annotation.GetMethodTime;
-import math.entity.areasegments.Area;
+import math.entity.areasegments.AreaList;
 import math.entity.array.*;
 import math.entity.interval.Interval;
 import math.entity.SegmentPack;
 import math.spring.Algo;
-
 import java.util.*;
 
-import static math.Simulation.residuePoints;
 
 @AlgorithmsType
 public class Algorithms implements Algo {
 
     private static List<Track> resultsAll = new ArrayList<>();
-
     public static List<Track> getResultsAll() {
         return resultsAll;
     }
@@ -95,13 +90,6 @@ public class Algorithms implements Algo {
         return stackSegmentsList;
     }
 
-    public static LineList putAllIntervalsInListHash(ArrayHash twoDimensionalArrayList) {
-        LineList stackSegmentsList = new LineList(-2);
-        for (SegmentPack segments :twoDimensionalArrayList.values()) {
-            stackSegmentsList.addAll(segments);
-        }
-        return stackSegmentsList;
-    }
 
     /**
      * Dynamic algorithm but another sort principle.
@@ -204,111 +192,11 @@ public class Algorithms implements Algo {
         return ways;
     }
 
-    public static void fullSepaAlgo(){
-        ArrayHash mainArray = Simulation.genSimulationForTest();
-        System.out.println("Создание обьектов завершено");
-        System.out.println("ШАГ "+Simulation.step);
-        //        System.out.println("oppa");
-        //        GraphLayout graphLayout = GraphLayout.parseInstance( mainArray);
-        //        for (Class<?> key : graphLayout.getClasses()) {
-        //            if(key.getName().contains("Segment.Segment")) {
-        //                System.out.println(graphLayout.getClassCounts().count(key));
-        //                System.out.println(graphLayout.getClassSizes().count(key));
-        //            }
-        //        }
-        //        System.out.println(graphLayout.totalSize()/1024/1024 + " Мегабайт");
 
-        Separator separator = new Separator();
-        TwoDimensionalArray buf;
-
-        LineList result = new LineList(-1);
-        LineList solution;
-
-        long resultTime = 0, timeStart, timeEnd, resultTimeGreedy = 0;
-        int end;
-        int start = 0;
-        int gr = 0;
-        int counterPasses = 0;
-
-
-        Map<Integer,Integer> indexMask = new HashMap<>();
-
-        initIndexMask(indexMask,mainArray);
-
-
-        List<Integer> dropPoints = Simulation.dropPoints;
-
-        //preparingStatistics(Algorithms.getAllIntervals(mainArray), mainArray, dropPoints);
-        for (Integer dropPoint :dropPoints) {
-            timeStart = System.currentTimeMillis();
-            end = dropPoint;
-            //solution = separator.separationArrays222(mainArray,indexMask,start,end);
-            solution =null; //separator.separationArrays(mainArray,start,end);
-
-            if(solution.size() == 0){
-                start = end;
-                continue;
-            }
-            counterPasses++;
-
-            buf = separator.createLineArray(solution);
-
-            if(gr == 0) {
-                TwoDimensionalArray greedy = separator.createLineArray(solution);
-                resultTimeGreedy = greedyTest(greedy);
-                gr = 1;
-            }
-
-            solution = Algorithms.greedyAlgorithmForHashSimulation(buf,mainArray);
-            result.addAll(solution);
-
-            if(mainArray.size() == 0){
-                break;
-            }
-
-            start = end;
-            timeEnd = System.currentTimeMillis();
-            resultTime += timeEnd - timeStart;
-            //
-        }
-
-
-        resultTime = resultTime - resultTimeGreedy;
-        System.out.println("Размер остатка " + mainArray.getHashPack().size());
-        System.out.println("Остаток " + mainArray.getHashPack());
-        System.out.println("residuePoints" + residuePoints);
-        List<Integer> areasId = new ArrayList<>();
-        for (SegmentPack area :mainArray.getHashPack().values()) {
-            areasId.add(((Area)area).getAreaId());
-        }
-        for (Integer id :residuePoints) {
-            if(!(areasId.contains(id))){
-                System.out.println("Обьект сьемки "+id+" не содержится");
-            }
-        }
-
-
-        System.out.println("Число ненулевых проходов (в которых был результат) "+ counterPasses);
-        //System.out.println("Остаток " + mainArray.getHashPack().values()+ " - число обьектов");
-        System.out.println("Результат "+result.size()+ " - число обьектов");
-        List<Integer> list = new ArrayList<>();
-        //        for (Segment segment :result) {
-        //            if(list.contains(segment.getAreaId())){
-        //                System.out.println(segment);
-        //            }
-        //            list.add(segment.getAreaId());
-        //        }
-        //System.out.println("Результат "+result);
-
-        System.out.println("Общее время "+(resultTime) /1000+ " секунд");
-        System.out.println();
-    }
-
-    public static Track nadirAlgorithm(SeparateArray separateArray, ArrayHash mainArray){
-        Map.Entry<Integer,Track> entry = separateArray.getSeparatePack().entrySet().iterator().next();
+    public static Track nadirAlgorithm(HashMap<Integer, Track> separateArray, ArrayHash mainArray){
+        Map.Entry<Integer,Track> entry = separateArray.entrySet().iterator().next();
         Track solution = entry.getValue();
         separateArray.remove(entry.getKey());
-
         solution.getRangeOfIntervals().sort(Comparator.comparing(Interval::getSecondDot));
         Iterator<Interval> iter = solution.getRangeOfIntervals().iterator();
         while (iter.hasNext()){
@@ -416,59 +304,6 @@ public class Algorithms implements Algo {
         return timeEnd - timeStart;
     }
 
-    private static void initIndexMask(Map<Integer, Integer> indexMask, ArrayHash mainArray) {
-        for (SegmentPack segments :mainArray.values()) {
-            indexMask.put(segments.getFirstSegment().getAreaId(),0);
-        }
-    }
-
-
-    public static Track nadirAlgorithmWhenSort(Selection selection, ArrayHash mainArray){
-        Track solution = selection.iterator().next();
-
-        selection.remove(solution);
-        for (Interval interval : solution.getRangeOfIntervals()) {
-            mainArray.remove(interval.getAreaId());
-        }
-
-        for(Track mergedTrack: selection) { //replace i on smth sensible
-            solution.mergeWithoutCrossingsDontNeedSort(mergedTrack,mainArray);
-            //            if(solution.getNumberOfTracksWithIntervalsOffTheSolution() > InputData.getVoluntaristCriteria()) { //voluntarist criteria
-            //                solution.resetNumberOfTracksWithIntervalsOffTheSolution();
-            //                break;
-            //            }
-        }
-
-        //System.out.println("Solution "+solution);
-        return solution;
-    }
-
-    public static LineList greedyAlgorithmForSimulation(TwoDimensionalArray twoDimensionalArray, TwoDimensionalArray mainArray,ArrayList<Integer> mask) {
-        TwoDimensionalArrayList ways = new TwoDimensionalArrayList();
-        LineList way;
-
-        LineSet allIntervals = putAllIntervalsInSet(twoDimensionalArray);
-
-        way = new LineList(-1);
-        Interval buf = allIntervals.getFirstSegment();
-        way.add(buf);
-        int index;
-        SegmentPack segmentPack;
-        allIntervals.remove(buf);
-        for (Interval interval :allIntervals) {
-            if(way.getLastSegment().getSecondDot() <= interval.getFirstDot()){
-                way.add(interval);
-                index = mask.indexOf(interval.getAreaId());
-                if(index > 0) {
-                    mainArray.remove(index);
-                    mask.remove(index);
-                }
-            }
-        }
-
-        return way;
-    }
-
     public static LineList greedyAlgorithmForHashSimulation(TwoDimensionalArray lineArray, ArrayHash mainArray) {
         LineList solution = new LineList(-1);
 
@@ -528,88 +363,11 @@ public class Algorithms implements Algo {
     }
     public static LineList getAllIntervals(ArrayHash arrayHash) {
         LineList sss = new LineList(-1);
-        for (SegmentPack line : arrayHash.getHashPack().values()) {
-            sss.addAll(line);
+        for (AreaList line : arrayHash.values()) {
+            for (Interval o :line) {
+                sss.add(o);
+            }
         }
         return sss;
     }
-    public static LineList getAllIntervalsMerge(ArrayHash arrayHash) {
-        List<Interval> sss = new ArrayList<>();
-        for (SegmentPack line : arrayHash.getHashPack().values()) {
-            sss = merge2(((List<Interval>) line.getCollection()), sss);
-        }
-        return new LineList(sss);
-    }
-
-    public static LineSet getAllSetIntervals(ArrayHash arrayHash){
-        LineSet sss = new LineSet(-1);
-        for (SegmentPack line : arrayHash.getHashPack().values()) {
-            sss.addAll(line);
-        }
-        return sss;
-    }
-
-    public static void merge(LineList lineList, SegmentPack line) {
-        int endCycle = lineList.size() + line.size();
-
-        int lineListIndex = 0;
-        int lineIndex = 0;
-        int i = 0;
-        int pointer = 0;
-
-        while (pointer < endCycle) {
-            if(lineList.get(pointer).getSecondDot() < line.get(lineIndex).getSecondDot()){
-                lineListIndex++;
-            }
-            else {
-                lineList.add(pointer,line.get(lineIndex++));
-            }
-            pointer++;
-            if(lineIndex == line.size()){
-                break;
-            }
-            if(pointer == lineList.size()){
-                lineList.addAll(pointer,((LineList)line).subListToMerge(lineIndex));
-                break;
-            }
-        }
-    }
-    public static List<Interval> merge2(List<Interval> lineList, List<Interval> line) {
-
-        ListIterator<Interval> first = lineList.listIterator();
-        ListIterator<Interval> second = line.listIterator();
-        List<Interval> list = new ArrayList<>();
-        Interval firstInterval = null;
-        Interval secondInterval = null;
-        if(first.hasNext() && second.hasNext()) {
-            firstInterval = first.next();
-            secondInterval = second.next();
-        }
-
-
-        while(first.hasNext() && second.hasNext()){
-            if(firstInterval.getSecondDot() < secondInterval.getSecondDot()) {
-                list.add(firstInterval);
-                firstInterval = first.next();
-            }
-            else {
-                list.add(secondInterval);
-                secondInterval = second.next();
-            }
-        }
-
-        if(!first.hasNext()){
-            while (second.hasNext()){
-                list.add(second.next());
-            }
-        }
-        else {
-            while (first.hasNext()){
-                list.add(first.next());
-            }
-        }
-
-        return list;
-    }
-
 }

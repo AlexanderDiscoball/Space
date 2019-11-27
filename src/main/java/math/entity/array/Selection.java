@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Selection implements Iterable<Track> {
+
     private List<Track> rangeOfTracks;
 
     public Selection() { //Constructor Конструктор

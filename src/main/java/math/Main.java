@@ -13,7 +13,8 @@ import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayHash mainArray = Simulation.genSimulationForTest();
+        Simulation simulation = new Simulation();
+        ArrayHash mainArray = simulation.genSimulationForTest();
         SegmentPack segmentPack = Algorithms.getAllIntervals(mainArray);
 
         int max  = Collections.max(segmentPack.getCollection(), Comparator.comparing(Interval::getSecondDot)).getSecondDot();

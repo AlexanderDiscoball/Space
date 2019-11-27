@@ -1,6 +1,7 @@
 package math;
 
 import math.entity.areasegments.Area;
+import math.entity.areasegments.AreaList;
 import math.entity.array.ArrayHash;
 import math.entity.array.TwoDimensionalArray;
 import math.entity.array.TwoDimensionalArrayList;
@@ -29,7 +30,8 @@ public class SieveOldTest {
         int gr = 0;
         int counterPasses = 0;
 
-        ArrayHash mainArray = Simulation.genSimulationForTest();
+        Simulation simulation = new Simulation();
+        ArrayHash mainArray = simulation.genSimulationForTest();
 
 
 /*        for (SegmentPack segments :mainArray.getHashPack().values()) {
@@ -47,7 +49,7 @@ public class SieveOldTest {
         allIntervals = Algorithms.getAllIntervals(mainArray);
 
 
-        int step = Simulation.step;
+        int step = simulation.step;
         int loopStart = 0;
         int loopEnd = InputData.getDropPoints() * step;
 
@@ -128,15 +130,15 @@ public class SieveOldTest {
         int start = 0;
         int gr = 0;
         int counterPasses = 0;
-
-        ArrayHash mainArray = Simulation.genSimulationForTest();
+        Simulation simulation = new Simulation();
+        ArrayHash mainArray = simulation.genSimulationForTest();
         Map<Integer,Integer> indexMask = new HashMap<>();
 
         initIndexMask(indexMask,mainArray);
 
         System.out.println("Создание обьектов завершено");
 
-        int step = Simulation.step;
+        int step = simulation.step;
         int loopStart = step;
         int loopEnd = InputData.getDropPoints() * step;
 
@@ -209,18 +211,9 @@ public class SieveOldTest {
     }
 
     private void initIndexMask(Map<Integer, Integer> indexMask, ArrayHash mainArray) {
-        for (SegmentPack segments :mainArray.values()) {
+        for (AreaList segments :mainArray.values()) {
             indexMask.put(segments.getFirstSegment().getAreaId(),0);
         }
-    }
-
-    public TwoDimensionalArray cloneHashArray(ArrayHash mainArray) {
-       Collection<Area> collection = mainArray.getHashPack().values();
-       TwoDimensionalArray twoDimensionalArray = new TwoDimensionalArrayList();
-        for (SegmentPack segments :collection) {
-            twoDimensionalArray.add(segments);
-        }
-        return twoDimensionalArray;
     }
 
     private LineList copySet(LineSet allSetIntervals) {
@@ -236,7 +229,7 @@ public class SieveOldTest {
         System.out.println("Количество обьектов "+arrayHash.getHashPack().size());
 
         int intervalSize = 0;
-        for (SegmentPack segments :arrayHash.getHashPack().values()) {
+        for (AreaList segments :arrayHash.getHashPack().values()) {
             intervalSize += segments.size();
         }
         System.out.println("Количество интервалов "+intervalSize);

@@ -1,12 +1,13 @@
 package math;
 
 import math.entity.array.ArrayHash;
-import math.entity.array.SeparateArray;
 import math.entity.dropintervaltrack.TrackDropInterval;
 import math.entity.interval.DropInterval;
 import math.entity.linesegments.Algorithms;
 import math.entity.linesegments.Track;
 import math.exceptions.TryGetResultBeforeMethod;
+
+import java.util.HashMap;
 
 public class FlightPathCreator {
     private TrackDropInterval trackDropInterval;
@@ -37,7 +38,7 @@ public class FlightPathCreator {
     public void createResult(){
         int end;
         int start;
-        SeparateArray separateArray;
+        HashMap<Integer, Track> separateArray;
         Separator separator = new Separator();
         for (DropInterval dropInterval : trackDropInterval) {
             start = dropInterval.getFirstDot();

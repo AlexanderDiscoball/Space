@@ -14,7 +14,6 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static math.Simulation.*;
-import static math.Simulation.step;
 
 public class GeneratorRandom {
 

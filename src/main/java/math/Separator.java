@@ -1,5 +1,6 @@
 package math;
 
+import math.entity.areasegments.AreaList;
 import math.entity.array.*;
 import math.entity.linesegments.LineList;
 import math.entity.linesegments.Track;
@@ -50,14 +51,14 @@ public class Separator implements Sepa {
 
 
         public TwoDimensionalArray createLineArray(LineList subLine) {
-        subLine.getCollection().sort(Comparator.comparing(Interval::getLine));
-        int line = subLine.get(0).getLine();
+        subLine.getCollection().sort(Comparator.comparing(Interval::getRoll));
+        int line = subLine.get(0).getRoll();
         SegmentPack segmentPack = new LineList(line);
         TwoDimensionalArray twoDimensionalArray = new TwoDimensionalArrayList();
         for (Interval interval :subLine) {
-            if(interval.getLine() != line){
+            if(interval.getRoll() != line){
                 twoDimensionalArray.add(segmentPack);
-                line = interval.getLine();
+                line = interval.getRoll();
                 segmentPack = new LineList(line);
             }
             segmentPack.add(interval);
@@ -103,15 +104,15 @@ public class Separator implements Sepa {
         return -index - 1;
     }
 
-    public SeparateArray separationArrays(ArrayHash mainArray,int start, int end) {
-        SeparateArray separateArray = new SeparateArray();
-        Track buf;
+    public HashMap<Integer, Track> separationArrays(ArrayHash mainArray, int start, int end) {
 
+        Track buf;
+        HashMap<Integer, Track> separatePack = new HashMap<>();
         for (int line = 0; line < InputData.getChannelAmount(); line++) {
-            separateArray.put(line,new Track(line));
+            separatePack.put(line,new Track(line));
         }
 
-        for (SegmentPack segments :mainArray.values()) {
+        for (AreaList segments :mainArray.values()) {
 
             if(segments.getCollection().isEmpty())continue;
             int startIndex = -1;
@@ -123,7 +124,7 @@ public class Separator implements Sepa {
             }
 
             if(startIndex == -1){
-                return separateArray;
+                return separatePack;
             }
 
             int index;
@@ -132,14 +133,14 @@ public class Separator implements Sepa {
                 if(interval.getSecondDot() > end){
                     break;
                 }
-                buf = separateArray.get(interval.getLine());
+                buf = separatePack.get(interval.getRoll());
                 buf.add(interval);
 
             }
-            ((List) segments.getCollection()).subList(0, index+startIndex).clear();
+            ((List) segments.getCollection()).subList(0, index).clear();
         }
-        separateArray.values().removeIf(track -> track.getRangeOfIntervals().isEmpty());
-        return separateArray;
+        separatePack.values().removeIf(track -> track.getRangeOfIntervals().isEmpty());
+        return separatePack;
     }
 
     private int findStartIndex(SegmentPack segments, int start) {
@@ -153,7 +154,7 @@ public class Separator implements Sepa {
 
     public LineList separationArrays222(ArrayHash mainArray,int start, int end) {
         LineList stump = new LineList(-1);
-        for (SegmentPack segments :mainArray.values()) {
+        for (AreaList segments :mainArray.values()) {
             int i;
             for (i = 0; i < segments.size(); i++) {
                 Interval interval = segments.get(i);
@@ -171,13 +172,13 @@ public class Separator implements Sepa {
 
     public Selection createSelection(LineList subLine) {
         subLine.getCollection().sort(Comparator.comparing(Interval::getPriority));
-        int line = subLine.get(0).getLine();
+        int line = subLine.get(0).getRoll();
         Track track = new Track(line);
         Selection selection = new Selection();
         for (Interval interval :subLine) {
-            if(interval.getLine() != line){
+            if(interval.getRoll() != line){
                 selection.add(track);
-                line = interval.getLine();
+                line = interval.getRoll();
                 track = new Track(line);
             }
             track.add(interval);
@@ -190,19 +191,5 @@ public class Separator implements Sepa {
         return selection;
     }
 
-
-    public LineList separationArrays222(ArrayHash mainArray,Map<Integer,Integer> indexMask,int start, int end) {
-        LineList stump = new LineList(-1);
-        for (SegmentPack segments :mainArray.values()) {
-            int[] stumpIndex = getIndexes(segments,new Interval(start,end,-1,-1));
-            indexMask.replace(segments.getFirstSegment().getAreaId(),stumpIndex[1]);
-            if(stumpIndex[0] == -1 || stumpIndex[1] == -1){
-                continue;
-            }
-            stump.getCollection().addAll((((List)(segments.getCollection())).subList(stumpIndex[0],stumpIndex[1]+1)));
-        }
-
-        return stump;
-    }
 
 }

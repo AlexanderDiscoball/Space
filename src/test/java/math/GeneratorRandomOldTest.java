@@ -13,11 +13,12 @@ public class GeneratorRandomOldTest {
 
     @Test
     public void createRandomDropPoints(){
-        Simulation.genSimulationForTest();
-        List<Integer> dropPoints = Simulation.createDropPoints(Simulation.step);
+        Simulation simulation = new Simulation();
+        simulation.genSimulationForTest();
+        List<Integer> dropPoints = Simulation.createDropPoints(simulation.step);
         if(!dropPoints.isEmpty()) {
             assertEquals(dropPoints.size(), InputData.getDropPoints());
-            assertEquals(dropPoints.get(dropPoints.size() - 1).intValue(), Simulation.step * Simulation.amountSolutions);
+            assertEquals(dropPoints.get(dropPoints.size() - 1).intValue(), simulation.step * simulation.amountSolutions);
         }
     }
 

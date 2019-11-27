@@ -3,9 +3,13 @@ package math.entity.linesegments;
 import math.entity.array.ArrayHash;
 import math.entity.interval.Interval;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Track implements Cloneable, Iterable<Interval>{
+public class Track implements Cloneable, Iterable<Interval>, Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private int tracksWithIntervalsOffTheSolutionCount=0;
     private static int includedIntoSolutionCount=0;
     private static int tracks_length=0;
@@ -23,7 +27,7 @@ public class Track implements Cloneable, Iterable<Interval>{
     }
 
     public Track(List<Interval> rangeOfIntervals) {
-        this.trackNumber = rangeOfIntervals.get(0).getLine();
+        this.trackNumber = rangeOfIntervals.get(0).getRoll();
         this.rangeOfIntervals = new LinkedList<>();
         this.rangeOfIntervals.addAll(rangeOfIntervals);
     }
@@ -35,8 +39,13 @@ public class Track implements Cloneable, Iterable<Interval>{
         ListIterator<Interval> it_track=investigatedTrack.rangeOfIntervals.listIterator();
         if(temporaryIntervalsCantBeInitialized(it_track))
             return investigatedTrackIsEmpty(); //return; //switch to the next track
-        else
+        else {
+            if(!it_sol.hasNext()){
+                this.rangeOfIntervals = investigatedTrack.rangeOfIntervals;
+                return true;
+            }
             initializeTemporaryIntervals(it_track, it_sol);
+        }
         int IntervalsOffTheSolutionCount=0;
         do {
                 if (trackIntervalPrecedesSolInterval())
