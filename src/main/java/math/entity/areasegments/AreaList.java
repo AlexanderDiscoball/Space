@@ -10,8 +10,7 @@ public class AreaList implements Iterable<Interval> {
 
     private List<Interval> segmentsList;
     private int id;
-    Integer fullLength;
-    private boolean added;
+    private Integer fullLength;
 
     public AreaList(int id){
         segmentsList = new ArrayList<>();
@@ -94,14 +93,6 @@ public class AreaList implements Iterable<Interval> {
 
     public int getAreaId() {
         return id;
-    }
-
-    public boolean getAdded() {
-        return added;
-    }
-
-    public void setAdded(boolean add) {
-        added = add;
     }
 
     @Override

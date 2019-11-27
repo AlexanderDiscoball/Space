@@ -1,6 +1,10 @@
 package math.entity.interval;
 
-public class Interval implements Comparable<Interval>{
+import java.io.Serializable;
+
+public class Interval implements Comparable<Interval>, Serializable {
+
+    static final long serialVersionUID = 1027553947L;
 
     private int firstDot;
     private int secondDot;
